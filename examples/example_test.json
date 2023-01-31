@@ -1,0 +1,102 @@
+{
+    "default": {
+        "firstScene": "nature",
+        "sceneFadeDuration": 2000
+    },
+    
+    "scenes": {
+
+        "nature": {
+            "title": "Nature",
+            "panorama": "./examplepano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "test"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "En pleine nature."
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "IMAG",
+                    "sceneId": "imag"
+                }
+            ]
+        },
+
+        "imag": {
+            "title": "Imag",
+            "panorama": "./IMAG.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "test"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Voici Justin"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Venise",
+                    "sceneId": "test2"
+                }
+            ]
+        },
+
+        "test": {
+            "title": "Ville",
+            "panorama": "./R0013005.JPG",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "TEST."
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "nature"
+                }
+            ]
+        }, 
+        "test2": {
+            "title": "Venise",
+            "panorama": "./VENISE.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est la magnifique ville de Venise"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "nature"
+                }
+            ]
+        }
+    }
+}
