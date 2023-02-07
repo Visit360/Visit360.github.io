@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot spots</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+    #panorama {
+        width: 900px;
+        height: 450px;
+    }
+    #console {
+          background-color: lightgray;
+          padding: 10px;
+          width: 300px;
+          height: 200px;
+          overflow: auto;
+    }
+    </style>
+</head>
+<body>
+
+<div id="panorama"></div>
+<br>
+<div id="History">
+    <button id="console-toggle">Show History</button>
+    <div id="console" style="display: none;">
+        <button id="clear-history">Clear History</button>
+        <div id="console-content"></div>
+    </div>
+</div>
+
+<script>
+var config = {
+    "default": {
+        "firstScene": "NATURE",
+        "sceneFadeDuration": 2000,
+        "hotSpotDebug" : true
+    },
+    
+    "scenes": {
+
+        "NATURE": {
+            "title": "Nature",
+            "panorama": "../content/panorama/examplepano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "En pleine nature."
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "IMAG",
+                    "sceneId": "IMAG",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit IMAG"
+                }
+            ]
+        },
+
+        "IMAG": {
+            "title": "Imag",
+            "panorama": "../content/panorama/IMAG.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Voici Justin"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Venise",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                }
+            ]
+        },
+
+        "VENISE": {
+            "title": "Venise",
+            "panorama": "../content/panorama/VENISE.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est la magnifique ville de Venise"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Polytech",
+                    "sceneId": "POLYTECH",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit POLYTECH"
+                }
+            ]
+        },
+
+        "POLYTECH": {
+            "title": "Polytech",
+            "panorama": "../content/panorama/HALL.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est le Hall de Polytech"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "NATURE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit NATURE"
+                }
+            ]
+        }
+    }
+}
+
+pannellum.viewer('panorama', config);
+//Array containing the scenes visited
+var visitHistory=[];
+//History of the scenes that will be printed in the html
+var historyHtml = "";
+
+const toggleButton = document.getElementById("console-toggle");
+const consoleElement = document.getElementById("console");
+const consoleContent = document.getElementById("console-content");
+const clearHistory = document.getElementById("clear-history");
+
+function myfun(event, handlerArgs) {
+    console.log(handlerArgs);
+    visitHistory.push(handlerArgs);
+    historyHtml += handlerArgs + "<br>";
+    consoleContent.innerHTML = historyHtml;
+}
+
+
+
+toggleButton.addEventListener("click", function() {
+if (consoleElement.style.display === "none") {
+    consoleElement.style.display = "block";
+    toggleButton.innerHTML = "Hide History";
+} else {
+    consoleElement.style.display = "none";
+    toggleButton.innerHTML = "Show Hitory";
+}
+});
+
+clearHistory.addEventListener("click", function(){
+    visitHistory = [];
+    historyHtml = "";
+    consoleContent.innerHTML = "";
+})
+</script>
+
+</body>
+</html>
