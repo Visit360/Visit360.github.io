@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>pannellum embed example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="612.000000pt" height="612.000000pt" viewBox="0 0 612.000000 612.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,612.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path id="path1" d="M930 4195 l0 -295 75 0 75 0 0 220 0 220 1065 0 1065 0 0 -395 0
+-395 25 0 25 0 1 130 c1 72 2 136 3 143 1 9 51 13 204 15 l203 2 -3 28 -3 27
+-200 5 -200 5 0 215 0 215 442 3 443 2 2 -232 3 -233 28 -3 27 -3 0 235 0 236
+415 0 415 0 0 -220 0 -220 75 0 75 0 0 295 0 295 -2130 0 -2130 0 0 -295 Z"/>
+<path id="path2" d="M930 2465 l0 -835 800 0 801 0 -3 73 -3 72 -47 3 -48 3 -2 537 -3
+537 -105 0 -105 0 -3 -27 -3 -28 85 0 86 0 0 -510 0 -510 -647 2 -648 3 -3
+508 -2 507 321 0 320 0 -3 28 -3 27 -315 2 -315 2 -3 220 -2 221 -75 0 -75 0
+0 -835 Z "/>
+<path id="path3" d="M5040 3065 l0 -235 -22 0 c-13 0 -266 -1 -563 -3 l-540 -2 -3 -27 -3
+-28 120 0 121 0 0 -250 0 -250 25 0 25 0 0 250 0 250 420 0 420 0 0 -495 0
+-495 -887 2 -888 3 -3 493 -2 492 81 0 80 0 -3 28 c-3 27 -4 27 -80 30 l-78 3
+0 114 0 115 -25 0 -25 0 0 -640 0 -640 -45 0 -45 0 0 -75 0 -75 1035 0 1035 0
+0 835 0 835 -75 0 -75 0 0 -235 Z "/>
+</g>
+</svg>
+
+<script>
+const path1 = document.getElementById('path1');
+const path2 = document.getElementById('path2');
+const path3 = document.getElementById('path3');
+
+path1.addEventListener('click', function() {
+  path1.style.fill = 'red';
+});
+
+path2.addEventListener('click', function onClick(event) {
+  event.target.style.backgroundColor = 'salmon';
+});
+
+path3.addEventListener('click', function onClick(event) {
+  event.target.style.backgroundColor = 'salmon';
+});
+
+</script>
+    
+</body>
+</html>
