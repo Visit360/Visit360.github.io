@@ -19,7 +19,7 @@
 </head>
 <body>
     <div id="miniMap">
-        <img id="imgID" src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+        <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
     </div>
     <div >
         <button id="mode-button">Go to View Mode</button>
@@ -35,6 +35,7 @@
             circle.style.height = "20px";
             circle.style.borderRadius = "10px";
             circle.style.position = "absolute";
+            circle.style.zIndex = 1;
             return circle;
         }
         var mapClickHandler = function(event) {
