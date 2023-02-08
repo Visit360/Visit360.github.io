@@ -19,7 +19,7 @@
 </head>
 <body>
     <div id="miniMap">
-        <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+        <img id="imgID" src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
     </div>
     <div >
         <button id="mode-button">Go to View Mode</button>
@@ -43,15 +43,26 @@
                 circle.style.left = event.clientX + "px";
                 circle.style.top = event.clientY + "px";
                 miniMap.appendChild(circle);
-            };
+        };
+        var Hovercircle = createCircle();
+        var mapHoverHandler = function(event){
+            Hovercircle.style.backgroundColor = "red";
+            Hovercircle.style.left = event.clientX + "px";
+            Hovercircle.style.top = event.clientY + "px";
+            Hovercircle.style.opacity = 0.5;
+            miniMap.appendChild(Hovercircle)
+        };
 
         function setMapListener(){
             miniMap.addEventListener("click", mapClickHandler);
+            miniMap.addEventListener("mousemove", mapHoverHandler);
         }
 
         function unsetMapListener(){
             miniMap.removeEventListener("click", mapClickHandler);
+            miniMap.removeEventListener("mousemove", mapHoverHandler);
         }
+
         var lastSelectedCircle;
 
         function circleClickHandler(circle){
@@ -95,6 +106,7 @@
                 modeButton.innerHTML = "Go to Edition Mode";
                 unsetMapListener();
                 setCirclesListener();
+                Hovercircle.style.opacity = 0;
 
             } else {
                 mode = "Edition";
