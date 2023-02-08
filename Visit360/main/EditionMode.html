@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>pannellum embed example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 900px;
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
+    <div>Hello world!</div>
+    <div id="panorama"></div>
+    <div id="hotspots"></div>
+    <div id = "buttons">
+        <h2>Add Hotspots</h2>
+        <button id="addScene">Add Scene</button>
+        <button id="information">Add Information</button>
+        <button id="gateway">Add Gateway</button>
+    </div>
+
+    <script>
+
+    var initialConfig = 
+        {
+            "default": {
+               "firstScene": "nature",
+               "sceneFadeDuration": 2000
+            },
+
+            "scenes": {
+                "nature": {
+                "title": "Nature",
+                "panorama": "../content/panorama/examplepano.jpg",
+                },
+            }  
+        }
+
+    var hotspotInformation = {
+        "pitch" : 0,
+        "yaw" : 100,
+        "type" : "info",
+        "text" : "This is nature"
+    }
+
+    var hotspotGateway = {
+        "pitch" : 0,
+        "yaw" : -100,
+        "type" : "scene",
+        "text" : "Polytech",
+        "sceneId" : "polytech"
+    }
+    
+
+        var scene_Polytech = {
+            "title": "Polytech",
+            "panorama": "../content/panorama/HALL.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est le Hall de Polytech"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "nature",
+                }
+            ]
+        }
+    
+    
+        //loadScene(sceneId, targetPitch, targetYaw, targetHfov, fadeDone)
+        var pan = pannellum.viewer('panorama', initialConfig);
+        //pan.addHotSpot(hsi,'imag'); //ajouter un hotspot d'information
+        //pan.removeScene('nature'); //supprimer une scène
+        //console.log(pannellum.viewer('panorama', config2).getConfig())
+        //pan.addHotSpot(hsp, 'nature');
+/*         pan = pan.addScene("POLYTECH", scene_Polytech)
+        console.log(pan.getConfig()) */
+
+        const sceneButton = document.getElementById("addScene");
+        const informationButton = document.getElementById("information");
+        const gatewayButton = document.getElementById("gateway");
+        
+
+        sceneButton.addEventListener("click", function(){
+            console.log("you added a scene")
+            pan = pan.addScene("polytech", scene_Polytech);
+
+        })
+
+        informationButton.addEventListener("click", function(){
+            console.log("you added an information")
+            pan.addHotSpot(hotspotInformation, 'nature');
+
+        })
+        gatewayButton.addEventListener("click", function(){
+            console.log("you added a gateway")
+            pan.addHotSpot(hotspotGateway, 'nature');
+        })
+
+
+    </script>
+            
+</body>
+</html>
