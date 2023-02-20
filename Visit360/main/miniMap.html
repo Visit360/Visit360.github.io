@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniMap</title>
+    <h1>Test for the mini Map</h1>
+    <h2>You're in the Edition Mode</h2>
+    
+    <style>
+        #miniMap {
+        padding: 10px;
+        width: 500px;
+        height: 400px;
+        overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="miniMap">
+        <img id="imgID" src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+    </div>
+    <div >
+        <button id="mode-button">Go to View Mode</button>
+    </div>
+    <script>
+ 
+        const miniMap = document.getElementById("miniMap");
+        const modeButton = document.getElementById("mode-button");
+
+        function createCircle(){
+            const circle = document.createElement("circle");
+            circle.style.width = "20px";
+            circle.style.height = "20px";
+            circle.style.borderRadius = "10px";
+            circle.style.position = "absolute";
+            return circle;
+        }
+        var mapClickHandler = function(event) {
+                var circle = createCircle();
+                circle.style.backgroundColor = "red";
+                circle.style.left = event.clientX + "px";
+                circle.style.top = event.clientY + "px";
+                miniMap.appendChild(circle);
+        };
+        var Hovercircle = createCircle();
+        var mapHoverHandler = function(event){
+            Hovercircle.style.backgroundColor = "red";
+            Hovercircle.style.left = event.clientX + "px";
+            Hovercircle.style.top = event.clientY + "px";
+            Hovercircle.style.opacity = 0.5;
+            miniMap.appendChild(Hovercircle)
+        };
+
+        function setMapListener(){
+            miniMap.addEventListener("click", mapClickHandler);
+            miniMap.addEventListener("mousemove", mapHoverHandler);
+        }
+
+        function unsetMapListener(){
+            miniMap.removeEventListener("click", mapClickHandler);
+            miniMap.removeEventListener("mousemove", mapHoverHandler);
+        }
+
+        var lastSelectedCircle;
+
+        function circleClickHandler(circle){
+            if(lastSelectedCircle){
+                lastSelectedCircle.style.backgroundColor="red";
+            }
+            circle.style.backgroundColor="green";
+            lastSelectedCircle=circle;
+        }
+
+        function setCirclesListener(){
+            const circles = miniMap.querySelectorAll("circle");
+            for (const circle of circles) {
+                circle.addEventListener("click", function() {
+                    circleClickHandler(circle);}
+                );
+            }
+        };
+
+
+        function unsetCirclesListener(){
+            const circles = miniMap.querySelectorAll("circle");
+            for (const circle of circles) {
+                circle.removeEventListener("click", function() {
+                    circleClickHandler(circle);}
+                )
+            }
+        };
+
+        var mode = "Edition"
+        if (miniMap) {
+            setMapListener();
+        }
+        unsetCirclesListener()
+        console.log(document.getElementsByTagName("h2")[0].innerHTML);
+        modeButton.addEventListener("click", function() {
+            if (mode == "Edition") {
+                mode = "View";
+                document.getElementsByTagName("h2")[0].innerHTML = "You're in the View Mode";
+                
+                modeButton.innerHTML = "Go to Edition Mode";
+                unsetMapListener();
+                setCirclesListener();
+                Hovercircle.style.opacity = 0;
+
+            } else {
+                mode = "Edition";
+                document.getElementsByTagName("h2")[0].innerHTML = "You're in the Edition Mode";
+                modeButton.innerHTML = "Go to View Mode";
+                unsetCirclesListener();
+                setMapListener();
+            }
+            });
+            
+    </script>
+</body>
+</html>
