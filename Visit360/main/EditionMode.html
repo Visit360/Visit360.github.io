@@ -22,6 +22,7 @@
         <button id="addScene">Add Scene</button>
         <button id="information">Add Information</button>
         <button id="gateway">Add Gateway</button>
+        <button onclick="toggleMode()">Toggle Mode</button>
     </div>
 
     <script>
@@ -108,7 +109,11 @@
             pan.addHotSpot(hotspotGateway, 'nature');
         })
 
-
+        
+		function toggleMode() {
+            window.location="Switch.htm";
+		}
+	
     </script>
             
 </body>
