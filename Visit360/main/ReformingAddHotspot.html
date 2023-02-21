@@ -169,7 +169,7 @@
             hotspotGateway["type"] = "scene";
             hotspotGateway["sceneId"] = sceneIdField.value;
             hotspotGateway["text"] = gatewayText.value;
-            hotspotGateway["clickHandlerFunc"] = myfun;
+            hotspotGateway["clickHandlerFunc"] = myFunctionGateway;
             pan.addHotSpot(hotspotGateway, pan.getScene());
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
@@ -188,7 +188,7 @@
             hotspotInformation["yaw"] = lastClickCoord[1];
             hotspotInformation["type"] = "info";
             hotspotInformation["text"] = infoText.value;
-            hotspotInformation["clickHandlerFunc"] = myfun;
+            hotspotInformation["clickHandlerFunc"] = myFunctionInformation;
             pan.addHotSpot(hotspotInformation, pan.getScene());
             console.log("you added an information")
             informationAddDiv.style.display = "none";
@@ -213,16 +213,20 @@
             }
         })
 
-        function myfungate(event, handlerArgs) {
+        function myFunctionInformation(event, handlerArgs) {
             if(deletable == true){
                 pan.removeHotSpot(this.id)
                 console.log("Hotspot removed")
                 deleteHotspotButton.style.backgroundColor = ""
+                deletable = false;
             }
         }
-        function myfun(event, handlerArgs) {
+        function myFunctionGateway(event, handlerArgs) {
             if(deletable){
+                var currentScene = pan.getScene()
+                console.log(currentScene)
                 pan.removeHotSpot(this.id)
+                pan.loadScene(currentScene)
                 console.log("Hotspot removed")
                 deleteHotspotButton.style.backgroundColor = ""
                 deletable = false;
