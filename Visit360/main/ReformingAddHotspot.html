@@ -21,6 +21,7 @@
         <button id="addScene">Add Scene</button>
         <button id="information">Add Information</button>
         <button id="gateway">Add Gateway</button>
+        <button id="deleteHotspot">Delete Hotspot</button>
     </div>
 
     <div id="gatewayInfo" style="display: none;">
@@ -163,11 +164,12 @@
         submitButton.addEventListener("click", function(){
             var hotspotGateway = {}
             hotspotGateway["id"] = hotspotID+=1;
-            hotspotGateway["pitch"] = lastClickCoord[0],
-            hotspotGateway["yaw"] = lastClickCoord[1],
-            hotspotGateway["type"] = "scene",
+            hotspotGateway["pitch"] = lastClickCoord[0];
+            hotspotGateway["yaw"] = lastClickCoord[1];
+            hotspotGateway["type"] = "scene";
             hotspotGateway["sceneId"] = sceneIdField.value;
             hotspotGateway["text"] = gatewayText.value;
+            hotspotGateway["clickHandlerFunc"] = myfun;
             pan.addHotSpot(hotspotGateway, pan.getScene());
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
@@ -182,10 +184,11 @@
         submitButtonInfo.addEventListener("click", function(){
             var hotspotInformation={}
             hotspotInformation["id"] = hotspotID+=1;
-            hotspotInformation["pitch"] = lastClickCoord[0],
-            hotspotInformation["yaw"] = lastClickCoord[1],
-            hotspotInformation["type"] = "info",
+            hotspotInformation["pitch"] = lastClickCoord[0];
+            hotspotInformation["yaw"] = lastClickCoord[1];
+            hotspotInformation["type"] = "info";
             hotspotInformation["text"] = infoText.value;
+            hotspotInformation["clickHandlerFunc"] = myfun;
             pan.addHotSpot(hotspotInformation, pan.getScene());
             console.log("you added an information")
             informationAddDiv.style.display = "none";
@@ -195,8 +198,35 @@
             console.log(pan.getConfig());
             console.log(pan.getScene());
         })
-
         
+        var deletable = false;
+
+        const deleteHotspotButton = document.getElementById("deleteHotspot");
+        deleteHotspotButton.addEventListener("click", function(){
+            if(deletable == false){
+                deletable = true;
+                deleteHotspotButton.style.backgroundColor='#ffcccb';
+            }
+            else{
+                deletable = false;
+                deleteHotspotButton.style.backgroundColor='';
+            }
+        })
+
+        function myfungate(event, handlerArgs) {
+            if(deletable == true){
+                pan.removeHotSpot(this.id)
+                console.log("Hotspot removed")
+                deleteHotspotButton.style.backgroundColor = ""
+            }
+        }
+        function myfun(event, handlerArgs) {
+            if(deletable == true){
+                pan.removeHotSpot(this.id)
+                console.log("Hotspot removed")
+                deleteHotspotButton.style.backgroundColor = ""
+            }
+        }
 
 
     </script>
