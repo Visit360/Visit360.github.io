@@ -168,7 +168,7 @@
             hotspotGateway["type"] = "scene",
             hotspotGateway["sceneId"] = sceneIdField.value;
             hotspotGateway["text"] = gatewayText.value;
-            pan.addHotSpot(hotspotGateway, 'nature');
+            pan.addHotSpot(hotspotGateway, pan.getScene());
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
             sceneIdField.value = "";
@@ -186,13 +186,14 @@
             hotspotInformation["yaw"] = lastClickCoord[1],
             hotspotInformation["type"] = "info",
             hotspotInformation["text"] = infoText.value;
-            pan.addHotSpot(hotspotInformation, 'nature');
+            pan.addHotSpot(hotspotInformation, pan.getScene());
             console.log("you added an information")
             informationAddDiv.style.display = "none";
             infoText.value = "";
             console.log(hotspotInformation)
             console.log(JSON.stringify(hotspotInformation));
             console.log(pan.getConfig());
+            console.log(pan.getScene());
         })
 
         
