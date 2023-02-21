@@ -157,10 +157,12 @@
         const infoText = document.getElementById("infoText");
         const submitButtonInfo = document.getElementById("submitButtonInfo");
         
-        var gatewayID = 0;
+        /*Note : hotspotID is common to both gateway hotpots and information hotspots in order to delete them easily
+        by calling the function removeHotspot */
+        var hotspotID = 0;
         submitButton.addEventListener("click", function(){
             var hotspotGateway = {}
-            hotspotGateway["id"] = gatewayID+=1;
+            hotspotGateway["id"] = hotspotID+=1;
             hotspotGateway["pitch"] = lastClickCoord[0],
             hotspotGateway["yaw"] = lastClickCoord[1],
             hotspotGateway["type"] = "scene",
@@ -169,16 +171,17 @@
             pan.addHotSpot(hotspotGateway, 'nature');
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
+            sceneIdField.value = "";
+            gatewayText.value = "";
             console.log(hotspotGateway)
             console.log(JSON.stringify(hotspotGateway));
             console.log(pan.getConfig());
         })
 
-        var infoID = 0;
+
         submitButtonInfo.addEventListener("click", function(){
             var hotspotInformation={}
-            
-            hotspotInformation["id"] = infoID+=1;
+            hotspotInformation["id"] = hotspotID+=1;
             hotspotInformation["pitch"] = lastClickCoord[0],
             hotspotInformation["yaw"] = lastClickCoord[1],
             hotspotInformation["type"] = "info",
@@ -186,6 +189,7 @@
             pan.addHotSpot(hotspotInformation, 'nature');
             console.log("you added an information")
             informationAddDiv.style.display = "none";
+            infoText.value = "";
             console.log(hotspotInformation)
             console.log(JSON.stringify(hotspotInformation));
             console.log(pan.getConfig());
