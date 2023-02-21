@@ -221,10 +221,11 @@
             }
         }
         function myfun(event, handlerArgs) {
-            if(deletable == true){
+            if(deletable){
                 pan.removeHotSpot(this.id)
                 console.log("Hotspot removed")
                 deleteHotspotButton.style.backgroundColor = ""
+                deletable = false;
             }
         }
 
