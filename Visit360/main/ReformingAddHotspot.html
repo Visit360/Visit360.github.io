@@ -30,10 +30,14 @@
         <label for="name">Gateway Text :</label>
         <input type="text" id="gatewayText" name="gatewayText" required>
 
-        <label for="name">Gateway ID :</label>
-        <input type="text" id="gatewayId" name="gatewayId" required>
-
         <button id="submitButton">Submit</button>
+    </div>
+    <div id="hotspotInfoDesc" style="display: none;">
+
+        <label for="name">Description :</label>
+        <input type="text" id="infoText" name="infoText" required>
+
+        <button id="submitButtonInfo">Submit</button>
     </div>
 
     <script>
@@ -103,6 +107,7 @@
         const sceneButton = document.getElementById("addScene");
         const informationButton = document.getElementById("information");
         const gatewayButton = document.getElementById("gateway");
+    
         
 
         sceneButton.addEventListener("click", function(){
@@ -111,11 +116,12 @@
 
         })
 
-        informationButton.addEventListener("click", function(){
+/*         informationButton.addEventListener("click", function(){
+
             console.log("you added an information")
             pan.addHotSpot(hotspotInformation, 'nature');
 
-        })
+        }) */
 /*         gatewayButton.addEventListener("click", function(){
             console.log("you added a gateway")
             pan.addHotSpot(hotspotGateway, 'nature');
@@ -134,20 +140,27 @@
 
         
         const gatewayAddDiv = document.getElementById("gatewayInfo");
-
         gatewayButton.addEventListener("click", function(){
                 gatewayAddDiv.style.display = "block";
+        })
+
+
+        const informationAddDiv = document.getElementById("hotspotInfoDesc");
+        informationButton.addEventListener("click", function(){
+            informationAddDiv.style.display = "block";
         })
         
         const sceneIdField = document.getElementById("endSceneId");
         const gatewayText = document.getElementById("gatewayText");
         const submitButton = document.getElementById("submitButton");
-        const gatewayId = document.getElementById("gatewayId");
-        
 
+        const infoText = document.getElementById("infoText");
+        const submitButtonInfo = document.getElementById("submitButtonInfo");
+        
+        var gatewayID = 0;
         submitButton.addEventListener("click", function(){
             var hotspotGateway = {}
-            hotspotGateway["id"] = gatewayId.value;
+            hotspotGateway["id"] = gatewayID+=1;
             hotspotGateway["pitch"] = lastClickCoord[0],
             hotspotGateway["yaw"] = lastClickCoord[1],
             hotspotGateway["type"] = "scene",
@@ -158,6 +171,23 @@
             gatewayAddDiv.style.display = "none";
             console.log(hotspotGateway)
             console.log(JSON.stringify(hotspotGateway));
+            console.log(pan.getConfig());
+        })
+
+        var infoID = 0;
+        submitButtonInfo.addEventListener("click", function(){
+            var hotspotInformation={}
+            
+            hotspotInformation["id"] = infoID+=1;
+            hotspotInformation["pitch"] = lastClickCoord[0],
+            hotspotInformation["yaw"] = lastClickCoord[1],
+            hotspotInformation["type"] = "info",
+            hotspotInformation["text"] = infoText.value;
+            pan.addHotSpot(hotspotInformation, 'nature');
+            console.log("you added an information")
+            informationAddDiv.style.display = "none";
+            console.log(hotspotInformation)
+            console.log(JSON.stringify(hotspotInformation));
             console.log(pan.getConfig());
         })
 
