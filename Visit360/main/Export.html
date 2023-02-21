@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>pannellum embed example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 900px;
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
+    <div>Hello world!</div>
+    <div id="panorama"></div>
+    <button id="ExportScene">Export Scene</button>
+
+    <script>
+
+    var scene_nature = 
+    {
+        "title": "Nature",
+        "panorama": "../content/panorama/examplepano.jpg",
+        "hotSpots": [
+         {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "IMAG",
+                    "sceneId": "imag"
+                }
+            ]
+       }
+
+        var config2 = 
+        {
+            "default": {
+               "firstScene": "imag",
+               "sceneFadeDuration": 2000
+            },
+
+            "scenes": {
+            "imag": {
+            "title": "Imag",
+            "panorama": "../content/panorama/IMAG.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "nature"
+                }
+            ]
+            },
+            }
+        }
+
+        var hsi = 
+        {   
+                "pitch": 0,
+                "yaw": -100,
+                "type": "info",
+                "text": "IMAG",
+        }
+
+        //Modification of the scene
+        //loadScene(sceneId, targetPitch, targetYaw, targetHfov, fadeDone)
+        var pan = pannellum.viewer('panorama', config2);
+        pan.addHotSpot(hsi,'imag'); //ajouter un hotspot d'information
+        //pan.removeScene('nature'); //supprimer une scène
+        //Ajouter une scène 
+        pan = pan.addScene("nature", scene_nature);
+
+        //Convert the visit into JSON
+        var config = pan.getConfig();
+        var partialConfig={}
+        partialConfig["default"] = config.default;
+        partialConfig["scenes"] = config.scenes;
+        var jsonFile = JSON.stringify(partialConfig);
+
+
+        const ExportButton = document.getElementById("ExportScene");
+
+        ExportButton.addEventListener("click", function(){
+            console.log("You downloaded your visit");
+
+            // Create a Blob object from the JSON string
+            const blob = new Blob([jsonFile], {type: "application/json"});
+            // Create a URL for the Blob object
+            const url = URL.createObjectURL(blob);
+            // Create a link element for downloading the file
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "myData.json";
+            // Add the link to the document and click it to download the file
+            document.body.appendChild(link);
+            link.click();
+        })
+    </script>
+            
+</body>
+</html>
