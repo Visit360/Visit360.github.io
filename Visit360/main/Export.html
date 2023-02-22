@@ -82,12 +82,11 @@
         partialConfig["scenes"] = config.scenes;
         var jsonFile = JSON.stringify(partialConfig);
 
-
+        //Export the Visit into a JSON file 
         const ExportButton = document.getElementById("ExportScene");
 
         ExportButton.addEventListener("click", function(){
             console.log("You downloaded your visit");
-
             // Create a Blob object from the JSON string
             const blob = new Blob([jsonFile], {type: "application/json"});
             // Create a URL for the Blob object
@@ -100,6 +99,7 @@
             document.body.appendChild(link);
             link.click();
         })
+
     </script>
             
 </body>
