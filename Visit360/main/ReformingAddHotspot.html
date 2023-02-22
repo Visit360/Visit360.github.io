@@ -10,6 +10,14 @@
             width: 900px;
             height: 450px;
         }
+
+        #console {
+          background-color: lightgray;
+          padding: 10px;
+          width: 300px;
+          height: 200px;
+          overflow: auto;
+        }
     </style>
 </head>
 <body>
@@ -41,6 +49,16 @@
         <button id="submitButtonInfo">Submit</button>
     </div>
 
+    <br>
+
+    <div id="History">
+        <button id="console-toggle">Show History</button>
+        <div id="console" style="display: none;">
+            <button id="clear-history">Clear History</button>
+            <div id="console-content"></div>
+        </div>
+    </div>
+
     <script>
 
     var initialConfig = 
@@ -65,14 +83,6 @@
         "type" : "info",
         "text" : "This is nature"
     }
-
-/*     var hotspotGateway = {
-        "pitch" : 0,
-        "yaw" : -100,
-        "type" : "scene",
-        "text" : "Polytech",
-        "sceneId" : "polytech"
-    } */
     
 
         var scene_Polytech = {
@@ -170,6 +180,7 @@
             hotspotGateway["sceneId"] = sceneIdField.value;
             hotspotGateway["text"] = gatewayText.value;
             hotspotGateway["clickHandlerFunc"] = myFunctionGateway;
+            hotspotGateway["clickHandlerArgs"] = "Visit "+ sceneIdField.value
             pan.addHotSpot(hotspotGateway, pan.getScene());
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
@@ -221,6 +232,11 @@
                 deletable = false;
             }
         }
+
+        var visitHistory=[];
+        //History of the scenes that will be printed in the html
+        var historyHtml = "";
+
         function myFunctionGateway(event, handlerArgs) {
             if(deletable){
                 var currentScene = pan.getScene()
@@ -231,7 +247,34 @@
                 deleteHotspotButton.style.backgroundColor = ""
                 deletable = false;
             }
+            else {
+                console.log(handlerArgs);
+                visitHistory.push(handlerArgs);
+                historyHtml += handlerArgs + "<br>";
+                consoleContent.innerHTML = historyHtml;
+            }
         }
+
+        const toggleButton = document.getElementById("console-toggle");
+        const consoleElement = document.getElementById("console");
+        const consoleContent = document.getElementById("console-content");
+        const clearHistory = document.getElementById("clear-history");
+
+        toggleButton.addEventListener("click", function() {
+        if (consoleElement.style.display === "none") {
+            consoleElement.style.display = "block";
+            toggleButton.innerHTML = "Hide History";
+        } else {
+            consoleElement.style.display = "none";
+            toggleButton.innerHTML = "Show Hitory";
+        }
+        });
+
+        clearHistory.addEventListener("click", function(){
+            visitHistory = [];
+            historyHtml = "";
+            consoleContent.innerHTML = "";
+        })
 
 
     </script>
