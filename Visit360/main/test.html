@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 900px;
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
+<!--     <div>Hello world!</div>-->    
+    <div id="panorama"></div>
+    <button id="addPano">Add Panorama</button>
+    <div id="panoInfo" style="display: none;">
+        <label for="name">Scene ID :</label>
+        <input type="text" id="endSceneId" name="endSceneId" required>
+        <button id="submitButton">Submit</button>
+    </div>
+
+    <script>
+
+    var initialConfig = 
+        {
+            "default": {
+               "firstScene": "nature",
+               "sceneFadeDuration": 2000
+            },
+
+            "scenes": {
+                "nature": {
+                "title": "Nature",
+                "panorama": "../content/panorama/examplepano.jpg",
+                },
+            }  
+        }
+
+    
+    
+        var pan = pannellum.viewer('panorama', initialConfig);
+
+        const AddPanoButton = document.getElementById("addPano");
+
+        const PanoAddDiv = document.getElementById("panoInfo");
+        AddPanoButton.addEventListener("click", function(){
+            console.log(pan.getConfig());
+            PanoAddDiv.style.display = "block";
+        })
+
+        const sceneIdField = document.getElementById("endSceneId");
+        const submitButton = document.getElementById("submitButton");
+
+         /*Note : hotspotID is common to both gateway hotpots and information hotspots in order to delete them easily
+        by calling the function removeHotspot */
+        submitButton.addEventListener("click", function(){
+            var SceneInfo = {}
+            SceneInfo["title"] = sceneIdField.value;
+            SceneInfo["panorama"] = "../content/panorama/Hall.jpg";
+            pan.addScene(SceneInfo.title, SceneInfo);
+            console.log("you added a scene");
+            PanoAddDiv.style.display = "none";
+            sceneIdField.value = "";
+            console.log(pan.getConfig());
+        })
+    
+
+    </script>
+            
+</body>
+</html>

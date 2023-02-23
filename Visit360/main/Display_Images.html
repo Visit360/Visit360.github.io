@@ -4,18 +4,23 @@
     <title>pannellum embed example</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="Display_Images.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 </head>
 <body>
 
     <div class="row">
         <div class="column">
             <div class="scroller">
-               <button id="DisplayPanorama">Display Panorama</button>
                 <div id="image-list">
                     <img src="../content/panorama/amphi_005.jpg" alt="amphi_005" width="240" height="100" onclick="selectImage('amphi_005')">
                     <img src="../content/panorama/amphi_007.jpg" alt="amphi_007" width="240" height="100" onclick="selectImage('amphi_007')">
                     <img src="../content/panorama/couloir_1.jpg" alt="couloir_1" width="240" height="100" onclick="selectImage('couloir_1')">
                     <img src="../content/panorama/couloir_2.jpg" alt="couloir_2" width="240" height="100" onclick="selectImage('couloir_2')">
+                    <img src="../content/panorama/couloir_3.jpg" alt="couloir_3" width="240" height="100" onclick="selectImage('couloir_3')">
+                    <img src="../content/panorama/couloir_4.jpg" alt="couloir_4" width="240" height="100" onclick="selectImage('couloir_4')">
+                    <img src="../content/panorama/couloir_5.jpg" alt="couloir_5" width="240" height="100" onclick="selectImage('couloir_5')">
+                    <img src="../content/panorama/couloir_6.jpg" alt="couloir_6" width="240" height="100" onclick="selectImage('couloir_6')">
                     <img src="../content/panorama/Hall.jpg" alt="Hall" width="240" height="100" onclick="selectImage('Hall')">
                     <img src="../content/panorama/salle_009.jpg" alt="salle_009" width="240" height="100" onclick="selectImage('salle_009')">
                     <img src="../content/panorama/salle_013.jpg" alt="salle_013" width="240" height="100" onclick="selectImage('salle_013')">
@@ -26,13 +31,23 @@
         </div>
         <div class="column">
             <br> <br>
-            <div id = "SelectedPanorama">...</div>
-            <iframe width="750" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe>
+          
+
+            <button id="addPano">Add Panorama</button>
+            <div id="panoInfo" style="display: none;">
+                <label for="name">Scene ID :</label>
+                <input type="text" id="endSceneId" name="endSceneId" required>
+                <button id="submitButton">Submit</button>
+            </div>
+
+
+
+            <div id="panorama"></div>
         </div>
     </div> 
 
     <script>
-
+        //=======================================================================================================
         //Select one image
         let selectedImage = null;
         function selectImage(imageUrl) {
@@ -46,14 +61,59 @@
         selectedImage.classList.add("selected");
         }
 
-        //Display the selected image into the panorama
-        const displayPano = document.getElementById("DisplayPanorama");
-        const displayName = document.getElementById("SelectedPanorama");
-        
-        displayPano.addEventListener("click", function(){
-            //console.log(selectedImage);
-            //SelectedPanorama.innerHTML = selectedImage.src;
-            SelectedPanorama.innerHTML = selectedImage.alt;
+
+        //=======================================================================================================
+        //Panorama
+
+        var initialConfig = 
+        {
+            "default": {
+               "firstScene": "hall",
+               "sceneFadeDuration": 2000,
+               "hotSpotDebug" : true
+            },
+
+            "scenes": {
+                "hall": {
+                "title": "Hall_polytech",
+                "panorama": "../content/panorama/Hall.jpg",
+                },
+            }  
+        }
+
+        var pan = pannellum.viewer('panorama', initialConfig);
+
+        const AddPanoButton = document.getElementById("addPano");
+
+        const PanoAddDiv = document.getElementById("panoInfo");
+        AddPanoButton.addEventListener("click", function(){
+            console.log(selectedImage);
+            PanoAddDiv.style.display = "block";
+        })
+
+        const sceneIdField = document.getElementById("endSceneId");
+        const submitButton = document.getElementById("submitButton");
+
+
+        //Add the scene with the panorama selected
+        submitButton.addEventListener("click", function(){
+            if (selectedImage == null){ // if no panorama is selected
+                console.log("you have to select an image");
+                PanoAddDiv.style.display = "none";
+            } else {
+            var SceneInfo = {}
+            SceneInfo["title"] = sceneIdField.value;
+            SceneInfo["panorama"] = selectedImage.src;
+            pan.addScene(SceneInfo.title, SceneInfo);
+            console.log("you added a scene");
+            PanoAddDiv.style.display = "none";
+            sceneIdField.value = "";
+            //Deselect the added panorama
+             selectedImage.classList.remove("selected");
+             console.log(SceneInfo["title"])
+             pan.loadScene(SceneInfo["title"])
+            //console.log(pan.getConfig());
+            }
         })
       
 
