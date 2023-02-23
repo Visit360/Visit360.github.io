@@ -239,27 +239,6 @@
 
         var currentScene = null
 
-/*         function myFunctionGateway(event, handlerArgs) {
-            currentScene = pan.getScene();
-            if (deletable) {
-                console.log(currentScene);
-                pan.removeHotSpot(this.id);
-                pan.loadScene(currentScene);
-                console.log("Hotspot removed");
-                console.log(event)
-                console.log(event.button)
-                deleteHotspotButton.style.backgroundColor = "";
-                deletable = false;
-            } else {
-                //console.log(handlerArgs);
-                visitHistory.push(handlerArgs);
-                historyHtml += handlerArgs + "<br>";
-                consoleContent.innerHTML = historyHtml;
-            }
-            console.log("You clicked the gateway. Before clicking, you were at " + currentScene);
-            console.log(pan.getConfig());
-        } */
-
         function myFunctionGateway(event, handlerArgs) {
             currentScene = pan.getScene();
             if (deletable) {
