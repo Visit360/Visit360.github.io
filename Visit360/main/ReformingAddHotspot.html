@@ -180,7 +180,7 @@
             hotspotGateway["sceneId"] = sceneIdField.value;
             hotspotGateway["text"] = gatewayText.value;
             hotspotGateway["clickHandlerFunc"] = myFunctionGateway;
-            hotspotGateway["clickHandlerArgs"] = "Visit "+ sceneIdField.value
+            hotspotGateway["clickHandlerArgs"] = pan.getScene()
             pan.addHotSpot(hotspotGateway, pan.getScene());
             console.log("you added a gateway");
             gatewayAddDiv.style.display = "none";
@@ -248,18 +248,23 @@
                 pan.removeHotSpot(this.id);
                 pan.loadScene(currentScene);
                 console.log("Hotspot removed");
-                console.log(event)
-                console.log(event.button)
                 deleteHotspotButton.style.backgroundColor = "";
                 deletable = false;
             } else {
                 //console.log(handlerArgs);
                 visitHistory.push(handlerArgs);
-                historyHtml += handlerArgs + "<br>";
+                historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + handlerArgs + "\")'> Visit " + handlerArgs + "</a><br>";
                 consoleContent.innerHTML = historyHtml;
             }
             console.log("You clicked the gateway. Before clicking, you were at " + currentScene);
             console.log(pan.getConfig());
+        }
+        function handleHistoryClick(handlerArgs) {
+            // Code to execute when the link is clicked
+            console.log("Link clicked!");
+            console.log(handlerArgs)
+            pan.loadScene(handlerArgs)
+
         }
 
 
@@ -268,6 +273,7 @@
         const consoleContent = document.getElementById("console-content");
         const clearHistory = document.getElementById("clear-history");
 
+        //toggleButton is the Hide/show history button
         toggleButton.addEventListener("click", function() {
         if (consoleElement.style.display === "none") {
             consoleElement.style.display = "block";
