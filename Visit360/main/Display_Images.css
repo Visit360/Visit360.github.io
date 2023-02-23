@@ -1,0 +1,24 @@
+.row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 50%;
+  }
+
+  .scroller {
+    width: 255px;
+    height: 550px;
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+  }
+
+  .selected {
+    border: 3px solid rgb(255, 0, 102);
+  }
+  
+
+
+
+  
