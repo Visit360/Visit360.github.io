@@ -66,30 +66,36 @@
 
         var lastSelectedCircle;
 
-        function circleClickHandler(circle){
-            if(lastSelectedCircle){
-                lastSelectedCircle.style.backgroundColor="red";
+        function circleClickHandler(circle) {
+            if (mode == "View") {
+                if (lastSelectedCircle) {
+                    lastSelectedCircle.style.backgroundColor = "red";
+                }
+            circle.style.backgroundColor = "green";
+            lastSelectedCircle = circle;
             }
-            circle.style.backgroundColor="green";
-            lastSelectedCircle=circle;
         }
 
         function setCirclesListener(){
-            const circles = miniMap.querySelectorAll("circle");
-            for (const circle of circles) {
-                circle.addEventListener("click", function() {
-                    circleClickHandler(circle);}
-                );
-            }
-        };
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.addEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    );
+                }
+            };
+        }
 
 
         function unsetCirclesListener(){
-            const circles = miniMap.querySelectorAll("circle");
-            for (const circle of circles) {
-                circle.removeEventListener("click", function() {
-                    circleClickHandler(circle);}
-                )
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.removeEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    )
+                }
             }
         };
 
