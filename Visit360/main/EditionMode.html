@@ -30,7 +30,8 @@
         {
             "default": {
                "firstScene": "nature",
-               "sceneFadeDuration": 2000
+               "sceneFadeDuration": 2000,
+               "hotSpotDebug" : true
             },
 
             "scenes": {
@@ -107,6 +108,21 @@
             console.log("you added a gateway")
             pan.addHotSpot(hotspotGateway, 'nature');
         })
+
+        //Get coordinates of the mouse in pitch and yaw
+        const panoramaView = document.getElementById("panorama");
+        panoramaView.addEventListener("click", function(event){
+            console.log(pan.mouseEventToCoords(event));
+        })
+
+        var configgg = pan.getConfig();
+        const visitDesc = JSON.stringify(configgg.scenes)
+        var partialConfig={}
+        partialConfig["scenes"] = configgg.scenes;
+        partialConfig["deafult"] = configgg.default;
+        console.log(JSON.stringify(partialConfig))
+
+        
 
 
     </script>
