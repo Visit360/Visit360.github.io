@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Mode</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+	<style>
+		body {
+            font-family: 'Trebuchet MS';
+			background-color: rgb(51, 51, 51);
+			color: white;
+			
+		}
+		.parent{
+			display:block;
+            border-radius: 5px;
+            overflow: hidden;
+            
+		}
+		
+		.child1{
+			display: flex;
+   			height:75px;
+    		width: 100%;
+    		
+		}
+        #button{
+            width: 75px;
+            height: 75px;
+        }
+		
+        #header{
+            background: rgb(59, 59, 59);
+            width: 100%;
+            padding-left: 20px;
+            border-radius: 5px;
+        }
+        .child2{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            
+        }
+		#panorama {
+            grid-column: 1/3;
+            grid-row: 1;
+            width: 100%;
+            height: 60vh;
+        }
+      
+        #console {
+            background-color: white;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            overflow: auto;
+            
+        }
+        
+        #imgID {
+            grid-column: 3;
+            grid-row: 1;
+            border: 1px solid rgb(0, 255, 221);
+        }
+        #History{
+            width: 100%;
+            background-color: rgb(0, 255, 221);
+        }
+        .histbutton{
+            display: flex;
+            background-color: rgb(0, 255, 221);
+            border: none;
+            color: white;
+            font-size: medium;
+            border-radius: 5px;
+        }
+        #console-content{
+            padding:10px;
+            color: black;
+        }
+        
+	</style>
+</head>
+<body>
+	<div id="parent" class="parent">
+	<div id="child1" class="child1">
+        <div id="button">
+		    <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="toggleMode()">&#128393</button>
+        </div>
+        <div id="header">
+	        <h1>View Visit360</h1>
+        </div>
+	</div>
+
+	<div id="child2" class="child2">
+        <div id="panorama"></div>
+        <div id="overlay">
+            <div id="miniMap">
+                <img id="imgID" src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%" height="100%">
+            </div>  
+        </div>
+    </div>
+    <div id="History">
+        <button id="console-toggle" class="histbutton">Show History</button>
+            <div id="console" style="display: none;">
+                <button id="clear-history" class="histbutton">&#215 Clear History</button>
+                    <div id="console-content"></div>
+            </div>
+    
+    </div>	
+    </div>
+
+	<script>
+		function toggleMode() {
+            window.location="EditionMode.html";
+		}
+		var config = {
+    "default": {
+        "firstScene": "NATURE",
+        "sceneFadeDuration": 2000,
+        "hotSpotDebug" : true
+    },
+    "scenes": {
+
+        "NATURE": {
+            "title": "Nature",
+            "panorama": "../content/panorama/examplepano.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "En pleine nature."
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "IMAG",
+                    "sceneId": "IMAG",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit IMAG"
+                }
+            ]
+        },
+
+        "IMAG": {
+            "title": "Imag",
+            "panorama": "../content/panorama/IMAG.jpg",
+            "hotSpots": [
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Ville",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                },
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Voici Justin"
+                },
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Venise",
+                    "sceneId": "VENISE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit VENISE"
+                }
+            ]
+        },
+
+        "VENISE": {
+            "title": "Venise",
+            "panorama": "../content/panorama/VENISE.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est la magnifique ville de Venise"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Polytech",
+                    "sceneId": "POLYTECH",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit POLYTECH"
+                }
+            ]
+        },
+
+        "POLYTECH": {
+            "title": "Polytech",
+            "panorama": "../content/panorama/HALL.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "Ceci est le Hall de Polytech"
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": -100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "NATURE",
+                    "clickHandlerFunc": myfun,
+                    "clickHandlerArgs": "Visit NATURE"
+                }
+            ]
+        }
+    },
+    "autoLoad":true,
+    
+}
+
+pannellum.viewer('panorama', config);
+//Array containing the scenes visited
+var visitHistory=[];
+//History of the scenes that will be printed in the html
+var historyHtml = "";
+
+const toggleButton = document.getElementById("console-toggle");
+const consoleElement = document.getElementById("console");
+const consoleContent = document.getElementById("console-content");
+const clearHistory = document.getElementById("clear-history");
+
+function myfun(event, handlerArgs) {
+    console.log(handlerArgs);
+    visitHistory.push(handlerArgs);
+    historyHtml += handlerArgs + "<br>";
+    consoleContent.innerHTML = historyHtml;
+}
+
+
+
+toggleButton.addEventListener("click", function() {
+if (consoleElement.style.display === "none") {
+    consoleElement.style.display = "block";
+    toggleButton.innerHTML = "Hide History";
+} else {
+    consoleElement.style.display = "none";
+    toggleButton.innerHTML = "Show History";
+}
+});
+
+clearHistory.addEventListener("click", function(){
+    visitHistory = [];
+    historyHtml = "";
+    consoleContent.innerHTML = "";
+})
+
+            
+</script>
+</body>
+</html>
