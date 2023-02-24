@@ -18,46 +18,76 @@
           height: 200px;
           overflow: auto;
         }
+
+        .container {
+            display: flex;
+        }
+
+        #miniMap {
+        padding: 10px;
+        width: 500px;
+        height: 400px;
+        overflow: auto;
+        }
     </style>
 </head>
 <body>
     <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
 <!--     <div>Hello world!</div>-->    
-    <div id="panorama"></div>
-    <div id = "buttons">
-        <h2>Add Hotspots</h2>
-        <button id="addScene">Add Scene</button>
-        <button id="information">Add Information</button>
-        <button id="gateway">Add Gateway</button>
-        <button id="deleteHotspot">Delete Hotspot</button>
-    </div>
+<div class="container">
+    <div class="first-child">
+        <div id="panorama"></div>
+        <div id = "buttons">
+            <h2>Add Hotspots</h2>
+            <button id="addScene">Add Scene</button>
+            <button id="information">Add Information</button>
+            <button id="gateway">Add Gateway</button>
+            <button id="deleteHotspot">Delete Hotspot</button>
+        </div>
 
-    <div id="gatewayInfo" style="display: none;">
-        <label for="name">Next Scene ID :</label>
-        <input type="text" id="endSceneId" name="endSceneId" required>
+        <div id="gatewayInfo" style="display: none;">
+            <label for="name">Next Scene ID :</label>
+            <input type="text" id="endSceneId" name="endSceneId" required>
 
-        <label for="name">Gateway Text :</label>
-        <input type="text" id="gatewayText" name="gatewayText" required>
+            <label for="name">Gateway Text :</label>
+            <input type="text" id="gatewayText" name="gatewayText" required>
 
-        <button id="submitButton">Submit</button>
-    </div>
-    <div id="hotspotInfoDesc" style="display: none;">
+            <button id="submitButton">Submit</button>
+        </div>
+        <div id="hotspotInfoDesc" style="display: none;">
 
-        <label for="name">Description :</label>
-        <input type="text" id="infoText" name="infoText" required>
+            <label for="name">Description :</label>
+            <input type="text" id="infoText" name="infoText" required>
 
-        <button id="submitButtonInfo">Submit</button>
-    </div>
+            <button id="submitButtonInfo">Submit</button>
+        </div>
 
-    <br>
+        <br>
 
-    <div id="History">
-        <button id="console-toggle">Show History</button>
-        <div id="console" style="display: none;">
-            <button id="clear-history">Clear History</button>
-            <div id="console-content"></div>
+        <div id="History">
+            <button id="console-toggle">Show History</button>
+            <div id="console" style="display: none;">
+                <button id="clear-history">Clear History</button>
+                <div id="console-content"></div>
+            </div>
         </div>
     </div>
+
+    <div class="second-child">
+        <h2>HELLO MOTHERFUCKER</h2>
+        <div id="miniMap">
+            <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+        </div>
+        <div >
+            <button id="mode-button">Go to View Mode</button>
+            <div id="add-scene-form" style="display: none;">
+                <label for="name">Scene To associate :</label>
+                <input type="text" id="sceneAssociated" name="sceneAssociated" required>
+                <button id="add-scene-map">Add scene to the map</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
 
@@ -290,6 +320,126 @@
             consoleContent.innerHTML = "";
         })
 
+//-------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
+        //MINIMAP CODE 
+//-------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
+
+        const miniMap = document.getElementById("miniMap");
+        const modeButton = document.getElementById("mode-button");
+        const addAssociatedSceneForm = document.getElementById("add-scene-form")
+        const sceneAssociated = document.getElementById("sceneAssociated");
+        const addSceneOnMApButton = document.getElementById("add-scene-map")
+
+        var lastCreatedCircle = null
+
+        addSceneOnMApButton.addEventListener("click", function(e, arg){
+            if(lastCreatedCircle){
+                lastCreatedCircle.name = sceneAssociated.value
+            }
+            sceneAssociated.value = ""
+            addAssociatedSceneForm.style.display = "none"
+        })
+        
+        function createCircle(){
+            const circle = document.createElement("circle");
+            circle.style.width = "20px";
+            circle.style.height = "20px";
+            circle.style.borderRadius = "10px";
+            circle.style.position = "absolute";
+            circle.style.zIndex = 1;
+            return circle;
+        }
+        var mapClickHandler = function(event) {
+                var circle = createCircle();
+                circle.style.backgroundColor = "red";
+                circle.style.left = event.clientX + "px";
+                circle.style.top = event.clientY + "px";
+                miniMap.appendChild(circle);
+                lastCreatedCircle = circle
+                addAssociatedSceneForm.style.display = "block";
+        };
+        var Hovercircle = createCircle();
+        var mapHoverHandler = function(event){
+            Hovercircle.style.backgroundColor = "red";
+            Hovercircle.style.left = event.clientX + "px";
+            Hovercircle.style.top = event.clientY + "px";
+            Hovercircle.style.opacity = 0.5;
+            miniMap.appendChild(Hovercircle)
+        };
+
+        function setMapListener(){
+            miniMap.addEventListener("click", mapClickHandler);
+            miniMap.addEventListener("mousemove", mapHoverHandler);
+        }
+
+        function unsetMapListener(){
+            miniMap.removeEventListener("click", mapClickHandler);
+            miniMap.removeEventListener("mousemove", mapHoverHandler);
+        }
+
+        var lastSelectedCircle;
+
+        function circleClickHandler(circle) {
+            if (mode == "View") {
+                if (lastSelectedCircle) {
+                    lastSelectedCircle.style.backgroundColor = "red";
+                }
+            circle.style.backgroundColor = "green";
+            lastSelectedCircle = circle;
+            pan.loadScene(circle.name)
+            }
+        }
+
+        function setCirclesListener(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.addEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    );
+                }
+            };
+        }
+
+
+        function unsetCirclesListener(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.removeEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    )
+                }
+            }
+        };
+
+        var mode = "Edition"
+        if (miniMap) {
+            setMapListener();
+        }
+        unsetCirclesListener()
+        console.log(document.getElementsByTagName("h2")[1].innerHTML);
+        modeButton.addEventListener("click", function() {
+            if (mode == "Edition") {
+                mode = "View";
+                document.getElementsByTagName("h2")[1].innerHTML = "You're in the View Mode";
+                
+                modeButton.innerHTML = "Go to Edition Mode";
+                unsetMapListener();
+                setCirclesListener();
+                Hovercircle.style.opacity = 0;
+
+            } else {
+                mode = "Edition";
+                document.getElementsByTagName("h2")[1].innerHTML = "You're in the Edition Mode";
+                modeButton.innerHTML = "Go to View Mode";
+                unsetCirclesListener();
+                setMapListener();
+            }
+        });
+            
 
     </script>
             
