@@ -60,6 +60,25 @@
             ]
         },
 
+        "test": {
+            "title": "Ville",
+            "panorama": "../content/panorama/R0013005.JPG",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": -50,
+                    "type": "info",
+                    "text": "TEST."
+                }, 
+                {
+                    "pitch": 0,
+                    "yaw": 100,
+                    "type": "scene",
+                    "text": "Nature",
+                    "sceneId": "nature"
+                }
+            ]
+        }, 
         "test2": {
             "title": "Venise",
             "panorama": "../content/panorama/VENISE.jpg",

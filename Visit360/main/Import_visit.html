@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 900px;
+            height: 450px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
+    <!--     <div>Hello world!</div>-->
+    <div id="panorama"></div>
+    <button id="importVisit">Import Visit</button>
+
+    <script>
+
+        var initialConfig =
+        {
+            "default": {
+                "firstScene": "nature",
+                "sceneFadeDuration": 2000
+            },
+
+            "scenes": {
+                "nature": {
+                    "title": "Nature",
+                    "panorama": "../content/panorama/examplepano.jpg",
+                },
+            }
+        }
+
+        var pan = pannellum.viewer('panorama', initialConfig);
+
+        //Button import visit
+        const ImportButton = document.getElementById("importVisit");
+
+        ImportButton.addEventListener("click", function () {
+            //Load and read the JSON file, then put it into a json object
+            //===========================================================
+            const jsonFilePath = '../content/visit/example_test.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
+
+            //Destroy the previous visit
+            pan.destroy();
+
+            //Load the new one
+            //pan = pannellum.viewer('panorama', jsonString)
+            pan = pannellum.viewer('panorama', jsonData);
+            //console.log(pan.getConfig());
+        })
+
+
+    </script>
+
+</body>
+
+</html>
