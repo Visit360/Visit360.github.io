@@ -357,6 +357,7 @@
                 circle.style.left = event.clientX + "px";
                 circle.style.top = event.clientY + "px";
                 miniMap.appendChild(circle);
+                setDeletionListener(circle);
                 lastCreatedCircle = circle
                 addAssociatedSceneForm.style.display = "block";
         };
@@ -415,9 +416,40 @@
             }
         };
 
+        function deletionHandler(event) {
+            event.preventDefault();
+            // Remove the circle from the DOM
+            event.target.remove();
+        }
+
+
+        function setDeletionListener(circle) {
+            if (circle) {
+                circle.addEventListener('contextmenu', deletionHandler);
+            }
+        }
+
+
+        function unsetDeletionListenerOnAll() {
+            var circles = miniMap.querySelectorAll("circle");
+            if (circles) {
+                circles.forEach(circle => {
+                circle.removeEventListener('contextmenu', deletionHandler);
+                });
+            }
+        }
+
+        function setDeletionListenerOnAll(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                circles.forEach(circle=>setDeletionListener(circle))
+            }
+        }
+
         var mode = "Edition"
         if (miniMap) {
             setMapListener();
+            //setDeletionListener();
         }
         unsetCirclesListener()
         console.log(document.getElementsByTagName("h2")[1].innerHTML);
@@ -427,9 +459,11 @@
                 document.getElementsByTagName("h2")[1].innerHTML = "You're in the View Mode";
                 
                 modeButton.innerHTML = "Go to Edition Mode";
+                unsetDeletionListenerOnAll();
                 unsetMapListener();
                 setCirclesListener();
                 Hovercircle.style.opacity = 0;
+                addAssociatedSceneForm.style.display = "none"
 
             } else {
                 mode = "Edition";
@@ -437,6 +471,7 @@
                 modeButton.innerHTML = "Go to View Mode";
                 unsetCirclesListener();
                 setMapListener();
+                setDeletionListenerOnAll()
             }
         });
             
