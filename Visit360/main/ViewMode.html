@@ -133,7 +133,7 @@
                     "text": "Ville",
                     "sceneId": "VENISE",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit VENISE"
+                    "clickHandlerArgs": "VENISE"
                 },
                 {
                     "pitch": -10,
@@ -148,7 +148,7 @@
                     "text": "IMAG",
                     "sceneId": "IMAG",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit IMAG"
+                    "clickHandlerArgs": "IMAG"
                 }
             ]
         },
@@ -164,7 +164,7 @@
                     "text": "Ville",
                     "sceneId": "VENISE",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit VENISE"
+                    "clickHandlerArgs": "VENISE"
                 },
                 {
                     "pitch": -10,
@@ -179,7 +179,7 @@
                     "text": "Venise",
                     "sceneId": "VENISE",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit VENISE"
+                    "clickHandlerArgs": "VENISE"
                 }
             ]
         },
@@ -201,7 +201,7 @@
                     "text": "Polytech",
                     "sceneId": "POLYTECH",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit POLYTECH"
+                    "clickHandlerArgs": "POLYTECH"
                 }
             ]
         },
@@ -223,7 +223,7 @@
                     "text": "Nature",
                     "sceneId": "NATURE",
                     "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "Visit NATURE"
+                    "clickHandlerArgs": "NATURE"
                 }
             ]
         }
@@ -232,7 +232,7 @@
     
 }
 
-pannellum.viewer('panorama', config);
+var pan = pannellum.viewer('panorama', config);
 //Array containing the scenes visited
 var visitHistory=[];
 //History of the scenes that will be printed in the html
@@ -244,13 +244,17 @@ const consoleContent = document.getElementById("console-content");
 const clearHistory = document.getElementById("clear-history");
 
 function myfun(event, handlerArgs) {
-    console.log(handlerArgs);
     visitHistory.push(handlerArgs);
-    historyHtml += handlerArgs + "<br>";
+    historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
     consoleContent.innerHTML = historyHtml;
 }
 
-
+function handleHistoryClick(handlerArgs) {
+            // Code to execute when the link is clicked
+            console.log("Link clicked!");
+            console.log(handlerArgs)
+            pan.loadScene(handlerArgs)
+        }
 
 toggleButton.addEventListener("click", function() {
 if (consoleElement.style.display === "none") {
