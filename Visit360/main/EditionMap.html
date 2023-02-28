@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>DEMO</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama {
+            width: 900px;
+            height: 450px;
+        }
+
+        #console {
+          background-color: lightgray;
+          padding: 10px;
+          width: 300px;
+          height: 200px;
+          overflow: auto;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        #miniMap {
+        padding: 10px;
+        width: 500px;
+        height: 400px;
+        overflow: auto;
+        }
+
+        .row {
+            display: flex;
+        }
+
+
+
+        .scroller {
+            width: 255px;
+            height: 550px;
+            overflow-y: scroll;
+            scrollbar-color: rebeccapurple green;
+            scrollbar-width: thin;
+        }
+
+        .selected {
+            border: 3px solid rgb(255, 0, 102);
+        }
+
+
+
+        /* Define the tooltip style */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(title);
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, 5px);
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        .tooltip:hover::after {
+            display: block;
+            transition-delay:0.01s !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
+<!--     <div>Hello world!</div>-->  
+
+<div class="row">
+    <div class="column">
+        <div class="scroller">
+            <div id="image-list">
+
+
+                <div class="tooltip">
+                    <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240"
+                        height="100" onclick="selectImage('amphi_005')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240"
+                        height="100" onclick="selectImage('amphi_007')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240"
+                        height="100" onclick="selectImage('couloir_1')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240"
+                        height="100" onclick="selectImage('couloir_2')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240"
+                        height="100" onclick="selectImage('couloir_3')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240"
+                        height="100" onclick="selectImage('couloir_4')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240"
+                        height="100" onclick="selectImage('couloir_5')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240"
+                        height="100" onclick="selectImage('couloir_6')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100"
+                        onclick="selectImage('Hall')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"
+                        height="100" onclick="selectImage('salle_009')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240"
+                        height="100" onclick="selectImage('salle_013')">
+                    <span id="Image11" class="tooltiptext">...</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 
+    <div class="column">
+        <h2>HELLO MOTHERFUCKER</h2>
+        <div id="miniMap">
+            <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+        </div>
+        <div >
+<!--             <button id="mode-button">Go to View Mode</button>
+ -->            <div id="add-scene-form" style="display: none;">
+                <label for="name">Scene To associate :</label>
+                <input type="text" id="sceneAssociated" name="sceneAssociated" required>
+                <button id="add-scene-map">Add scene to the map</button>
+                <button id="export-div">Export Div</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+
+
+
+//-----------------------------------------------------------------------------------------
+const exportDiv = document.getElementById("export-div")
+exportDiv.addEventListener("click", function() {
+  const miniMap = document.getElementById("miniMap").cloneNode(true);
+  const targetWindow = window.open("./mapExtraction.html", "_blank");
+  targetWindow.addEventListener("load", function() {
+    targetWindow.document.getElementById("miniMap").appendChild(miniMap);
+});
+});
+
+
+
+//-------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
+        //MINIMAP CODE 
+//-------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------
+
+        const miniMap = document.getElementById("miniMap");
+        //const modeButton = document.getElementById("mode-button");
+        const addAssociatedSceneForm = document.getElementById("add-scene-form")
+        const sceneAssociated = document.getElementById("sceneAssociated");
+        const addSceneOnMApButton = document.getElementById("add-scene-map")
+
+        var lastCreatedCircle = null
+
+        addSceneOnMApButton.addEventListener("click", function(e, arg){
+            if(lastCreatedCircle){
+                lastCreatedCircle.name = sceneAssociated.value
+            }
+            sceneAssociated.value = ""
+            addAssociatedSceneForm.style.display = "none"
+        })
+        
+        function createCircle(){
+            const circle = document.createElement("circle");
+            circle.style.width = "20px";
+            circle.style.height = "20px";
+            circle.style.borderRadius = "10px";
+            circle.style.position = "absolute";
+            circle.style.zIndex = 1;
+            return circle;
+        }
+        var mapClickHandler = function(event) {
+                var circle = createCircle();
+                circle.style.backgroundColor = "red";
+                circle.style.left = event.clientX + "px";
+                circle.style.top = event.clientY + "px";
+                miniMap.appendChild(circle);
+                setDeletionListener(circle);
+                lastCreatedCircle = circle
+                addAssociatedSceneForm.style.display = "block";
+        };
+        var Hovercircle = createCircle();
+        var mapHoverHandler = function(event){
+            Hovercircle.style.backgroundColor = "red";
+            Hovercircle.style.left = event.clientX + "px";
+            Hovercircle.style.top = event.clientY + "px";
+            Hovercircle.style.opacity = 0.5;
+            miniMap.appendChild(Hovercircle)
+        };
+
+        function setMapListener(){
+            miniMap.addEventListener("click", mapClickHandler);
+            miniMap.addEventListener("mousemove", mapHoverHandler);
+        }
+
+        function unsetMapListener(){
+            miniMap.removeEventListener("click", mapClickHandler);
+            miniMap.removeEventListener("mousemove", mapHoverHandler);
+        }
+
+        var lastSelectedCircle;
+
+        function circleClickHandler(circle) {
+            if (mode == "View") {
+                if (lastSelectedCircle) {
+                    lastSelectedCircle.style.backgroundColor = "red";
+                }
+            circle.style.backgroundColor = "green";
+            lastSelectedCircle = circle;
+            pan.loadScene(circle.name)
+            }
+        }
+
+        function setCirclesListener(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.addEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    );
+                }
+            };
+        }
+
+
+        function unsetCirclesListener(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.removeEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    )
+                }
+            }
+        };
+
+        function deletionHandler(event) {
+            event.preventDefault();
+            // Remove the circle from the DOM
+            event.target.remove();
+        }
+
+
+        function setDeletionListener(circle) {
+            if (circle) {
+                circle.addEventListener('contextmenu', deletionHandler);
+            }
+        }
+
+
+        function unsetDeletionListenerOnAll() {
+            var circles = miniMap.querySelectorAll("circle");
+            if (circles) {
+                circles.forEach(circle => {
+                circle.removeEventListener('contextmenu', deletionHandler);
+                });
+            }
+        }
+
+        function setDeletionListenerOnAll(){
+            var circles = miniMap.querySelectorAll("circle");
+            if(circles){
+                circles.forEach(circle=>setDeletionListener(circle))
+            }
+        }
+
+/*         var mode = "Edition"
+        if (miniMap) {
+            setMapListener();
+            //setDeletionListener();
+        }
+        unsetCirclesListener()
+        console.log(document.getElementsByTagName("h2")[0].innerHTML);
+        modeButton.addEventListener("click", function() {
+            if (mode == "Edition") {
+                mode = "View";
+                document.getElementsByTagName("h2")[0].innerHTML = "You're in the View Mode";
+                
+                modeButton.innerHTML = "Go to Edition Mode";
+                unsetDeletionListenerOnAll();
+                unsetMapListener();
+                setCirclesListener();
+                Hovercircle.style.opacity = 0;
+                addAssociatedSceneForm.style.display = "none"
+
+            } else { */
+                mode = "Edition";
+                document.getElementsByTagName("h2")[0].innerHTML = "You're in the Edition Mode";
+                //modeButton.innerHTML = "Go to View Mode";
+                unsetCirclesListener();
+                setMapListener();
+                setDeletionListenerOnAll()
+      //      }
+      //  });
+            
+
+    </script>
+            
+</body>
+</html>
