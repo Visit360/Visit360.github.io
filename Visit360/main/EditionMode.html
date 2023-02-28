@@ -31,6 +31,33 @@
         .selected {
             border: 3px solid rgb(255, 0, 102);
         }
+
+
+
+        /* Define the tooltip style */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(title);
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, 5px);
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        .tooltip:hover::after {
+            display: block;
+            transition-delay:0.01s !important;
+        }
     </style>
 </head>
 
@@ -40,30 +67,66 @@
         <div class="column">
             <div class="scroller">
                 <div id="image-list">
-                    <img src="../content/panorama/amphi_005.jpg" alt="amphi_005" width="240" height="100"
-                        onclick="selectImage('amphi_005')">
-                    <img src="../content/panorama/amphi_007.jpg" alt="amphi_007" width="240" height="100"
-                        onclick="selectImage('amphi_007')">
-                    <img src="../content/panorama/couloir_1.jpg" alt="couloir_1" width="240" height="100"
-                        onclick="selectImage('couloir_1')">
-                    <img src="../content/panorama/couloir_2.jpg" alt="couloir_2" width="240" height="100"
-                        onclick="selectImage('couloir_2')">
-                    <img src="../content/panorama/couloir_3.jpg" alt="couloir_3" width="240" height="100"
-                        onclick="selectImage('couloir_3')">
-                    <img src="../content/panorama/couloir_4.jpg" alt="couloir_4" width="240" height="100"
-                        onclick="selectImage('couloir_4')">
-                    <img src="../content/panorama/couloir_5.jpg" alt="couloir_5" width="240" height="100"
-                        onclick="selectImage('couloir_5')">
-                    <img src="../content/panorama/couloir_6.jpg" alt="couloir_6" width="240" height="100"
-                        onclick="selectImage('couloir_6')">
-                    <img src="../content/panorama/Hall.jpg" alt="Hall" width="240" height="100"
-                        onclick="selectImage('Hall')">
-                    <img src="../content/panorama/salle_009.jpg" alt="salle_009" width="240" height="100"
-                        onclick="selectImage('salle_009')">
-                    <img src="../content/panorama/salle_013.jpg" alt="salle_013" width="240" height="100"
-                        onclick="selectImage('salle_013')">
+
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240"
+                            height="100" onclick="selectImage('amphi_005')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240"
+                            height="100" onclick="selectImage('amphi_007')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240"
+                            height="100" onclick="selectImage('couloir_1')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240"
+                            height="100" onclick="selectImage('couloir_2')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240"
+                            height="100" onclick="selectImage('couloir_3')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240"
+                            height="100" onclick="selectImage('couloir_4')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240"
+                            height="100" onclick="selectImage('couloir_5')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240"
+                            height="100" onclick="selectImage('couloir_6')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100"
+                            onclick="selectImage('Hall')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"
+                            height="100" onclick="selectImage('salle_009')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240"
+                            height="100" onclick="selectImage('salle_013')">
+                        <span id="Image11" class="tooltiptext">...</span>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div class="column">
@@ -119,8 +182,8 @@
                     "panorama": "../content/panorama/examplepano.jpg",
                 },
             },
-            
-            "autoLoad":true
+
+            "autoLoad": true
         }
 
         var hotspotInformation = {
@@ -294,11 +357,10 @@
                 sceneIdField.value = "";
                 //Deselect the added panorama
                 selectedImage.classList.remove("selected");
-                //pan.loadScene(SceneInfo["title"])
+                //pan.loadScene(SceneInfo["title"]);
+                selectedImage.title = IdsceneField.value;
             }
         })
-
-
         //=======================================================================================================
         //Button export
         //Export the Visit into a JSON file 
