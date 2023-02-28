@@ -1,72 +1,251 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>DEMO</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
         #panorama {
             width: 900px;
             height: 450px;
         }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 0%;
+        }
+
+        .scroller {
+            width: 255px;
+            height: 550px;
+            overflow-y: scroll;
+            scrollbar-color: rebeccapurple green;
+            scrollbar-width: thin;
+        }
+
+        .selected {
+            border: 3px solid rgb(255, 0, 102);
+        }
+
+
+
+        /* Define the tooltip style */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(title);
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%, 5px);
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+        }
+
+        .tooltip:hover::after {
+            display: block;
+            transition-delay: 0.01s !important;
+        }
+
+
+        /*==========================================================================*/
+        /* POPUP */
+
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        /* Popup content */
+        .popup-content {
+            position: relative;
+            top: 250px;
+            left: 310px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 400px;
+            max-width: 90%;
+        }
+
+
+        /* Show popup when it is open */
+        .popup.show {
+            display: flex;
+        }
+
+        /*==========================================================================*/
     </style>
 </head>
+
 <body>
-    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
-<!--     <div>Hello world!</div>-->    
-    <div id="panorama"></div>
-    <div id="hotspots"></div>
-    <div id = "buttons">
-        <h2>Add Hotspots</h2>
-        <button id="addScene">Add Scene</button>
-        <button id="information">Add Information</button>
-        <button id="gateway">Add Gateway</button>
+
+    <div class="row">
+        <div class="column">
+            <div class="scroller">
+                <div id="image-list">
+
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240" height="100"
+                            onclick="selectImage('amphi_005')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240" height="100"
+                            onclick="selectImage('amphi_007')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240" height="100"
+                            onclick="selectImage('couloir_1')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240" height="100"
+                            onclick="selectImage('couloir_2')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240" height="100"
+                            onclick="selectImage('couloir_3')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240" height="100"
+                            onclick="selectImage('couloir_4')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240" height="100"
+                            onclick="selectImage('couloir_5')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240" height="100"
+                            onclick="selectImage('couloir_6')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100"
+                            onclick="selectImage('Hall')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240" height="100"
+                            onclick="selectImage('salle_009')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100"
+                            onclick="selectImage('salle_013')">
+                        <span id="Image11" class="tooltiptext">...</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="column">
+            <div id="panorama"></div>
+            <div id="buttons">
+                <h2>Add Hotspots</h2>
+                <button id="addPano">Add Panorama</button>
+                <button id="information">Add Information</button>
+                <button id="gateway">Add Gateway</button>
+                <button id="deleteHotspot">Delete Hotspot</button>
+                <button id="ExportScene">Export Scene</button>
+                <button id="importVisit">Import Visit</button>
+            </div>
+
+
+            <div id="panoInfo" class="popup">
+                <div class="popup-content">
+                    <label for="name">Scene ID :</label>
+                    <input type="text" id="endScenePano" name="endScenePano" required>
+                    <button id="submitButtonPano">Submit</button>
+                </div>
+            </div>
+
+            <div id="gatewayInfo" class="popup">
+                <div class="popup-content">
+                    <label for="name">Next Scene ID :</label>
+                    <input type="text" id="endSceneId" name="endSceneId" required>
+                    <label for="name">Gateway Text :</label>
+                    <input type="text" id="gatewayText" name="gatewayText" required>
+                    <button id="submitButton">Submit</button>
+                </div>
+            </div>
+
+            <div id="hotspotInfoDesc" class="popup">
+                <div class="popup-content">
+                    <label for="name">Description :</label>
+                    <input type="text" id="infoText" name="infoText" required>
+                    <button id="submitButtonInfo">Submit</button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
 
-    var initialConfig = 
+        var initialConfig =
         {
             "default": {
-               "firstScene": "nature",
-               "sceneFadeDuration": 2000
+                "firstScene": "hall",
+                "sceneFadeDuration": 2000,
+                "hotSpotDebug": true
             },
 
             "scenes": {
-                "nature": {
-                "title": "Nature",
-                "panorama": "../content/panorama/examplepano.jpg",
+                "hall": {
+                    "title": "Hall_polyetch",
+                    "panorama": "../content/panorama/Hall.jpg",
                 },
-            }  
+            },
+
+            "autoLoad": true
         }
 
-    var hotspotInformation = {
-        "pitch" : 0,
-        "yaw" : 100,
-        "type" : "info",
-        "text" : "This is nature"
-    }
+        var hotspotInformation = {
+            "pitch": 0,
+            "yaw": 100,
+            "type": "info",
+            "text": "This is nature"
+        }
 
-    var hotspotGateway = {
-        "pitch" : 0,
-        "yaw" : -100,
-        "type" : "scene",
-        "text" : "Polytech",
-        "sceneId" : "polytech"
-    }
-    
 
         var scene_Polytech = {
             "title": "Polytech",
-            "panorama": "../content/panorama/HALL.jpg",
+            "panorama": "../content/panorama/Hall.jpg",
             "hotSpots": [
                 {
                     "pitch": -10,
                     "yaw": -50,
                     "type": "info",
                     "text": "Ceci est le Hall de Polytech"
-                }, 
+                },
                 {
                     "pitch": 0,
                     "yaw": -100,
@@ -76,40 +255,209 @@
                 }
             ]
         }
-    
-    
-        //loadScene(sceneId, targetPitch, targetYaw, targetHfov, fadeDone)
-        var pan = pannellum.viewer('panorama', initialConfig);
-        //pan.addHotSpot(hsi,'imag'); //ajouter un hotspot d'information
-        //pan.removeScene('nature'); //supprimer une scène
-        //console.log(pannellum.viewer('panorama', config2).getConfig())
-        //pan.addHotSpot(hsp, 'nature');
-/*         pan = pan.addScene("POLYTECH", scene_Polytech)
-        console.log(pan.getConfig()) */
 
-        const sceneButton = document.getElementById("addScene");
+
+        var pan = pannellum.viewer('panorama', initialConfig);
+
         const informationButton = document.getElementById("information");
         const gatewayButton = document.getElementById("gateway");
-        
 
-        sceneButton.addEventListener("click", function(){
-            console.log("you added a scene")
-            pan = pan.addScene("polytech", scene_Polytech);
+        var lastClickCoord = null
 
+        //Get coordinates of the mouse in pitch and yaw
+        const panoramaView = document.getElementById("panorama");
+
+        panoramaView.addEventListener("click", function (event) {
+            lastClickCoord = null;
+            lastClickCoord = pan.mouseEventToCoords(event)
         })
 
-        informationButton.addEventListener("click", function(){
-            console.log("you added an information")
-            pan.addHotSpot(hotspotInformation, 'nature');
 
-        })
-        gatewayButton.addEventListener("click", function(){
-            console.log("you added a gateway")
-            pan.addHotSpot(hotspotGateway, 'nature');
+        const gatewayAddDiv = document.getElementById("gatewayInfo");
+        gatewayButton.addEventListener("click", function () {
+            gatewayAddDiv.style.display = "block";
         })
 
+
+        const informationAddDiv = document.getElementById("hotspotInfoDesc");
+        informationButton.addEventListener("click", function () {
+            informationAddDiv.style.display = "block";
+        })
+
+        const sceneIdField = document.getElementById("endSceneId");
+        const gatewayText = document.getElementById("gatewayText");
+        const submitButton = document.getElementById("submitButton");
+
+        const infoText = document.getElementById("infoText");
+        const submitButtonInfo = document.getElementById("submitButtonInfo");
+
+        /*Note : hotspotID is common to both gateway hotpots and information hotspots in order to delete them easily
+        by calling the function removeHotspot */
+        var hotspotID = 0;
+        submitButton.addEventListener("click", function () {
+            var hotspotGateway = {}
+            hotspotGateway["id"] = hotspotID += 1;
+            hotspotGateway["pitch"] = lastClickCoord[0];
+            hotspotGateway["yaw"] = lastClickCoord[1];
+            hotspotGateway["type"] = "scene";
+            hotspotGateway["sceneId"] = sceneIdField.value;
+            hotspotGateway["text"] = gatewayText.value;
+            hotspotGateway["clickHandlerFunc"] = myFunctionGateway;
+            pan.addHotSpot(hotspotGateway, pan.getScene());
+            gatewayAddDiv.style.display = "none";
+            sceneIdField.value = "";
+            gatewayText.value = "";
+        })
+
+
+        submitButtonInfo.addEventListener("click", function () {
+            var hotspotInformation = {}
+            hotspotInformation["id"] = hotspotID += 1;
+            hotspotInformation["pitch"] = lastClickCoord[0];
+            hotspotInformation["yaw"] = lastClickCoord[1];
+            hotspotInformation["type"] = "info";
+            hotspotInformation["text"] = infoText.value;
+            hotspotInformation["clickHandlerFunc"] = myFunctionInformation;
+            pan.addHotSpot(hotspotInformation, pan.getScene());
+            informationAddDiv.style.display = "none";
+            infoText.value = "";
+        })
+
+        var deletable = false;
+
+        const deleteHotspotButton = document.getElementById("deleteHotspot");
+        deleteHotspotButton.addEventListener("click", function () {
+            if (deletable == false) {
+                deletable = true;
+                deleteHotspotButton.style.backgroundColor = '#ffcccb';
+            }
+            else {
+                deletable = false;
+                deleteHotspotButton.style.backgroundColor = '';
+            }
+        })
+
+        function myFunctionInformation(event, handlerArgs) {
+            if (deletable == true) {
+                pan.removeHotSpot(this.id)
+                deleteHotspotButton.style.backgroundColor = ""
+                deletable = false;
+            }
+        }
+        function myFunctionGateway(event, handlerArgs) {
+            currentScene = pan.getScene();
+            if (deletable) {
+                this.sceneId = currentScene;
+                pan.removeHotSpot(this.id);
+                pan.loadScene(currentScene);
+                deleteHotspotButton.style.backgroundColor = "";
+                deletable = false;
+            }
+        }
+
+
+
+        //=======================================================================================================
+        //Select one image
+        let selectedImage = null;
+        function selectImage(imageUrl) {
+            if (selectedImage) {
+                // Remove the selected class from the previously selected image
+                selectedImage.classList.remove("selected");
+            }
+            // Set the selected image to the clicked image
+            selectedImage = event.target;
+            // Add the selected class to the clicked image
+            selectedImage.classList.add("selected");
+        }
+
+
+        //=======================================================================================================
+        //Button add panorama
+
+        const AddPanoButton = document.getElementById("addPano");
+
+        const PanoAddDiv = document.getElementById("panoInfo");
+        AddPanoButton.addEventListener("click", function () {
+            if (selectedImage == null) { // if no panorama is selected
+                console.log("No panorama selected");
+            } else {
+            PanoAddDiv.style.display = "block";
+            }
+        })
+
+        const IdsceneField = document.getElementById("endScenePano");
+        const subButton = document.getElementById("submitButtonPano");
+
+
+        //Add the scene with the panorama selected
+        subButton.addEventListener("click", function () {
+            if (selectedImage == null) { // if no panorama is selected
+                console.log("No panorama selected");
+            } else {
+                var SceneInfo = {}
+                SceneInfo["title"] = IdsceneField.value;
+                SceneInfo["panorama"] = selectedImage.src;
+                pan.addScene(SceneInfo.title, SceneInfo);
+                PanoAddDiv.style.display = "none";
+                sceneIdField.value = "";
+                //Deselect the added panorama
+                selectedImage.classList.remove("selected");
+                //pan.loadScene(SceneInfo["title"]);
+                selectedImage.title = IdsceneField.value;
+                IdsceneField.value = null;
+            }
+        })
+        //=======================================================================================================
+        //Button export
+        //Export the Visit into a JSON file 
+        const ExportButton = document.getElementById("ExportScene");
+
+        ExportButton.addEventListener("click", function () {
+            //Convert the visit into JSON
+            var config = pan.getConfig();
+            var partialConfig = {}
+            partialConfig["default"] = config.default;
+            partialConfig["scenes"] = config.scenes;
+            var jsonFile = JSON.stringify(partialConfig);
+            // Create a Blob object from the JSON string
+            const blob = new Blob([jsonFile], { type: "application/json" });
+            // Create a URL for the Blob object
+            const url = URL.createObjectURL(blob);
+            // Create a link element for downloading the file
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "myData.json";
+            // Add the link to the document and click it to download the file
+            document.body.appendChild(link);
+            link.click();
+        })
+
+        //=======================================================================================================
+        //Button import visit 
+        const ImportButton = document.getElementById("importVisit");
+
+        ImportButton.addEventListener("click", function () {
+            //Load and read the JSON file, then put it into a json object
+            //===========================================================
+            const jsonFilePath = '../content/visit/example_test.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
+
+            //Destroy the previous visit
+            pan.destroy();
+            //Load the new one
+            //pan = pannellum.viewer('panorama', jsonString)
+            pan = pannellum.viewer('panorama', jsonData);
+        })
 
     </script>
-            
+
 </body>
+
 </html>
