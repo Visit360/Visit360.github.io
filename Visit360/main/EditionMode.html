@@ -2,42 +2,124 @@
 <html>
 
 <head>
-    <title>DEMO</title>
+    <title>Edition mode Visit360</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        #panorama {
-            width: 900px;
-            height: 450px;
+        html,body{
+            font-family: 'Trebuchet MS';
+			background-color: rgb(51, 51, 51);
+			color: white;
+            display: block;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
         }
-
-        .row {
+        .child1{
+			display: flex;
+   			height:75px;
+    		width: 100%;
+    		
+		}
+        .child2{
             display: flex;
+            height: calc(100vh - 80px);
+        }
+        #button{
+            width: 75px;
+            height: 75px;
+        }
+		
+        #header{
+            background: rgb(59, 59, 59);
+            width: 100%;
+            padding-left: 20px;
+            border-radius: 5px;
+        }
+        
+        #viewer{
+            width: 100%;
+
         }
 
-        .column {
-            flex: 0%;
-        }
+   
 
         .scroller {
             width: 255px;
-            height: 550px;
+            height: calc(100vh - 80px);
             overflow-y: scroll;
-            scrollbar-color: rebeccapurple green;
+            scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
             scrollbar-width: thin;
+            
+        }
+
+        #selection{
+            background-color: grey;
+
+            width: 255px;
+            
         }
 
         .selected {
-            border: 3px solid rgb(255, 0, 102);
+            border: 3px solid rgb(0, 255, 221);
+        }
+
+        #toolbar{
+            background-color: grey;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 400px;
+            height:100%;
+        } 
+        #buttons{
+            display: flex;
+            flex-direction: column;
+            row-gap: 25px;
+            width:70%;
+            padding: 25px;
+        }
+        .button{
+            background-color: rgb(0, 255, 221);
+            border: none;
+            font-size: medium;
+            border-radius: 5px;
+            padding: 5px;
+           
+        }
+        .input{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: medium;
+            border-radius: 5px;
+            
+        }
+        .label{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: medium;
+            
+            
         }
     </style>
 </head>
 
 <body>
-
-    <div class="row">
-        <div class="column">
+    <div id="child1" class="child1">
+        <div id="button">
+		    <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="toggleMode()">&#128065;</button>
+        </div>
+        <div id="header">
+	        <h1>Edit Visit360</h1>
+        </div>
+	</div>
+    <div id="child2" class="child2">
+        <div id="selection" class="column">
             <div class="scroller">
                 <div id="image-list">
                     <img src="../content/panorama/amphi_005.jpg" alt="amphi_005" width="240" height="100"
@@ -65,42 +147,45 @@
                 </div>
             </div>
         </div>
+        <div id="viewer" class="column">
+            <div id="panorama"></div>       
+        </div>
 
-        <div class="column">
-            <div id="panorama"></div>
+        <div id="toolbar"class="column">
             <div id="buttons">
-                <h2>Add Hotspots</h2>
-                <button id="addPano">Add Panorama</button>
-                <button id="information">Add Information</button>
-                <button id="gateway">Add Gateway</button>
-                <button id="deleteHotspot">Delete Hotspot</button>
-                <button id="ExportScene">Export Scene</button>
-                <button id="importVisit">Import Visit</button>
+                <button id="addPano" class="button">Add Panorama</button>
+                <button id="information" class="button">Add Information</button>
+                <button id="gateway" class="button">Add Gateway</button>
+                <button id="deleteHotspot" class="button">Delete Hotspot</button>
+                <button id="ExportScene" class="button">Export Scene</button>
+                <button id="importVisit" class="button">Import Visit</button>
             </div>
-
+            
             <div id="panoInfo" style="display: none;">
-                <label for="name">Scene ID :</label>
-                <input type="text" id="endScenePano" name="endScenePano" required>
-                <button id="submitButtonPano">Submit</button>
+                <label for="name" class="label">Scene ID :</label>
+                <input type="text" id="endScenePano" name="endScenePano" class="input" required>
+                <button id="submitButtonPano" class="button">Submit</button>
             </div>
 
             <div id="gatewayInfo" style="display: none;">
-                <label for="name">Next Scene ID :</label>
-                <input type="text" id="endSceneId" name="endSceneId" required>
+                <label for="name" class="label">Next Scene ID :</label>
+                <input type="text" id="endSceneId" name="endSceneId" class="input" required>
 
-                <label for="name">Gateway Text :</label>
-                <input type="text" id="gatewayText" name="gatewayText" required>
+                <label for="name" class="label">Gateway Text :</label>
+                <input type="text" id="gatewayText" name="gatewayText" class="input" required>
 
-                <button id="submitButton">Submit</button>
+                <button id="submitButton" class="button">Submit</button>
             </div>
             <div id="hotspotInfoDesc" style="display: none;">
 
-                <label for="name">Description :</label>
-                <input type="text" id="infoText" name="infoText" required>
+                <label for="name" class="label">Description :</label>
+                <input type="text" id="infoText" name="infoText" class="input" required>
 
-                <button id="submitButtonInfo">Submit</button>
+                <button id="submitButtonInfo" class="button">Submit</button>
             </div>
+            
         </div>
+    
     </div>
 
     <script>
@@ -347,7 +432,10 @@
             //pan = pannellum.viewer('panorama', jsonString)
             pan = pannellum.viewer('panorama', jsonData);
         })
-
+        function toggleMode() {
+            window.location="ViewMode.html";
+		}
+		
     </script>
 
 </body>
