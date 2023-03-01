@@ -157,6 +157,10 @@
 //-------------------------------------------------------------------------------------
 
         const miniMap = document.getElementById("miniMap");
+        const myVariableMiniMap = localStorage.getItem('miniMapDiv');
+        if (myVariableMiniMap) {
+        miniMap.innerHTML = myVariableMiniMap;
+        }
         //const modeButton = document.getElementById("mode-button");
         const addAssociatedSceneForm = document.getElementById("add-scene-form")
         const sceneAssociated = document.getElementById("sceneAssociated");
@@ -236,7 +240,7 @@
             console.log(tempMiniMap)
             const miniMapDiv = tempMiniMap.innerHTML;
             localStorage.setItem('miniMapDiv', miniMapDiv);
-            //window.location="EditionMode.html"
+            window.location="EditionMode.html"
         }
     </script>
             
