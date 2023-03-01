@@ -231,6 +231,12 @@
     
 }
 
+    //Get the updated list miniMap containing circles added in EditionMap
+    const myVariableMiniMap = localStorage.getItem('miniMapDiv');
+        if (myVariableMiniMap) {
+        const miniMapDiv = document.querySelector('#miniMap');
+        miniMapDiv.innerHTML = myVariableMiniMap;
+        }
 var pan = pannellum.viewer('panorama', config);
 //Array containing the scenes visited
 var visitHistory=[];

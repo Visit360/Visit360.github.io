@@ -553,13 +553,19 @@
         })
 
         //=======================================================================================================
+
+
+
         //Button to switch to view mode
         function toggleMode() {
             window.location="ViewMode.html";
 		}
         //=======================================================================================================
-        //Button to go to map edition
+        //Button to go to map edition, it will also store the content of the ImagesDiv
         function gotomap(){
+            const ImagesDiv = imageList.innerHTML;
+            // Store the content of the div in localStorage
+            localStorage.setItem('imagesDiv', ImagesDiv);
             window.location="EditionMap.html"
         }
     </script>
