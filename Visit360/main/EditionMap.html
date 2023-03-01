@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>DEMO</title>
+    <title>Edition MiniMap</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
@@ -34,8 +34,6 @@
             display: flex;
         }
 
-
-
         .scroller {
             width: 255px;
             height: 550px;
@@ -48,26 +46,9 @@
             border: 3px solid rgb(255, 0, 102);
         }
 
-
-
         /* Define the tooltip style */
         .tooltip {
             position: relative;
-        }
-
-        .tooltip::after {
-            content: attr(title);
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translate(-50%, 5px);
-            padding: 10px 20px;
-            background-color: #555;
-            color: #fff;
-            border-radius: 5px;
-            white-space: nowrap;
-            font-size: 12px;
         }
 
         .tooltip:hover::after {
@@ -77,8 +58,6 @@
     </style>
 </head>
 <body>
-    <!-- <iframe width="900" height="450" allowfullscreen style="border-style:none;" src="../../Pannellum/src/standalone/pannellum.htm?config=../../../Visit360/main/example_test.json"></iframe> -->
-<!--     <div>Hello world!</div>-->  
 
 <div class="row">
     <div class="column">
@@ -87,59 +66,47 @@
 
 
                 <div class="tooltip">
-                    <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240"
-                        height="100" onclick="selectImage('amphi_005')">
+                    <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240"
-                        height="100" onclick="selectImage('amphi_007')">
+                    <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240"
-                        height="100" onclick="selectImage('couloir_1')">
+                    <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240"
-                        height="100" onclick="selectImage('couloir_2')">
+                    <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240"
-                        height="100" onclick="selectImage('couloir_3')">
+                    <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240"
-                        height="100" onclick="selectImage('couloir_4')">
+                    <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240"
-                        height="100" onclick="selectImage('couloir_5')">
+                    <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240"
-                        height="100" onclick="selectImage('couloir_6')">
+                    <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100"
-                        onclick="selectImage('Hall')">
+                    <img src="../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"
-                        height="100" onclick="selectImage('salle_009')">
+                    <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"  height="100">
                 </div>
 
                 <div class="tooltip">
-                    <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240"
-                        height="100" onclick="selectImage('salle_013')">
-                    <span id="Image11" class="tooltiptext">...</span>
+                    <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100">
                 </div>
             </div>
         </div>
@@ -147,7 +114,7 @@
     </div>
  
     <div class="column">
-        <h2>HELLO MOTHERFUCKER</h2>
+        <h2>You're in the Edition Mode</h2>
         <div id="miniMap">
             <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
         </div>
@@ -157,8 +124,8 @@
                 <label for="name">Scene To associate :</label>
                 <input type="text" id="sceneAssociated" name="sceneAssociated" required>
                 <button id="add-scene-map">Add scene to the map</button>
-                <button id="export-div">Export Div</button>
             </div>
+            <button id="export-div">Export Div</button>
         </div>
     </div>
 </div>
@@ -166,19 +133,17 @@
     <script>
 
 
-
 //-----------------------------------------------------------------------------------------
-const exportDiv = document.getElementById("export-div")
-exportDiv.addEventListener("click", function() {
-  const miniMap = document.getElementById("miniMap").cloneNode(true);
-  const targetWindow = window.open("./mapExtraction.html", "_blank");
-  targetWindow.addEventListener("load", function() {
-    targetWindow.document.getElementById("miniMap").appendChild(miniMap);
-});
-});
-
-
-
+//Code to export the div called miniMap to the file mapExtraction.html
+//-----------------------------------------------------------------------------------------
+        const exportDiv = document.getElementById("export-div")
+        exportDiv.addEventListener("click", function() {
+        const miniMap = document.getElementById("miniMap").cloneNode(true);
+        const targetWindow = window.open("./mapExtraction.html", "_blank");
+        targetWindow.addEventListener("load", function() {
+            targetWindow.document.getElementById("miniMap").appendChild(miniMap);
+        });
+        });
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
         //MINIMAP CODE 
@@ -234,67 +199,16 @@ exportDiv.addEventListener("click", function() {
             miniMap.addEventListener("mousemove", mapHoverHandler);
         }
 
-        function unsetMapListener(){
-            miniMap.removeEventListener("click", mapClickHandler);
-            miniMap.removeEventListener("mousemove", mapHoverHandler);
-        }
-
         var lastSelectedCircle;
-
-        function circleClickHandler(circle) {
-            if (mode == "View") {
-                if (lastSelectedCircle) {
-                    lastSelectedCircle.style.backgroundColor = "red";
-                }
-            circle.style.backgroundColor = "green";
-            lastSelectedCircle = circle;
-            pan.loadScene(circle.name)
-            }
-        }
-
-        function setCirclesListener(){
-            var circles = miniMap.querySelectorAll("circle");
-            if(circles){
-                for (const circle of circles) {
-                    circle.addEventListener("click", function() {
-                        circleClickHandler(circle);}
-                    );
-                }
-            };
-        }
-
-
-        function unsetCirclesListener(){
-            var circles = miniMap.querySelectorAll("circle");
-            if(circles){
-                for (const circle of circles) {
-                    circle.removeEventListener("click", function() {
-                        circleClickHandler(circle);}
-                    )
-                }
-            }
-        };
 
         function deletionHandler(event) {
             event.preventDefault();
-            // Remove the circle from the DOM
             event.target.remove();
         }
-
 
         function setDeletionListener(circle) {
             if (circle) {
                 circle.addEventListener('contextmenu', deletionHandler);
-            }
-        }
-
-
-        function unsetDeletionListenerOnAll() {
-            var circles = miniMap.querySelectorAll("circle");
-            if (circles) {
-                circles.forEach(circle => {
-                circle.removeEventListener('contextmenu', deletionHandler);
-                });
             }
         }
 
@@ -305,36 +219,9 @@ exportDiv.addEventListener("click", function() {
             }
         }
 
-/*         var mode = "Edition"
-        if (miniMap) {
-            setMapListener();
-            //setDeletionListener();
-        }
-        unsetCirclesListener()
-        console.log(document.getElementsByTagName("h2")[0].innerHTML);
-        modeButton.addEventListener("click", function() {
-            if (mode == "Edition") {
-                mode = "View";
-                document.getElementsByTagName("h2")[0].innerHTML = "You're in the View Mode";
-                
-                modeButton.innerHTML = "Go to Edition Mode";
-                unsetDeletionListenerOnAll();
-                unsetMapListener();
-                setCirclesListener();
-                Hovercircle.style.opacity = 0;
-                addAssociatedSceneForm.style.display = "none"
-
-            } else { */
-                mode = "Edition";
-                document.getElementsByTagName("h2")[0].innerHTML = "You're in the Edition Mode";
-                //modeButton.innerHTML = "Go to View Mode";
-                unsetCirclesListener();
-                setMapListener();
-                setDeletionListenerOnAll()
-      //      }
-      //  });
-            
-
+        mode = "Edition";
+        setMapListener();
+        setDeletionListenerOnAll()
     </script>
             
 </body>
