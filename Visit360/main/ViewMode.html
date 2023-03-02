@@ -140,6 +140,15 @@
         var importedConfig = JSON.parse(confing_edition_mode);
         var pan = pannellum.viewer('panorama', importedConfig);
 
+
+        // When we load the EditionMode configuration, we set a getway function to each getway in the scene 
+        for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
+            var hotspot = pan.getConfig()["hotSpots"][i];
+            if(hotspot["type"]==="scene"){
+                hotspot["clickHandlerFunc"] = myFunctionGateway;
+            }
+        }
+        //pan.getConfig()["hotSpots"][0]["type"]
         //Array containing the scenes visited
         var visitHistory = [];
         //History of the scenes that will be printed in the html
@@ -150,7 +159,8 @@
         const consoleContent = document.getElementById("console-content");
         const clearHistory = document.getElementById("clear-history");
 
-        function myfun(event, handlerArgs) {
+        
+        function myFunctionGateway(event, handlerArgs) {
             visitHistory.push(handlerArgs);
             historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
             consoleContent.innerHTML = historyHtml;
