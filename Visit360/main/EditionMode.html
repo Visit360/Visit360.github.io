@@ -42,15 +42,12 @@
     
             }
     
-       
-    
             .scroller {
                 width: 255px;
                 height: calc(100vh - 115px);
                 overflow-y: scroll;
                 scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
                 scrollbar-width: thin;
-                
             }
     
             #selection{
@@ -112,9 +109,9 @@
             width: auto;
             height: 30px;
             display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: flex-end;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
         }
         /*==========================================================================*/
         /* POPUP */
@@ -129,7 +126,6 @@
             justify-content: center;
             align-items: center;
             background-color: rgba(0, 0, 0, 0.5);
-            
         }
 
         /* Popup content */
@@ -248,7 +244,7 @@
                     <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
                     <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
                     <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
-                    <button onclick="clearLocalStorage()">Clear LocalStorage</button>
+                    <button id="clearVisit" class="button">&#129126 &#128194 Clear Visit</button>
                 </div>
             </div>
             <div id="popups">
@@ -273,11 +269,11 @@
                 </div>
                 <div id="hotspotInfoDesc" class="popup">
                     <div class="popup-content">
-                    <label for="name" class="label">Description :</label>
-                    <input type="text" id="infoText" name="infoText" class="input" required>
-    
-                    <button id="submitButtonInfo" class="button">Submit</button>
-                </div>
+                        <label for="name" class="label">Description :</label>
+                        <input type="text" id="infoText" name="infoText" class="input" required>
+        
+                        <button id="submitButtonInfo" class="button">Submit</button>
+                    </div>
                 </div>
             </div>
         
@@ -332,7 +328,72 @@
         }
 
 
-        var pan = pannellum.viewer('panorama', initialConfig);
+        //if (!localStorage.getItem('bool')) {
+            
+/*             var booll = true;
+            localStorage.setItem('bool', booll); */
+            //localStorage.setItem('config_visit', JSON.stringify(initialConfig))
+       // } else {
+            //Load the view_mode visit 
+/*             const confing_view_mode = localStorage.getItem('config_visit');
+            var importedConfig_view = JSON.parse(confing_view_mode);
+            var pan = pannellum.viewer('panorama', importedConfig_view); */
+            //Load the configuration of the edition mode 
+/*             var configuration_visit = pan.getConfig();
+            console.log(configuration_visit) */
+  /*           var partialConfig_visit = {}
+            partialConfig_visit["default"] = configuration_visit.default;
+            partialConfig_visit["scenes"] = configuration_visit.scenes;
+            var textConfig = JSON.stringify(partialConfig_visit);
+            localStorage.setItem('config_visit', textConfig);
+            var importedConfig_view = JSON.parse(confing_view_mode);
+            var pan = pannellum.viewer('panorama', importedConfig_view); */
+            
+            // Store the content of the images div in localStorage
+/*             const ImagesDiv = imageList.innerHTML;
+            localStorage.setItem('imagesDiv', ImagesDiv); */
+        //}
+
+        //I check if there is a config_visit element in the localStorage, if yes I set that configuration,
+        //Else, I create a new configuration
+        if(!localStorage.getItem('alreadyOpened')){
+            var pan = pannellum.viewer('panorama', initialConfig);
+            localStorage.setItem('config_visit', JSON.stringify(initialConfig))
+            console.log("hello motherfucker")
+            localStorage.setItem("alreadyOpened", true);
+            //localStorage.removeItem('empty')
+        }
+         else{
+            console.log(localStorage.getItem('config_visit'))
+            var importedConfig_view = JSON.parse(localStorage.getItem('config_visit'));
+            var pan = pannellum.viewer('panorama', importedConfig_view)
+        } 
+
+        window.addEventListener('beforeunload', function (event) {
+            //I check if there isn't localStorage.getItem('empty') because i don't want to execute the code
+            //when i click the button clear Visit
+            if(!localStorage.getItem('goToZero')){
+                if(pan){
+                    var configuration_visit = pan.getConfig(); 
+                    var partialConfig_visit = {}
+                    partialConfig_visit["default"] = configuration_visit.default;
+                    partialConfig_visit["scenes"] = configuration_visit.scenes;
+                    var textConfig = JSON.stringify(partialConfig_visit);
+                    localStorage.setItem('config_visit', textConfig);
+                }
+
+                if(imageList){
+                    // Store the content of the images div in localStorage
+                    const ImagesDiv = imageList.innerHTML;
+                    localStorage.setItem('imagesDiv', ImagesDiv);
+                }
+            }
+/*             else{
+                //var pan = pannellum.viewer('panorama', initialConfig);
+                localStorage.setItem('config_visit', JSON.stringify(initialConfig))
+                console.log("hello motherfucker again")
+            }  */           
+        });
 
         const informationButton = document.getElementById("information");
         const gatewayButton = document.getElementById("gateway");
@@ -455,8 +516,9 @@
         //=======================================================================================================
         const myOldImagesDiv = localStorage.getItem('imagesDiv');
         if (myOldImagesDiv) {
-        imageList.innerHTML = myOldImagesDiv;
+            imageList.innerHTML = myOldImagesDiv;
         }
+
         //Select one image
         let selectedImage = null;
         function selectImage(imageUrl) {
@@ -505,7 +567,7 @@
                 //pan.loadScene(SceneInfo["title"]);
                 selectedImage.title = IdsceneField.value;
                 IdsceneField.value = null;
-                //Set the associated circle's color to green when adding a sceneId to the selected image
+                //Set the associated small circle's color to green when adding a sceneId to the selected image
                 selectedImage.parentNode.getElementsByTagName("circle")[0].style.backgroundColor="#50C878"
             }
         })
@@ -559,29 +621,52 @@
 
         //=======================================================================================================
 
+        //Button clear visit
+
+        const ClearVisit = document.getElementById("clearVisit");
+
+        ClearVisit.addEventListener("click", function () {
+            pan.destroy();
+            localStorage.clear();
+            localStorage.setItem("goToZero", true)
+            location.reload()
+            localStorage.removeItem("goToZero")
+            //localStorage.setItem("alreadyOpened", true)
+            //localStorage.setItem('config_visit', JSON.stringify(initialConfig))
+            //pan = pannellum.viewer('panorama',initialConfig); 
+            
+        })
 
 
         //Button to switch to view mode
         function toggleMode() {
+/*             //Load the configuration of the edition mode 
+            var configuration_visit = pan.getConfig();
+            var partialConfig_visit = {}
+            partialConfig_visit["default"] = configuration_visit.default;
+            partialConfig_visit["scenes"] = configuration_visit.scenes;
+            var textConfig = JSON.stringify(partialConfig_visit);
+            localStorage.setItem('config_visit', textConfig);
+            
+            // Store the content of the images div in localStorage
             const ImagesDiv = imageList.innerHTML;
-            // Store the content of the div in localStorage
-            localStorage.setItem('imagesDiv', ImagesDiv);
+            localStorage.setItem('imagesDiv', ImagesDiv); */
             window.location="ViewMode.html";
 		}
         //=======================================================================================================
         //Button to go to map edition, it will also store the content of the ImagesDiv
         function gotomap(){
-            const ImagesDiv = imageList.innerHTML;
+/*             const ImagesDiv = imageList.innerHTML;
             // Store the content of the div in localStorage
-            localStorage.setItem('imagesDiv', ImagesDiv);
+            localStorage.setItem('imagesDiv', ImagesDiv); */
             window.location="EditionMap.html"
         }
 
-        function clearLocalStorage() {
+/*         function clearLocalStorage() {
             localStorage.clear();
             alert("LocalStorage cleared!");
             location.reload()
-      }
+      } */
     </script>
 
 </body>
