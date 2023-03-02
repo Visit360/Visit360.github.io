@@ -62,9 +62,18 @@
 
         }
 
-        #imgID {
+        #overlay{
             grid-column: 3;
             grid-row: 1;
+            max-width: 100vh;
+            max-height: 100vh;
+        }
+        #circles{
+            position: relative;
+        }
+        #imgID {
+            width: 100%;
+            height: 100%;
             border: 1px solid rgb(0, 255, 221);
         }
 
@@ -105,8 +114,10 @@
             <div id="panorama"></div>
             <div id="overlay">
                 <div id="miniMap">
-                    <img id="imgID" src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%"
-                        height="100%">
+                    <div id="circles">
+                        <img id="imgID" src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%"
+                            height="100%">
+                    </div>
                 </div>
             </div>
         </div>
@@ -134,17 +145,20 @@
 
 
         // When we load the EditionMode configuration, we set a getway function to each getway in the scene 
-        for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
-            var hotspot = pan.getConfig()["hotSpots"][i];
-            if(hotspot["type"]==="scene"){
-                hotspot["clickHandlerFunc"] = myFunctionGateway;
+        if(pan.getConfig()["hotSpots"]){
+            for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
+                var hotspot = pan.getConfig()["hotSpots"][i];
+                if(hotspot["type"]==="scene"){
+                    hotspot["clickHandlerFunc"] = myFunctionGateway;
+                }
             }
-        }
+    }
 
          //Get the updated list miniMap containing circles added in EditionMap
         const myVariableMiniMap = localStorage.getItem('miniMapDiv');
+        console.log(myVariableMiniMap)
             if (myVariableMiniMap) {
-                const miniMapDiv = document.querySelector('#miniMap');
+                const miniMapDiv = document.querySelector('#circles');
                 miniMapDiv.innerHTML = myVariableMiniMap;
         } 
 
