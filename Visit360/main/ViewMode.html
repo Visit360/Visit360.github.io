@@ -122,16 +122,7 @@
 
     <script>
         function toggleMode() {
-
             window.location = "EditionMode.html";
-            //Load the configuration of the view mode 
-/*             var configuration_view = pan.getConfig();
-            var partialConfig_view = {}
-            partialConfig_view["default"] = configuration_view.default;
-            partialConfig_view["scenes"] = configuration_view.scenes;
-            var textConfig_view = JSON.stringify(partialConfig_view);
-            localStorage.setItem('config_visit_view', textConfig_view); */
-
         }
 
         //============================================================================
@@ -156,7 +147,7 @@
                 const miniMapDiv = document.querySelector('#miniMap');
                 miniMapDiv.innerHTML = myVariableMiniMap;
         } 
-        //pan.getConfig()["hotSpots"][0]["type"]
+
         //Array containing the scenes visited
         var visitHistory = [];
         //History of the scenes that will be printed in the html

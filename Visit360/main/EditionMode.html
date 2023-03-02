@@ -327,33 +327,6 @@
             ]
         }
 
-
-        //if (!localStorage.getItem('bool')) {
-            
-/*             var booll = true;
-            localStorage.setItem('bool', booll); */
-            //localStorage.setItem('config_visit', JSON.stringify(initialConfig))
-       // } else {
-            //Load the view_mode visit 
-/*             const confing_view_mode = localStorage.getItem('config_visit');
-            var importedConfig_view = JSON.parse(confing_view_mode);
-            var pan = pannellum.viewer('panorama', importedConfig_view); */
-            //Load the configuration of the edition mode 
-/*             var configuration_visit = pan.getConfig();
-            console.log(configuration_visit) */
-  /*           var partialConfig_visit = {}
-            partialConfig_visit["default"] = configuration_visit.default;
-            partialConfig_visit["scenes"] = configuration_visit.scenes;
-            var textConfig = JSON.stringify(partialConfig_visit);
-            localStorage.setItem('config_visit', textConfig);
-            var importedConfig_view = JSON.parse(confing_view_mode);
-            var pan = pannellum.viewer('panorama', importedConfig_view); */
-            
-            // Store the content of the images div in localStorage
-/*             const ImagesDiv = imageList.innerHTML;
-            localStorage.setItem('imagesDiv', ImagesDiv); */
-        //}
-
         //I check if there is a config_visit element in the localStorage, if yes I set that configuration,
         //Else, I create a new configuration
         if(!localStorage.getItem('alreadyOpened')){
@@ -387,12 +360,7 @@
                     const ImagesDiv = imageList.innerHTML;
                     localStorage.setItem('imagesDiv', ImagesDiv);
                 }
-            }
-/*             else{
-                //var pan = pannellum.viewer('panorama', initialConfig);
-                localStorage.setItem('config_visit', JSON.stringify(initialConfig))
-                console.log("hello motherfucker again")
-            }  */           
+            }         
         });
 
         const informationButton = document.getElementById("information");
@@ -631,42 +599,19 @@
             localStorage.setItem("goToZero", true)
             location.reload()
             localStorage.removeItem("goToZero")
-            //localStorage.setItem("alreadyOpened", true)
-            //localStorage.setItem('config_visit', JSON.stringify(initialConfig))
-            //pan = pannellum.viewer('panorama',initialConfig); 
-            
         })
 
 
         //Button to switch to view mode
         function toggleMode() {
-/*             //Load the configuration of the edition mode 
-            var configuration_visit = pan.getConfig();
-            var partialConfig_visit = {}
-            partialConfig_visit["default"] = configuration_visit.default;
-            partialConfig_visit["scenes"] = configuration_visit.scenes;
-            var textConfig = JSON.stringify(partialConfig_visit);
-            localStorage.setItem('config_visit', textConfig);
-            
-            // Store the content of the images div in localStorage
-            const ImagesDiv = imageList.innerHTML;
-            localStorage.setItem('imagesDiv', ImagesDiv); */
             window.location="ViewMode.html";
 		}
         //=======================================================================================================
         //Button to go to map edition, it will also store the content of the ImagesDiv
         function gotomap(){
-/*             const ImagesDiv = imageList.innerHTML;
-            // Store the content of the div in localStorage
-            localStorage.setItem('imagesDiv', ImagesDiv); */
             window.location="EditionMap.html"
         }
 
-/*         function clearLocalStorage() {
-            localStorage.clear();
-            alert("LocalStorage cleared!");
-            location.reload()
-      } */
     </script>
 
 </body>
