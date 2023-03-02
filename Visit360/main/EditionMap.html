@@ -6,28 +6,42 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        #panorama {
-            width: 900px;
-            height: 450px;
+        html,body{
+                font-family: 'Trebuchet MS';
+                background-color: rgb(51, 51, 51);
+                color: white;
+                display: block;
+                height: 100%;
+                box-sizing: border-box;
+                overflow: hidden;
+                
         }
+        .child1{
+			display: flex;
+   			height:75px;
+    		width: 100%;
+    		
+		}
 
-        #console {
-          background-color: lightgray;
-          padding: 10px;
-          width: 300px;
-          height: 200px;
-          overflow: auto;
+        #header{
+            background: rgb(59, 59, 59);
+            width: 100%;
+            padding-left: 20px;
+            border-radius: 5px;
         }
-
-        .container {
-            display: flex;
+        .row{
+            width: 100%;
+            height: calc(100vh - 80px);
+        }
+        #overview{
+            width: 100%;
+            height: calc(100vh - 80px);
         }
 
         #miniMap {
-        padding: 10px;
-        width: 500px;
-        height: 400px;
+            position: relative;
         overflow: auto;
+        border: 1px solid rgb(0, 255, 221);
         }
 
         .row {
@@ -36,14 +50,14 @@
 
         .scroller {
             width: 255px;
-            height: 550px;
+            height: calc(100vh - 75px);
             overflow-y: scroll;
-            scrollbar-color: rebeccapurple green;
+            scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
             scrollbar-width: thin;
         }
 
         .selected {
-            border: 3px solid rgb(255, 0, 102);
+            border: 3px solid rgb(0, 255, 221);
         }
 
         /* Define the tooltip style */
@@ -55,10 +69,38 @@
             display: block;
             transition-delay:0.01s !important;
         }
+
+        #switch{
+            width:75px;
+            height:75px;
+            background-color: rgb(0, 255, 221);
+            border: none;
+            border-radius: 5px;
+            font-size: 50px;
+            padding: 5px;
+        }
+
+        .label{
+            font-size: medium;
+        }
+
+        .button{
+            background-color: rgb(0, 255, 221);
+                border: none;
+                font-size: medium;
+                border-radius: 5px;
+                padding: 5px;
+               
+        }
     </style>
 </head>
 <body>
-
+    <div class="child1">
+        <div id="header">
+            <h1>Edit Minimap Visit360</h1>
+        </div>
+            <button id="switch" onclick="toggleMode()">&#128393</button>
+    </div>
 <div class="row">
     <div class="column">
         <div class="scroller">
@@ -113,25 +155,32 @@
 
     </div>
  
-    <div class="column">
-        <h2>You're in the Edition Mode</h2>
+    <div id="overview">
         <div id="miniMap">
-            <img src="../content/panorama/Plan-maison-etage.jpg" alt="Plan de masse" width="100%" height="98%">
+            <img src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%" height="100%">
         </div>
         <div >
 <!--             <button id="mode-button">Go to View Mode</button>
  -->            <div id="add-scene-form" style="display: none;">
-                <label for="name">Scene To associate :</label>
+                <label class="label" for="name">Scene To associate :</label>
                 <input type="text" id="sceneAssociated" name="sceneAssociated" required>
-                <button id="add-scene-map">Add scene to the map</button>
-            </div>
-            <button id="export-div">Export Div</button>
+                <button class="button" id="add-scene-map">Add scene to the map</button>
+                </div>
+            <button class="button" id="export-div">Export Div</button>
+            
+        </div>
+            
         </div>
     </div>
 </div>
 
     <script>
-
+//Get the updated list of images when we're on that we stored when leaving on edition Mode
+const myVariableList = localStorage.getItem('imagesDiv');
+        if (myVariableList) {
+        const imagesDiv = document.querySelector('#image-list');
+        imagesDiv.innerHTML = myVariableList;
+        }
 
 //-----------------------------------------------------------------------------------------
 //Code to export the div called miniMap to the file mapExtraction.html
@@ -178,8 +227,10 @@
         var mapClickHandler = function(event) {
                 var circle = createCircle();
                 circle.style.backgroundColor = "red";
-                circle.style.left = event.clientX + "px";
-                circle.style.top = event.clientY + "px";
+                circle.style.left = ((event.clientX - miniMap.getBoundingClientRect().left)/miniMap.clientWidth)*100 + "%";
+                circle.style.top = ((event.clientY - miniMap.getBoundingClientRect().top)/miniMap.clientHeight)*100 + "%";
+                //circle.style.left = event.clientX + "px";
+                //circle.style.top = event.clientY + "px";
                 miniMap.appendChild(circle);
                 setDeletionListener(circle);
                 lastCreatedCircle = circle
@@ -188,9 +239,12 @@
         var Hovercircle = createCircle();
         var mapHoverHandler = function(event){
             Hovercircle.style.backgroundColor = "red";
-            Hovercircle.style.left = event.clientX + "px";
-            Hovercircle.style.top = event.clientY + "px";
+            Hovercircle.style.left = ((event.clientX - miniMap.getBoundingClientRect().left)/miniMap.clientWidth)*100 + "%";
+            Hovercircle.style.top = ((event.clientY - miniMap.getBoundingClientRect().top)/miniMap.clientHeight)*100 + "%";
+            //Hovercircle.style.left = event.clientX + "px";
+            //Hovercircle.style.top = event.clientY + "px";
             Hovercircle.style.opacity = 0.5;
+            Hovercircle.setAttribute("class", "hover-circle");
             miniMap.appendChild(Hovercircle)
         };
 
@@ -222,6 +276,15 @@
         mode = "Edition";
         setMapListener();
         setDeletionListenerOnAll()
+        
+        function toggleMode() {
+            var tempMiniMap = miniMap.cloneNode(true);
+            tempMiniMap.getElementsByClassName("hover-circle")[0].remove()
+            console.log(tempMiniMap)
+            const miniMapDiv = tempMiniMap.innerHTML;
+            localStorage.setItem('miniMapDiv', miniMapDiv);
+            window.location="EditionMode.html"
+		}
     </script>
             
 </body>

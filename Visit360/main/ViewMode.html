@@ -1,52 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<title>View Mode</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <title>View Mode</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-	<style>
-		body {
+    <style>
+        body {
             font-family: 'Trebuchet MS';
-			background-color: rgb(51, 51, 51);
-			color: white;
-			
-		}
-		.parent{
-			display:block;
+            background-color: rgb(51, 51, 51);
+            color: white;
+
+        }
+
+        .parent {
+            display: block;
             border-radius: 5px;
             overflow: hidden;
-            
-		}
-		
-		.child1{
-			display: flex;
-   			height:75px;
-    		width: 100%;
-    		
-		}
-        #button{
+
+        }
+
+        .child1 {
+            display: flex;
+            height: 75px;
+            width: 100%;
+
+        }
+
+        #button {
             width: 75px;
             height: 75px;
         }
-		
-        #header{
+
+        #header {
             background: rgb(59, 59, 59);
             width: 100%;
             padding-left: 20px;
             border-radius: 5px;
         }
-        .child2{
+
+        .child2 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            
+
         }
-		#panorama {
+
+        #panorama {
             grid-column: 1/3;
             grid-row: 1;
             width: 100%;
             height: 60vh;
         }
-      
+
         #console {
             background-color: white;
             padding: 10px;
@@ -54,224 +59,143 @@
             height: 100%;
             min-height: 200px;
             overflow: auto;
-            
+
         }
-        
-        #imgID {
+
+        #overlay{
             grid-column: 3;
             grid-row: 1;
+            max-width: 100vh;
+            max-height: 100vh;
+        }
+        #circles{
+            position: relative;
+        }
+        #imgID {
+            width: 100%;
+            height: 100%;
             border: 1px solid rgb(0, 255, 221);
         }
-        #History{
+
+        #History {
             width: 100%;
             background-color: rgb(0, 255, 221);
         }
-        .histbutton{
+
+        .histbutton {
             display: flex;
             background-color: rgb(0, 255, 221);
             border: none;
             font-size: medium;
             border-radius: 5px;
         }
-        #console-content{
-            padding:10px;
+
+        #console-content {
+            padding: 10px;
             color: black;
         }
-        
-	</style>
+    </style>
 </head>
-<body>
-	<div id="parent" class="parent">
-	<div id="child1" class="child1">
-        <div id="button">
-		    <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="toggleMode()">&#128393</button>
-        </div>
-        <div id="header">
-	        <h1>View Visit360</h1>
-        </div>
-	</div>
 
-	<div id="child2" class="child2">
-        <div id="panorama"></div>
-        <div id="overlay">
-            <div id="miniMap">
-                <img id="imgID" src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%" height="100%">
-            </div>  
+<body>
+    <div id="parent" class="parent">
+        <div id="child1" class="child1">
+            <div id="button">
+                <button
+                    style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;"
+                    onclick="toggleMode()">&#128393</button>
+            </div>
+            <div id="header">
+                <h1>View Visit360</h1>
+            </div>
         </div>
-    </div>
-    <div id="History">
-        <button id="console-toggle" class="histbutton">Show History</button>
+
+        <div id="child2" class="child2">
+            <div id="panorama"></div>
+            <div id="overlay">
+                <div id="miniMap">
+                    <div id="circles"></div>
+                    <!-- <img id="imgID" src="../content/plans/polytech-rdc.jpg" alt="Plan de masse"> -->
+                </div>
+            </div>
+        </div>
+        <div id="History">
+            <button id="console-toggle" class="histbutton">Show History</button>
             <div id="console" style="display: none;">
                 <button id="clear-history" class="histbutton">&#215 Clear History</button>
-                    <div id="console-content"></div>
+                <div id="console-content"></div>
             </div>
-    
-    </div>	
+
+        </div>
     </div>
 
-	<script>
-		function toggleMode() {
-            window.location="EditionMode.html";
-		}
-		var config = {
-    "default": {
-        "firstScene": "NATURE",
-        "sceneFadeDuration": 2000,
-        "hotSpotDebug" : true
-    },
-    "scenes": {
-
-        "NATURE": {
-            "title": "Nature",
-            "panorama": "../content/panorama/examplepano.jpg",
-            "hotSpots": [
-                {
-                    "pitch": 0,
-                    "yaw": 100,
-                    "type": "scene",
-                    "text": "Ville",
-                    "sceneId": "VENISE",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "VENISE"
-                },
-                {
-                    "pitch": -10,
-                    "yaw": -50,
-                    "type": "info",
-                    "text": "En pleine nature."
-                },
-                {
-                    "pitch": 0,
-                    "yaw": -100,
-                    "type": "scene",
-                    "text": "IMAG",
-                    "sceneId": "IMAG",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "IMAG"
-                }
-            ]
-        },
-
-        "IMAG": {
-            "title": "Imag",
-            "panorama": "../content/panorama/IMAG.jpg",
-            "hotSpots": [
-                {
-                    "pitch": 0,
-                    "yaw": 100,
-                    "type": "scene",
-                    "text": "Ville",
-                    "sceneId": "VENISE",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "VENISE"
-                },
-                {
-                    "pitch": -10,
-                    "yaw": -50,
-                    "type": "info",
-                    "text": "Voici Justin"
-                },
-                {
-                    "pitch": 0,
-                    "yaw": -100,
-                    "type": "scene",
-                    "text": "Venise",
-                    "sceneId": "VENISE",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "VENISE"
-                }
-            ]
-        },
-
-        "VENISE": {
-            "title": "Venise",
-            "panorama": "../content/panorama/VENISE.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -10,
-                    "yaw": -50,
-                    "type": "info",
-                    "text": "Ceci est la magnifique ville de Venise"
-                }, 
-                {
-                    "pitch": 0,
-                    "yaw": -100,
-                    "type": "scene",
-                    "text": "Polytech",
-                    "sceneId": "POLYTECH",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "POLYTECH"
-                }
-            ]
-        },
-
-        "POLYTECH": {
-            "title": "Polytech",
-            "panorama": "../content/panorama/HALL.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -10,
-                    "yaw": -50,
-                    "type": "info",
-                    "text": "Ceci est le Hall de Polytech"
-                }, 
-                {
-                    "pitch": 0,
-                    "yaw": -100,
-                    "type": "scene",
-                    "text": "Nature",
-                    "sceneId": "NATURE",
-                    "clickHandlerFunc": myfun,
-                    "clickHandlerArgs": "NATURE"
-                }
-            ]
+    <script>
+        function toggleMode() {
+            window.location = "EditionMode.html";
+            
+            //Load the configuration of the view mode 
+            var configuration_view = pan.getConfig();
+            var partialConfig_view = {}
+            partialConfig_view["default"] = configuration_view.default;
+            partialConfig_view["scenes"] = configuration_view.scenes;
+            var textConfig_view = JSON.stringify(partialConfig_view);
+            localStorage.setItem('config_visit_view', textConfig_view);
         }
-    },
-    "autoLoad":true,
-    
-}
 
-var pan = pannellum.viewer('panorama', config);
-//Array containing the scenes visited
-var visitHistory=[];
-//History of the scenes that will be printed in the html
-var historyHtml = "";
+        //Get the updated list miniMap containing circles added in EditionMap
+        const myVariableMiniMap = localStorage.getItem('miniMapDiv');
+        if (myVariableMiniMap) {
+        const miniMapDiv = document.querySelector('#circles');
+        miniMapDiv.innerHTML = myVariableMiniMap;
+        }
+        //============================================================================
 
-const toggleButton = document.getElementById("console-toggle");
-const consoleElement = document.getElementById("console");
-const consoleContent = document.getElementById("console-content");
-const clearHistory = document.getElementById("clear-history");
+        //Load the edition_mode visit 
+        const confing_edition_mode = localStorage.getItem('config_visit');
+        var importedConfig = JSON.parse(confing_edition_mode);
+        var pan = pannellum.viewer('panorama', importedConfig);
 
-function myfun(event, handlerArgs) {
-    visitHistory.push(handlerArgs);
-    historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
-    consoleContent.innerHTML = historyHtml;
-}
+        //Array containing the scenes visited
+        var visitHistory = [];
+        //History of the scenes that will be printed in the html
+        var historyHtml = "";
 
-function handleHistoryClick(handlerArgs) {
+        const toggleButton = document.getElementById("console-toggle");
+        const consoleElement = document.getElementById("console");
+        const consoleContent = document.getElementById("console-content");
+        const clearHistory = document.getElementById("clear-history");
+
+        function myfun(event, handlerArgs) {
+            visitHistory.push(handlerArgs);
+            historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
+            consoleContent.innerHTML = historyHtml;
+        }
+
+        function handleHistoryClick(handlerArgs) {
             // Code to execute when the link is clicked
             console.log("Link clicked!");
             console.log(handlerArgs)
             pan.loadScene(handlerArgs)
         }
 
-toggleButton.addEventListener("click", function() {
-if (consoleElement.style.display === "none") {
-    consoleElement.style.display = "block";
-    toggleButton.innerHTML = "Hide History";
-} else {
-    consoleElement.style.display = "none";
-    toggleButton.innerHTML = "Show History";
-}
-});
+        toggleButton.addEventListener("click", function () {
+            if (consoleElement.style.display === "none") {
+                consoleElement.style.display = "block";
+                toggleButton.innerHTML = "Hide History";
+            } else {
+                consoleElement.style.display = "none";
+                toggleButton.innerHTML = "Show History";
+            }
+        });
 
-clearHistory.addEventListener("click", function(){
-    visitHistory = [];
-    historyHtml = "";
-    consoleContent.innerHTML = "";
-})
+        clearHistory.addEventListener("click", function () {
+            visitHistory = [];
+            historyHtml = "";
+            consoleContent.innerHTML = "";
+        })
 
-            
-</script>
+
+    </script>
 </body>
+
 </html>
