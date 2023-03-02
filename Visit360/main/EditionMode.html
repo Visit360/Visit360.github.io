@@ -248,6 +248,7 @@
                     <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
                     <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
                     <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
+                    <button onclick="clearLocalStorage()">Clear LocalStorage</button>
                 </div>
             </div>
             <div id="popups">
@@ -575,6 +576,12 @@
             localStorage.setItem('imagesDiv', ImagesDiv);
             window.location="EditionMap.html"
         }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            alert("LocalStorage cleared!");
+            location.reload()
+      }
     </script>
 
 </body>

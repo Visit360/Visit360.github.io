@@ -55,6 +55,7 @@
             display: block;
             transition-delay:0.01s !important;
         }
+        
     </style>
 </head>
 <body>
@@ -194,7 +195,8 @@
                 setDeletionListener(circle);
                 lastCreatedCircle = circle
                 addAssociatedSceneForm.style.display = "block";
-        };
+        }; 
+        
         var Hovercircle = createCircle();
         var mapHoverHandler = function(event){
             Hovercircle.style.backgroundColor = "red";
