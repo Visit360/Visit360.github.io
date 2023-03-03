@@ -103,8 +103,6 @@
 
         .label {
             font-size: medium;
-
-
         }
 
         /* Define the tooltip style */
@@ -160,6 +158,21 @@
             max-width: 90%;
         }
 
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Hover effect for close button */
+        .close:hover {
+            color: red;
+        }
 
         /* Show popup when it is open */
         .popup.show {
@@ -274,14 +287,13 @@
                 </div>
             </div>
 
+
             <div id="gatewayInfo" class="popup">
                 <div class="popup-content">
                     <label for="name" class="label">Next Scene ID :</label>
                     <input type="text" id="endSceneId" name="endSceneId" class="input" required>
-
                     <label for="name" class="label">Gateway Text :</label>
                     <input type="text" id="gatewayText" name="gatewayText" class="input" required>
-
                     <button id="submitButton" class="button">Submit</button>
                 </div>
             </div>
@@ -289,7 +301,6 @@
                 <div class="popup-content">
                     <label for="name" class="label">Description :</label>
                     <input type="text" id="infoText" name="infoText" class="input" required>
-
                     <button id="submitButtonInfo" class="button">Submit</button>
                 </div>
             </div>
@@ -495,6 +506,7 @@
 
         const AddPanoButton = document.getElementById("addPano");
 
+
         const PanoAddDiv = document.getElementById("panoInfo");
         AddPanoButton.addEventListener("click", function () {
             if (selectedImage == null) { // if no panorama is selected
@@ -503,6 +515,7 @@
                 PanoAddDiv.style.display = "block";
             }
         })
+
 
         const IdsceneField = document.getElementById("endScenePano");
         const subButton = document.getElementById("submitButtonPano");
@@ -584,7 +597,7 @@
         ClearVisit.addEventListener("click", function () {
             pan.destroy();
             localStorage.clear();
-            pan = pannellum.viewer('panorama',initialConfig);
+            pan = pannellum.viewer('panorama', initialConfig);
         })
 
 
