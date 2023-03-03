@@ -388,6 +388,7 @@
     
                     if (imageList) {
                         // Store the content of the images div in localStorage
+                        selectedImage.classList.remove("selected");
                         const ImagesDiv = imageList.innerHTML;
                         localStorage.setItem('imagesDiv', ImagesDiv);
                     }

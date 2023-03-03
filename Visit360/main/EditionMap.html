@@ -162,13 +162,13 @@
                 <img src="../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%" height="100%">
             </div>
             <div >
-    <!--             <button id="mode-button">Go to View Mode</button>
-     -->            <div id="add-scene-form" style="display: none;">
+    <!--             <button id="mode-button">Go to View Mode</button>-->
+                <div id="add-scene-form" style="display: none;">
                     <label class="label" for="name">Scene To associate :</label>
                     <input type="text" id="sceneAssociated" name="sceneAssociated" required>
                     <button class="button" id="add-scene-map">Add scene to the map</button>
-                    </div>
-                <button class="button" id="export-div">Export Div</button>
+                </div>
+                <!-- <button class="button" id="export-div">Export Div</button> -->
                 
             </div>
                 
@@ -206,7 +206,21 @@
                 img.parentNode.insertBefore(circle, img);
             }
         }
-//-----------------------------------------------------------------------------------------
+
+        //Select one image
+        let selectedImage = null;
+        function selectImage(imageUrl) {
+            if (selectedImage) {
+                // Remove the selected class from the previously selected image
+                selectedImage.classList.remove("selected");
+            }
+            // Set the selected image to the clicked image
+            selectedImage = event.target;
+            // Add the selected class to the clicked image
+            selectedImage.classList.add("selected");
+        }
+        
+/* //-----------------------------------------------------------------------------------------
 //Code to export the div called miniMap to the file mapExtraction.html
 //-----------------------------------------------------------------------------------------
         const exportDiv = document.getElementById("export-div")
@@ -216,7 +230,7 @@
         targetWindow.addEventListener("load", function() {
             targetWindow.document.getElementById("miniMap").appendChild(miniMap);
         });
-        });
+        }); */
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
         //MINIMAP CODE 
