@@ -206,6 +206,19 @@
                 img.parentNode.insertBefore(circle, img);
             }
         }
+
+        //Select one image
+        let selectedImage = null;
+        function selectImage(imageUrl) {
+            if (selectedImage) {
+                // Remove the selected class from the previously selected image
+                selectedImage.classList.remove("selected");
+            }
+            // Set the selected image to the clicked image
+            selectedImage = event.target;
+            // Add the selected class to the clicked image
+            selectedImage.classList.add("selected");
+        }
 //-----------------------------------------------------------------------------------------
 //Code to export the div called miniMap to the file mapExtraction.html
 //-----------------------------------------------------------------------------------------
