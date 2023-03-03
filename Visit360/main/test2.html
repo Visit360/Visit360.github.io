@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Searchable List</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #searchInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background-color: #eee;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Searchable List</h1>
+    <input type="text" id="search-input" placeholder="Search...">
+
+    <ul id="list">
+    </ul>
+
+    <button id="add-button">Add Item</button>
+
+    <script>
+        const list = document.getElementById('list');
+        const addButton = document.getElementById('add-button');
+        const searchInput = document.getElementById('search-input');
+
+
+        addButton.addEventListener('click', () => {
+            const itemName = prompt('Enter the name of the new item:');
+            if (itemName) {
+                const newItem = document.createElement('li');
+                newItem.textContent = itemName;
+                list.appendChild(newItem);
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            const searchText = searchInput.value.toLowerCase();
+            const items = list.getElementsByTagName('li');
+            Array.from(items).forEach((item) => {
+                const itemName = item.textContent.toLowerCase();
+                if (itemName.includes(searchText)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+    </script>
+
+
+</body>
+
+</html>

@@ -174,7 +174,35 @@
             right:0;
             padding: 5px;
         }
+
         /*==========================================================================*/
+        /*List of scene for popup add gateway*/
+
+        #searchInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background-color: #eee;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #ccc;
+        }
+        /*==========================================================================*/
+
+        
     </style>
 </head>
 
@@ -292,6 +320,17 @@
                         <label for="name" class="label">Gateway Text :</label>
                         <input type="text" id="gatewayText" name="gatewayText" class="input" required>
                         <button id="submitButton" class="button">Submit</button>
+
+                        
+
+
+                        <ul id="listOfScene">
+                        </ul>
+
+
+
+
+
                     </div>
                 </div>
                 <div id="hotspotInfoDesc" class="popup">
@@ -442,7 +481,7 @@
             })
            
             //===============================================================================
-            //Button add getway
+            //Button add gateway
     
             const gatewayButton = document.getElementById("gateway");
             const popUp_Gateway = document.getElementById("gatewayInfo");
