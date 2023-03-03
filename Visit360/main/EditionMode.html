@@ -1,99 +1,108 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <title>Edition mode Visit360</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
-        <style>
-            html,body{
-                font-family: 'Trebuchet MS';
-                background-color: rgb(51, 51, 51);
-                color: white;
-                display: block;
-                height: 100vh;
-                box-sizing: border-box;
-                overflow: hidden;
-            }
-            .child1{
-                display: flex;
-                height:75px;
-                width: 100%;
-                
-            }
-            .child2{
-                display: flex;
-                height: calc(100vh - 80px);
-            }
-            #button{
-                width: 75px;
-                height: 75px;
-            }
-            
-            #header{
-                background: rgb(59, 59, 59);
-                width: 100%;
-                padding-left: 20px;
-                border-radius: 5px;
-            }
-            
-            #viewer{
-                width: 100%;
-    
-            }
-    
-            .scroller {
-                width: 255px;
-                height: calc(100vh - 115px);
-                overflow-y: scroll;
-                scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
-                scrollbar-width: thin;
-            }
-    
-            #selection{
-                background-color: grey;
-    
-                width: 255px;
-                
-            }
-    
-            .selected {
-                border: 3px solid rgb(0, 255, 221);
-            }
-    
-            #toolbar{
-                background-color: grey;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 400px;
-                height:100%;
-            } 
-            #buttons{
-                display: flex;
-                flex-direction: column;
-                row-gap: 25px;
-                width:70%;
-                padding: 25px;
-            }
-            .button{
-                background-color: rgb(0, 255, 221);
-                border: none;
-                font-size: medium;
-                border-radius: 5px;
-                padding: 5px;
-               
-            }
-            .input{
-                font-size: medium;
-                border-radius: 5px;
-                
-            }
-            .label{
-                font-size: medium;
-                
-                
-            }
+
+<head>
+    <title>Edition mode Visit360</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        html,
+        body {
+            font-family: 'Trebuchet MS';
+            background-color: rgb(51, 51, 51);
+            color: white;
+            display: block;
+            height: 100vh;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .child1 {
+            display: flex;
+            height: 75px;
+            width: 100%;
+
+        }
+
+        .child2 {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        #button {
+            width: 75px;
+            height: 75px;
+        }
+
+        #header {
+            background: rgb(59, 59, 59);
+            width: 100%;
+            padding-left: 20px;
+            border-radius: 5px;
+        }
+
+        #viewer {
+            width: 100%;
+
+        }
+
+        .scroller {
+            width: 255px;
+            height: calc(100vh - 115px);
+            overflow-y: scroll;
+            scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
+            scrollbar-width: thin;
+        }
+
+        #selection {
+            background-color: grey;
+
+            width: 255px;
+
+        }
+
+        .selected {
+            border: 3px solid rgb(0, 255, 221);
+        }
+
+        #toolbar {
+            background-color: grey;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 400px;
+            height: 100%;
+        }
+
+        #buttons {
+            display: flex;
+            flex-direction: column;
+            row-gap: 25px;
+            width: 70%;
+            padding: 25px;
+        }
+
+        .button {
+            background-color: rgb(0, 255, 221);
+            border: none;
+            font-size: medium;
+            border-radius: 5px;
+            padding: 5px;
+
+        }
+
+        .input {
+            font-size: medium;
+            border-radius: 5px;
+
+        }
+
+        .label {
+            font-size: medium;
+
+
+        }
 
         /* Define the tooltip style */
         .tooltip {
@@ -102,10 +111,10 @@
 
         .tooltip:hover::after {
             display: block;
-            transition-delay:0.01s !important;
+            transition-delay: 0.01s !important;
         }
 
-        #addselect{
+        #addselect {
             width: auto;
             height: 30px;
             display: flex;
@@ -113,9 +122,10 @@
             justify-content: center;
             align-items: flex-end;
         }
+
         /*==========================================================================*/
         /* POPUP */
-        
+
         .popup {
             position: absolute;
             top: 0;
@@ -146,12 +156,25 @@
             max-width: 90%;
         }
 
-
         /* Show popup when it is open */
         .popup.show {
             display: flex;
         }
 
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Hover effect for close button */
+        .close:hover {
+            color: red;
+        }
         /*==========================================================================*/
     </style>
 </head>
@@ -159,15 +182,19 @@
 <body>
     <div id="child1" class="child1">
         <div id="button">
-		    <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="toggleMode()">&#128065</button>
+            <button
+                style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;"
+                onclick="toggleMode()">&#128065</button>
         </div>
         <div id="header">
-	        <h1>Edit Visit360</h1>
+            <h1>Edit Visit360</h1>
         </div>
         <div id="button">
-            <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="gotomap()">&#9997</button>
+            <button
+                style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;"
+                onclick="gotomap()">&#9997</button>
         </div>
-	</div>
+    </div>
     <div id="child2" class="child2">
         <div id="selection" class="column">
             <div id="addselect">
@@ -177,43 +204,43 @@
                 <div id="image-list">
 
                     <div class="tooltip">
-                        <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240"
-                            height="100" onclick="selectImage('amphi_005')">
+                        <img src="../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240" height="100"
+                            onclick="selectImage('amphi_005')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240"
-                            height="100" onclick="selectImage('amphi_007')">
+                        <img src="../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240" height="100"
+                            onclick="selectImage('amphi_007')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240"
-                            height="100" onclick="selectImage('couloir_1')">
+                        <img src="../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240" height="100"
+                            onclick="selectImage('couloir_1')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240"
-                            height="100" onclick="selectImage('couloir_2')">
+                        <img src="../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240" height="100"
+                            onclick="selectImage('couloir_2')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240"
-                            height="100" onclick="selectImage('couloir_3')">
+                        <img src="../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240" height="100"
+                            onclick="selectImage('couloir_3')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240"
-                            height="100" onclick="selectImage('couloir_4')">
+                        <img src="../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240" height="100"
+                            onclick="selectImage('couloir_4')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240"
-                            height="100" onclick="selectImage('couloir_5')">
+                        <img src="../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240" height="100"
+                            onclick="selectImage('couloir_5')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240"
-                            height="100" onclick="selectImage('couloir_6')">
+                        <img src="../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240" height="100"
+                            onclick="selectImage('couloir_6')">
                     </div>
 
                     <div class="tooltip">
@@ -222,64 +249,66 @@
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"
-                            height="100" onclick="selectImage('salle_009')">
+                        <img src="../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240" height="100"
+                            onclick="selectImage('salle_009')">
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240"
-                            height="100" onclick="selectImage('salle_013')">
+                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100"
+                            onclick="selectImage('salle_013')">
                     </div>
                 </div>
             </div>
-            </div>
-            <div id="viewer" class="column">
-                <div id="panorama"></div>       
-            </div>
+        </div>
+        <div id="viewer" class="column">
+            <div id="panorama"></div>
+        </div>
 
-            <div id="toolbar"class="column">
-                <div id="buttons">
-                    <button id="information" class="button">&#9432 Add Information</button>
-                    <button id="gateway" class="button">&#129145 Add Gateway</button>
-                    <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
-                    <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
-                    <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
-                    <button id="clearVisit" class="button">&#129126 &#128194 Clear Visit</button>
-                </div>
+        <div id="toolbar" class="column">
+            <div id="buttons">
+                <button id="information" class="button">&#9432 Add Information</button>
+                <button id="gateway" class="button">&#129145 Add Gateway</button>
+                <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
+                <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
+                <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
+                <button id="clearVisit" class="button">&#129126 &#128194 Clear Visit</button>
             </div>
-            <div id="popups">
-                <div id="panoInfo" class="popup">
-                    <div class="popup-content">
+        </div>
+        <div id="popups">
+
+            <div id="panoInfo" class="popup">
+                <div class="popup-content">
+                    <span class="closePano">&#10060</span>
                     <label for="name" class="label">Scene ID :</label>
                     <input type="text" id="endScenePano" name="endScenePano" class="input" required>
                     <button id="submitButtonPano" class="button">Submit</button>
                 </div>
-                </div>
-    
-                <div id="gatewayInfo" class="popup">
-                    <div class="popup-content">
+            </div>
+
+            <div id="gatewayInfo" class="popup">
+                <div class="popup-content">
+                    <span class="closeGatewayInfo">&#10060</span>
                     <label for="name" class="label">Next Scene ID :</label>
                     <input type="text" id="endSceneId" name="endSceneId" class="input" required>
-    
                     <label for="name" class="label">Gateway Text :</label>
                     <input type="text" id="gatewayText" name="gatewayText" class="input" required>
-    
                     <button id="submitButton" class="button">Submit</button>
                 </div>
-                </div>
-                <div id="hotspotInfoDesc" class="popup">
-                    <div class="popup-content">
-                        <label for="name" class="label">Description :</label>
-                        <input type="text" id="infoText" name="infoText" class="input" required>
-        
-                        <button id="submitButtonInfo" class="button">Submit</button>
-                    </div>
+            </div>
+            <div id="hotspotInfoDesc" class="popup">
+                <div class="popup-content">
+                    <span class="closeInfoDesc">&#10060</span>
+                    <label for="name" class="label">Description :</label>
+                    <input type="text" id="infoText" name="infoText" class="input" required>
+                    <button id="submitButtonInfo" class="button">Submit</button>
                 </div>
             </div>
-        
         </div>
 
+    </div>
+
     <script>
+
 
         var initialConfig =
         {
@@ -329,25 +358,25 @@
 
         //I check if there is a config_visit element in the localStorage, if yes I set that configuration,
         //Else, I create a new configuration
-        if(!localStorage.getItem('alreadyOpened')){
+        if (!localStorage.getItem('alreadyOpened')) {
             var pan = pannellum.viewer('panorama', initialConfig);
             localStorage.setItem('config_visit', JSON.stringify(initialConfig))
             console.log("hello motherfucker")
             localStorage.setItem("alreadyOpened", true);
             //localStorage.removeItem('empty')
         }
-         else{
+        else {
             console.log(localStorage.getItem('config_visit'))
             var importedConfig_view = JSON.parse(localStorage.getItem('config_visit'));
             var pan = pannellum.viewer('panorama', importedConfig_view)
-        } 
+        }
 
         window.addEventListener('beforeunload', function (event) {
             //I check if there isn't localStorage.getItem('goToZero') because i don't want to execute the code
             //when i click the button clear Visit
-            if(!localStorage.getItem('goToZero')){
-                if(pan){
-                    var configuration_visit = pan.getConfig(); 
+            if (!localStorage.getItem('goToZero')) {
+                if (pan) {
+                    var configuration_visit = pan.getConfig();
                     var partialConfig_visit = {}
                     partialConfig_visit["default"] = configuration_visit.default;
                     partialConfig_visit["scenes"] = configuration_visit.scenes;
@@ -355,16 +384,16 @@
                     localStorage.setItem('config_visit', textConfig);
                 }
 
-                if(imageList){
+                if (imageList) {
                     // Store the content of the images div in localStorage
                     const ImagesDiv = imageList.innerHTML;
                     localStorage.setItem('imagesDiv', ImagesDiv);
                 }
-            }         
+            }
         });
 
-        const informationButton = document.getElementById("information");
-        const gatewayButton = document.getElementById("gateway");
+        //==============================================================================
+        // Get coordinates
 
         var lastClickCoord = null
 
@@ -377,23 +406,59 @@
         })
 
 
-        const gatewayAddDiv = document.getElementById("gatewayInfo");
+        //===============================================================================
+        //Button add information
+
+        const informationButton = document.getElementById("information");
+        const popUp_Info = document.getElementById("hotspotInfoDesc");
+        var closeInfoDesc = popUp_Info.getElementsByClassName("closeInfoDesc")[0];
+
+        informationButton.onclick = function () {
+            popUp_Info.classList.add("show");
+        }
+
+        // When the user clicks on the close button, hide the popup
+        closeInfoDesc.onclick = function () {
+            popUp_Info.classList.remove("show");
+        }
+
+        const infoText = document.getElementById("infoText");
+
+        const submitButtonInfo = document.getElementById("submitButtonInfo");
+
+        submitButtonInfo.addEventListener("click", function () {
+            var hotspotInformation = {}
+            hotspotInformation["id"] = hotspotID += 1;
+            hotspotInformation["pitch"] = lastClickCoord[0];
+            hotspotInformation["yaw"] = lastClickCoord[1];
+            hotspotInformation["type"] = "info";
+            hotspotInformation["text"] = infoText.value;
+            hotspotInformation["clickHandlerFunc"] = myFunctionInformation;
+            pan.addHotSpot(hotspotInformation, pan.getScene());
+            infoText.value = "";
+            popUp_Info.classList.remove("show");
+        })
+       
+        //===============================================================================
+        //Button add getway
+
+        const gatewayButton = document.getElementById("gateway");
+        const popUp_Gateway = document.getElementById("gatewayInfo");
+        var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[0];
+
+
         gatewayButton.addEventListener("click", function () {
-            gatewayAddDiv.style.display = "block";
+            popUp_Gateway.classList.add("show");
         })
 
-
-        const informationAddDiv = document.getElementById("hotspotInfoDesc");
-        informationButton.addEventListener("click", function () {
-            informationAddDiv.style.display = "block";
-        })
+        closeGatewayInfo.onclick = function () {
+            popUp_Gateway.classList.remove("show");
+        }
 
         const sceneIdField = document.getElementById("endSceneId");
         const gatewayText = document.getElementById("gatewayText");
         const submitButton = document.getElementById("submitButton");
 
-        const infoText = document.getElementById("infoText");
-        const submitButtonInfo = document.getElementById("submitButtonInfo");
 
         /*Note : hotspotID is common to both gateway hotpots and information hotspots in order to delete them easily
         by calling the function removeHotspot */
@@ -408,24 +473,15 @@
             hotspotGateway["text"] = gatewayText.value;
             hotspotGateway["clickHandlerFunc"] = myFunctionGateway;
             pan.addHotSpot(hotspotGateway, pan.getScene());
-            gatewayAddDiv.style.display = "none";
+            popUp_Gateway.classList.remove("show");
             sceneIdField.value = "";
             gatewayText.value = "";
         })
 
 
-        submitButtonInfo.addEventListener("click", function () {
-            var hotspotInformation = {}
-            hotspotInformation["id"] = hotspotID += 1;
-            hotspotInformation["pitch"] = lastClickCoord[0];
-            hotspotInformation["yaw"] = lastClickCoord[1];
-            hotspotInformation["type"] = "info";
-            hotspotInformation["text"] = infoText.value;
-            hotspotInformation["clickHandlerFunc"] = myFunctionInformation;
-            pan.addHotSpot(hotspotInformation, pan.getScene());
-            informationAddDiv.style.display = "none";
-            infoText.value = "";
-        })
+
+        //========================================================================================
+        //Button delete
 
         var deletable = false;
 
@@ -505,15 +561,23 @@
         //Button add panorama
 
         const AddPanoButton = document.getElementById("addPano");
+        var popup_Panorma_info = document.getElementById("panoInfo");
 
-        const PanoAddDiv = document.getElementById("panoInfo");
-        AddPanoButton.addEventListener("click", function () {
+        // Get the close button
+        var closePano = popup_Panorma_info.getElementsByClassName("closePano")[0];
+
+        AddPanoButton.onclick = function () {
             if (selectedImage == null) { // if no panorama is selected
                 console.log("No panorama selected");
             } else {
-            PanoAddDiv.style.display = "block";
+                popup_Panorma_info.classList.add("show");
             }
-        })
+        }
+
+        // When the user clicks on the close button, hide the popup
+        closePano.onclick = function () {
+            popup_Panorma_info.classList.remove("show");
+        }
 
         const IdsceneField = document.getElementById("endScenePano");
         const subButton = document.getElementById("submitButtonPano");
@@ -528,7 +592,6 @@
                 SceneInfo["title"] = IdsceneField.value;
                 SceneInfo["panorama"] = selectedImage.src;
                 pan.addScene(SceneInfo.title, SceneInfo);
-                PanoAddDiv.style.display = "none";
                 sceneIdField.value = "";
                 //Deselect the added panorama
                 selectedImage.classList.remove("selected");
@@ -536,9 +599,11 @@
                 selectedImage.title = IdsceneField.value;
                 IdsceneField.value = null;
                 //Set the associated small circle's color to green when adding a sceneId to the selected image
-                selectedImage.parentNode.getElementsByTagName("circle")[0].style.backgroundColor="#50C878"
+                selectedImage.parentNode.getElementsByTagName("circle")[0].style.backgroundColor = "#50C878"
+                popup_Panorma_info.classList.remove("show");
             }
         })
+
         //=======================================================================================================
         //Button export
         //Export the Visit into a JSON file 
@@ -588,7 +653,6 @@
         })
 
         //=======================================================================================================
-
         //Button clear visit
 
         const ClearVisit = document.getElementById("clearVisit");
@@ -604,12 +668,12 @@
 
         //Button to switch to view mode
         function toggleMode() {
-            window.location="ViewMode.html";
-		}
+            window.location = "ViewMode.html";
+        }
         //=======================================================================================================
         //Button to go to map edition, it will also store the content of the ImagesDiv
-        function gotomap(){
-            window.location="EditionMap.html"
+        function gotomap() {
+            window.location = "EditionMap.html"
         }
 
     </script>
