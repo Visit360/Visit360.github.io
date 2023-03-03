@@ -315,22 +315,23 @@
             var initialConfig =
             {
                 "default": {
-                    "firstScene": "nature",
+                    "firstScene": "polytech",
                     "sceneFadeDuration": 2000,
                     "hotSpotDebug": true
                 },
     
                 "scenes": {
-                    "nature": {
-                        "title": "Nature",
-                        "panorama": "../content/panorama/examplepano.jpg",
+                    "polytech": {
+                        "title": "polytech",
+                        "panorama": "../content/panorama/Hall.jpg",
                     },
                 },
     
                 "autoLoad": true
             }
     
-            var hotspotInformation = {
+/*
+             var hotspotInformation = {
                 "pitch": 0,
                 "yaw": 100,
                 "type": "info",
@@ -338,7 +339,7 @@
             }
     
     
-            var scene_Polytech = {
+            var scene_Polytech = { 
                 "title": "Polytech",
                 "panorama": "../content/panorama/Hall.jpg",
                 "hotSpots": [
@@ -357,6 +358,7 @@
                     }
                 ]
             }
+            */
     
             //I check if there is a config_visit element in the localStorage, if yes I set that configuration,
             //Else, I create a new configuration
@@ -603,6 +605,8 @@
                     IdsceneField.value = null;
                     //Set the associated small circle's color to green when adding a sceneId to the selected image
                     selectedImage.parentNode.getElementsByTagName("circle")[0].style.backgroundColor = "#50C878"
+                    //Set the image that we added to the visit in the first position of the list
+                    selectedImage.parentNode.parentNode.insertBefore(selectedImage.parentNode, selectedImage.parentNode.parentNode.firstChild);
                     popup_Panorma_info.classList.remove("show");
                 }
             })
