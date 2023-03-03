@@ -237,7 +237,9 @@
 
         addSceneOnMApButton.addEventListener("click", function(e, arg){
             if(lastCreatedCircle){
-                lastCreatedCircle.name = sceneAssociated.value
+                lastCreatedCircle.setAttribute("name", sceneAssociated.value);
+
+                //lastCreatedCircle.name = sceneAssociated.value
             }
             sceneAssociated.value = ""
             addAssociatedSceneForm.style.display = "none"

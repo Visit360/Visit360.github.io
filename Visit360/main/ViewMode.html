@@ -174,11 +174,10 @@
 
         
         function myFunctionGateway(event, handlerArgs) {
-            visitHistory.push(handlerArgs);
+            visitHistory.push(pan.getScene());
             historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
             consoleContent.innerHTML = historyHtml;
         }
-
         function handleHistoryClick(handlerArgs) {
             // Code to execute when the link is clicked
             console.log("Link clicked!");
@@ -201,6 +200,32 @@
             historyHtml = "";
             consoleContent.innerHTML = "";
         })
+                //MiniMap's Circles Behavior in View Mode
+                var lastSelectedCircle;
+
+        function circleClickHandler(circle) {
+            if (lastSelectedCircle) {
+                lastSelectedCircle.style.backgroundColor = "red";
+            }
+            circle.style.backgroundColor = "green";
+            lastSelectedCircle = circle;
+            console.log(circle.getAttribute("name"))
+            pan.loadScene(circle.getAttribute("name"))
+            myFunctionGateway()
+            }
+
+        const circlesDiv = document.getElementById("circles")
+        function setCirclesListener(){
+            var circles = circlesDiv.querySelectorAll("circle");
+            if(circles){
+                for (const circle of circles) {
+                    circle.addEventListener("click", function() {
+                        circleClickHandler(circle);}
+                    );
+                }
+            };
+        }
+        setCirclesListener();
 
 
     </script>
