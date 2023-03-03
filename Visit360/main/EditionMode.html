@@ -343,7 +343,7 @@
         } 
 
         window.addEventListener('beforeunload', function (event) {
-            //I check if there isn't localStorage.getItem('empty') because i don't want to execute the code
+            //I check if there isn't localStorage.getItem('goToZero') because i don't want to execute the code
             //when i click the button clear Visit
             if(!localStorage.getItem('goToZero')){
                 if(pan){
