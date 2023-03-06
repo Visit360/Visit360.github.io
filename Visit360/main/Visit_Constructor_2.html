@@ -186,12 +186,6 @@
         }
 
         /*==========================================================================*/
-        select {
-            font-size: 16px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
     </style>
 </head>
 
@@ -397,13 +391,12 @@
                     <div class="topbar">
                         <span class="closeImportInfo">&#10060</span>
                     </div>
-                    <select>
-                        <option value="Polytech">Polytech</option>
-                        <option value="Fablab">Fablab</option>
-                        <option value="Domus">Domus</option>
-                    </select>
                     <br>
-                    <button id="submitButtonImport" class="button">Import</button>
+                    <button id="ButtonImportPolytech" class="button">Import Polytech</button>
+                    <br>
+                    <button id="ButtonImportFablab" class="button">Import Fablab</button>
+                    <br>
+                    <button id="ButtonImportDomus" class="button">Import Domus</button>
                 </div>
             </div>
 
@@ -723,37 +716,14 @@
             popUpImport.classList.remove("show");
         }
 
-        let selectedValue = null;
 
-        let selectElement = document.querySelector('select');
-        selectElement.addEventListener('change', function () {
-            var selectedOption = selectElement.options[selectElement.selectedIndex];
-            console.log(selectedOption.value);
-            selectedValue = JSON.stringify(selectedOption.value);
-            console.log(selectedValue);
-        });
+        const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
+        const ButtonImportFablab = document.getElementById('ButtonImportFablab');
+        const ButtonImportDomus = document.getElementById('ButtonImportDomus');
 
-        const submitButtonImport = document.getElementById('submitButtonImport');
 
-        submitButtonImport.addEventListener("click", function () {
-
-            console.log(selectedValue);
-
-            if (selectedValue = "Polytech") {
-                console.log("je suis a polytech ");
-                //Load and read the JSON file, then put it into a json object
-                //===========================================================
-                var jsonFilePath = '../main/visit_polytech.json';
-
-            } else if (selectedValue = "Fablab") {
-                console.log("je suis au Fablab ");
-                var jsonFilePath = '../main/visit_Fablab.json';
-
-            } else if (selectedValue = "Domus"){
-                console.log("je suis au domus ");
-                var jsonFilePath = '../main/visit_domus.json';
-            }
-
+        ButtonImportPolytech.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_polytech.json';
             // Read the JSON file and parse its contents
             const request = new XMLHttpRequest();
             request.open('GET', jsonFilePath, false);
@@ -761,7 +731,42 @@
             const jsonData = JSON.parse(request.responseText);
             //console.log(jsonString);
             //===========================================================
+            //Destroy the previous visit
+            pan.destroy();
+            //Load the new one
+            pan = pannellum.viewer('panorama', jsonData);
+            var visit_to_import = null;
+            popUpImport.classList.remove("show");
 
+        });
+
+        ButtonImportFablab.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_Fablab.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
+            //Destroy the previous visit
+            pan.destroy();
+            //Load the new one
+            pan = pannellum.viewer('panorama', jsonData);
+            var visit_to_import = null;
+            popUpImport.classList.remove("show");
+
+        });
+
+        ButtonImportDomus.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_domus.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
             //Destroy the previous visit
             pan.destroy();
             //Load the new one
