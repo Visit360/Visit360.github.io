@@ -320,15 +320,13 @@
                         <label for="name" class="label">Gateway Text :</label>
                         <input type="text" id="gatewayText" name="gatewayText" class="input" required>
                         <button id="submitButton" class="button">Submit</button>
-
-                        
-
-
-                        <ul id="listOfScene">
-                        </ul>
-
-
-
+                    
+                    <input type="text" id="search-input" placeholder="Search...">
+                    <div id = "divListOfScene"> 
+                        <br>
+                        <div>List of scenes</div>
+                        <ul id="listOfScene"></ul>
+                    </div>
 
 
                     </div>
@@ -430,6 +428,12 @@
                         const ImagesDiv = imageList.innerHTML;
                         localStorage.setItem('imagesDiv', ImagesDiv);
                     }
+
+                    // if (listOfScene.childElementCount > 0) {
+                    //     // Store the content of the scene div in localStorage
+                    //     const SceneDiv = listOfScene.innerHTML;
+                    //     localStorage.setItem('sceneDiv', SceneDiv);
+                    // }
                 }
             });
     
@@ -486,7 +490,29 @@
             const gatewayButton = document.getElementById("gateway");
             const popUp_Gateway = document.getElementById("gatewayInfo");
             var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[0];
-    
+
+         
+            //Search bar ===============================================
+          
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', () => {
+            const searchText = searchInput.value.toLowerCase();
+            const items = listOfScene.getElementsByTagName('li');
+            Array.from(items).forEach((item) => {
+                const itemName = item.textContent.toLowerCase();
+                item.addEventListener('click', () => {
+                        sceneIdField.value = itemName;
+                });
+                if (itemName.includes(searchText)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        
+        //==============================================================
     
             gatewayButton.addEventListener("click", function () {
                 popUp_Gateway.classList.add("show");
@@ -518,8 +544,6 @@
                 sceneIdField.value = "";
                 gatewayText.value = "";
             })
-    
-    
     
             //========================================================================================
             //Button delete
@@ -622,6 +646,18 @@
     
             const IdsceneField = document.getElementById("endScenePano");
             const subButton = document.getElementById("submitButtonPano");
+
+
+            //List popUpAddGateway=================
+            const listOfScene = document.getElementById('listOfScene');
+
+            // const myOldSceneDiv = localStorage.getItem('sceneDiv');
+            // if (myOldSceneDiv) {
+            //     listOfScene.outerHTML = myOldSceneDiv;
+            // }
+
+            //=================
+
     
             //Add the scene with the panorama selected
             subButton.addEventListener("click", function () {
@@ -632,6 +668,15 @@
                     SceneInfo["title"] = IdsceneField.value;
                     SceneInfo["panorama"] = selectedImage.src;
                     pan.addScene(SceneInfo.title, SceneInfo);
+
+                     //List popUpAddGateway=================
+                    const itemName = IdsceneField.value;
+                    const newItem = document.createElement('li');
+                    newItem.textContent = IdsceneField.value;
+                    listOfScene.appendChild(newItem);
+                     //=================
+
+
                     sceneIdField.value = "";
                     //Deselect the added panorama
                     selectedImage.classList.remove("selected");
@@ -641,6 +686,9 @@
                     //Set the associated small circle's color to green when adding a sceneId to the selected image
                     selectedImage.parentNode.getElementsByTagName("circle")[0].style.backgroundColor = "#50C878"
                     popup_Panorma_info.classList.remove("show");
+
+
+                  
                 }
             })
     
