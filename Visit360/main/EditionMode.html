@@ -174,6 +174,37 @@
             right:0;
             padding: 5px;
         }
+
+        /*==========================================================================*/
+        /*List of scene for popup add gateway*/
+
+        #searchInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            background-color: #eee;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #ccc;
+        }
+
+        #listOfScene{
+            overflow: auto;
+            max-height: 250px;
+        }
         /*==========================================================================*/
     </style>
 </head>
@@ -266,7 +297,7 @@
                     <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
                     <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
                     <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
-                    <button id="clearVisit" class="button">&#129126 &#128194 Clear Visit</button>
+                    <button id="clearVisit" class="button">Clear Visit</button>
                 </div>
             </div>
             <div id="popups">
@@ -292,6 +323,12 @@
                         <label for="name" class="label">Gateway Text :</label>
                         <input type="text" id="gatewayText" name="gatewayText" class="input" required>
                         <button id="submitButton" class="button">Submit</button>
+                        <input type="text" id="search-input" placeholder="Search...">
+                        <div id="divListOfScene">
+                            <br>
+                            <div>List of scenes</div>
+                            <ul id="listOfScene"></ul>
+                        </div>
                     </div>
                 </div>
                 <div id="hotspotInfoDesc" class="popup">
@@ -394,6 +431,12 @@
                         const ImagesDiv = imageList.innerHTML;
                         localStorage.setItem('imagesDiv', ImagesDiv);
                     }
+
+                if (listOfScene.childElementCount > 0) {
+                    // Store the content of the scene div in localStorage
+                    const SceneDiv = listOfScene.outerHTML;
+                    localStorage.setItem('sceneDiv', SceneDiv);
+                }
                 }
             });
     
@@ -445,18 +488,56 @@
             })
            
             //===============================================================================
-            //Button add getway
+            //Button add gateway
     
             const gatewayButton = document.getElementById("gateway");
             const popUp_Gateway = document.getElementById("gatewayInfo");
             var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[0];
     
+              //////
+        //List popUpAddGateway=================
+        const listOfScene = document.getElementById('listOfScene');
+
+const myOldSceneDiv = localStorage.getItem('sceneDiv');
+if (myOldSceneDiv) {
+    listOfScene.innerHTML = myOldSceneDiv;
+}
+
+//Search bar ===============================================
+
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', () => {
+    const searchText = searchInput.value.toLowerCase();
+    const items = listOfScene.getElementsByTagName('li');
+    Array.from(items).forEach((item) => {
+        const itemName = item.textContent.toLowerCase();
+        item.addEventListener('click', () => {
+            sceneIdField.value = itemName;
+        });
+        if (itemName.includes(searchText)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+
+
+//==============================================================
+
     
             gatewayButton.addEventListener("click", function () {
                 popUp_Gateway.classList.add("show");
             })
     
             closeGatewayInfo.onclick = function () {
+                searchInput.value = "";
+            sceneIdField.value = "";
+            gatewayText.value = "";
+            const items = listOfScene.getElementsByTagName('li');
+            Array.from(items).forEach((item) => {
+                 item.style.display = 'block';
+            });
                 popUp_Gateway.classList.remove("show");
             }
     
@@ -588,6 +669,10 @@
             const subButton = document.getElementById("submitButtonPano");
     
     
+
+        //=================
+
+
             //Add the scene with the panorama selected
             subButton.addEventListener("click", function () {
                 if (selectedImage == null) { // if no panorama is selected
@@ -597,6 +682,13 @@
                     SceneInfo["title"] = IdsceneField.value;
                     SceneInfo["panorama"] = selectedImage.src;
                     pan.addScene(SceneInfo.title, SceneInfo);
+                    //List popUpAddGateway=================
+                    const itemName = IdsceneField.value;
+                    const newItem = document.createElement('li');
+                    newItem.textContent = IdsceneField.value;
+                    listOfScene.appendChild(newItem);
+                    //=================
+
                     sceneIdField.value = "";
                     //Deselect the added panorama
                     selectedImage.classList.remove("selected");
