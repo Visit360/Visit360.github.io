@@ -738,20 +738,20 @@
         submitButtonImport.addEventListener("click", function () {
 
             console.log(selectedValue);
-
-            if (selectedValue = "Polytech") {
+            var jsonFilePath
+            if (selectedValue == "Polytech") {
                 console.log("je suis a polytech ");
                 //Load and read the JSON file, then put it into a json object
                 //===========================================================
-                var jsonFilePath = '../main/visit_polytech.json';
+                jsonFilePath = '../main/visit_polytech.json';
 
-            } else if (selectedValue = "Fablab") {
+            } else if (selectedValue == "Fablab") {
                 console.log("je suis au Fablab ");
-                var jsonFilePath = '../main/visit_Fablab.json';
+                jsonFilePath = '../main/visit_Fablab.json';
 
-            } else if (selectedValue = "Domus"){
+            } else if (selectedValue == "Domus"){
                 console.log("je suis au domus ");
-                var jsonFilePath = '../main/visit_domus.json';
+                jsonFilePath = '../main/visit_domus.json';
             }
 
             // Read the JSON file and parse its contents
