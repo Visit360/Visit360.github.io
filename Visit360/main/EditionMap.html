@@ -92,6 +92,34 @@
                 padding: 5px;
                
         }
+
+        /*List of scene for popup add gateway*/
+
+                #searchInput {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            color: black;
+            background-color: #eee;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #ccc;
+        }
+
+        /*==========================================================================*/
     </style>
 </head>
 <body>
@@ -166,6 +194,8 @@
                 <div id="add-scene-form" style="display: none;">
                     <label class="label" for="name">Scene To associate :</label>
                     <input type="text" id="sceneAssociated" name="sceneAssociated" required>
+                    <input type="text" id="search-input" placeholder="Search...">
+                    <ul id="listOfScene"></ul>
                     <button class="button" id="add-scene-map">Add scene to the map</button>
                 </div>
                 <!-- <button class="button" id="export-div">Export Div</button> -->
@@ -197,12 +227,12 @@
                 const img = images[i];
                 const circle = document.createElement("circle");
                 circle.style.width = '10px';
-                circle.style.height = '10px';
-                circle.style.borderRadius = '50%';
+                circle.style.height = '80px';
+                circle.style.borderRadius = '5px';
                 circle.style.backgroundColor = 'red';
                 circle.style.position = 'absolute';
-                circle.style.top = '0';
-                circle.style.left = '0';
+                circle.style.top = '50%';
+                circle.style.transform= 'translate(+10%, -50%)';
                 img.parentNode.insertBefore(circle, img);
             }
         }
@@ -247,16 +277,50 @@
         const sceneAssociated = document.getElementById("sceneAssociated");
         const addSceneOnMApButton = document.getElementById("add-scene-map")
 
+        const listOfScene = document.getElementById("listOfScene")
+        const myOldSceneDiv = localStorage.getItem('sceneDiv');
+        if (myOldSceneDiv) {
+            listOfScene.innerHTML = myOldSceneDiv;
+        }
+
+        const items = listOfScene.getElementsByTagName('li');
+        Array.from(items).forEach((item) => {
+            const itemName = item.textContent.toLowerCase();
+            item.addEventListener('click', () => {
+                sceneAssociated.value = itemName;
+            })});
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', () => {
+            const searchText = searchInput.value.toLowerCase();
+            const items = listOfScene.getElementsByTagName('li');
+            Array.from(items).forEach((item) => {
+                const itemName = item.textContent.toLowerCase();
+                item.addEventListener('click', () => {
+                    sceneAssociated.value = itemName;
+                    console.log(sceneAssociated.value)
+                });
+                if (itemName.includes(searchText)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
         var lastCreatedCircle = null
 
         addSceneOnMApButton.addEventListener("click", function(e, arg){
             if(lastCreatedCircle){
-                lastCreatedCircle.setAttribute("name", sceneAssociated.value);
-
-                //lastCreatedCircle.name = sceneAssociated.value
+                lastCreatedCircle.setAttribute("name", sceneAssociated.value)
             }
+            searchInput.value=""
             sceneAssociated.value = ""
             addAssociatedSceneForm.style.display = "none"
+            const items = listOfScene.getElementsByTagName('li');
+            Array.from(items).forEach((item) => {
+                 item.style.display = 'block';
+            });
         })
         
         function createCircle(){
