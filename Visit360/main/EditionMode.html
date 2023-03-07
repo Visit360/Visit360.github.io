@@ -280,8 +280,71 @@
                     </div>
 
                     <div class="tooltip">
-                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240"
-                            height="100" onclick="selectImage('salle_013')">
+                        <img src="../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100"
+                        onclick="selectImage('salle_013')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/entree_domus.jpg" title="" alt="entree_domus" width="240"
+                        height="100" onclick="selectImage('entree_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/chambre_domus.jpg" title="" alt="chambre_domus" width="240"
+                        height="100" onclick="selectImage('chambre_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_chaise_domus.jpg" title="" alt="salle_chaise_domus"
+                        width="240" height="100" onclick="selectImage('salle_chaise_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_de_bain_domus.jpg" title="" alt="salle_de_bain_domus"
+                        width="240" height="100" onclick="selectImage('salle_de_bain_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/acceuil_fablab.jpg" title="" alt="acceuil_fablab" width="240"
+                        height="100" onclick="selectImage('acceuil_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/box_1_fablab.jpg" title="" alt="box_1_fablab" width="240"
+                        height="100" onclick="selectImage('box_1_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/box_2_fablab.jpg" title="" alt="box_2_fablab" width="240"
+                        height="100" onclick="selectImage('box_2_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/box_3_fablab.jpg" title="" alt="box_3_fablab" width="240"
+                        height="100" onclick="selectImage('box_3_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/entree_fablab.jpg" title="" alt="entree_fablab" width="240"
+                        height="100" onclick="selectImage('entree_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/open_space_fablab.jpg" title="" alt="open_space_fablab"
+                        width="240" height="100" onclick="selectImage('open_space_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_decoupeuse_laser_fablab.jpg" title=""
+                        alt="salle_decoupeuse_laser_fablab" width="240" height="100"
+                        onclick="selectImage('salle_decoupeuse_laser_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../content/panorama/salle_imprimante_3D_fablab.jpg" title=""
+                        alt="salle_imprimante_3D_fablab" width="240" height="100"
+                        onclick="selectImage('salle_imprimante_3D_fablab')">
+
                     </div>
                 </div>
             </div>
@@ -342,6 +405,23 @@
                         <button id="submitButtonInfo" class="button">Submit</button>
                     </div>
                 </div>
+                <div id="importVisitDesc" class="popup">
+                    <div class="popup-content">
+                        <div class="topbar">
+                            <span class="closeImportInfo">&#10060</span>
+                        </div>
+                        <div>Choose the visit to import:</div>
+                        <br>
+                        <button id="ButtonImportPolytech" class="button">Polytech</button>
+                        <br>
+                        <button id="ButtonImportFablab" class="button">Fablab</button>
+                        <br>
+                        <button id="ButtonImportDomus" class="button">Domus</button>
+                    </div>
+                </div>
+    
+    
+    
             </div>
         
         </div>
@@ -504,6 +584,12 @@ if (myOldSceneDiv) {
 }
 
 //Search bar ===============================================
+const items = listOfScene.getElementsByTagName('li');
+        Array.from(items).forEach((item) => {
+            const itemName = item.textContent.toLowerCase();
+            item.addEventListener('click', () => {
+                sceneIdField.value = itemName;
+            })});
 
 const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', () => {
@@ -731,26 +817,79 @@ searchInput.addEventListener('input', () => {
             //=======================================================================================================
             //Button import visit
             const ImportButton = document.getElementById("importVisit");
-    
+            const popUpImport = document.getElementById("importVisitDesc");
+            var closeImportInfo = popUpImport.getElementsByClassName("closeImportInfo")[0];  
+
             ImportButton.addEventListener("click", function () {
-                //Load and read the JSON file, then put it into a json object
-                //===========================================================
-                const jsonFilePath = '../content/visit/example_test.json';
-                // Read the JSON file and parse its contents
-                const request = new XMLHttpRequest();
-                request.open('GET', jsonFilePath, false);
-                request.send(null);
-                const jsonData = JSON.parse(request.responseText);
-                //console.log(jsonString);
-                //===========================================================
+                popUpImport.classList.add("show");
+        })
+
+
+        closeImportInfo.onclick = function () {
+            popUpImport.classList.remove("show");
+        }
+
+
+        const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
+        const ButtonImportFablab = document.getElementById('ButtonImportFablab');
+        const ButtonImportDomus = document.getElementById('ButtonImportDomus');
+
+
+        ButtonImportPolytech.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_polytech.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
+            //Destroy the previous visit
+            pan.destroy();
+            //Load the new one
+            pan = pannellum.viewer('panorama', jsonData);
+            var visit_to_import = null;
+            popUpImport.classList.remove("show");
+
+        });
+
+        ButtonImportFablab.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_Fablab.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
+            //Destroy the previous visit
+            pan.destroy();
+            //Load the new one
+            pan = pannellum.viewer('panorama', jsonData);
+            var visit_to_import = null;
+            popUpImport.classList.remove("show");
+
+        });
+
+        ButtonImportDomus.addEventListener("click", function () {
+            var jsonFilePath = '../main/visit_domus.json';
+            // Read the JSON file and parse its contents
+            const request = new XMLHttpRequest();
+            request.open('GET', jsonFilePath, false);
+            request.send(null);
+            const jsonData = JSON.parse(request.responseText);
+            //console.log(jsonString);
+            //===========================================================
     
                 //Destroy the previous visit
                 pan.destroy();
                 //Load the new one
                 //pan = pannellum.viewer('panorama', jsonString)
                 pan = pannellum.viewer('panorama', jsonData);
-            })
-    
+                var visit_to_import = null;
+                popUpImport.classList.remove("show");
+
+        });  
             //=======================================================================================================
             //Button clear visit
     
