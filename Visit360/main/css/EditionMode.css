@@ -1,0 +1,201 @@
+
+html,body{
+    font-family: 'Trebuchet MS';
+    background-color: rgb(51, 51, 51);
+    color: white;
+    display: block;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.child1{
+    display: flex;
+    height:75px;
+    width: 100%;
+    
+}
+.child2{
+    display: flex;
+    height: calc(100vh - 80px);
+}
+#button{
+    width: 75px;
+    height: 75px;
+}
+
+#header{
+    background: rgb(59, 59, 59);
+    width: 100%;
+    padding-left: 20px;
+    border-radius: 5px;
+}
+
+#viewer{
+    width: 100%;
+
+}
+
+.scroller {
+    width: 255px;
+    height: calc(100vh - 115px);
+    overflow-y: scroll;
+    scrollbar-color: rgb(0, 255, 221) rgb(0, 255, 221);
+    scrollbar-width: thin;
+}
+
+#selection{
+    background-color: grey;
+
+    width: 255px;
+    
+}
+
+.selected {
+    border: 3px solid rgb(0, 255, 221);
+}
+
+#toolbar{
+    background-color: grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height:100%;
+} 
+#buttons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 25px;
+    width:70%;
+    padding: 25px;
+}
+.button{
+    background-color: rgb(0, 255, 221);
+    border: none;
+    font-size: medium;
+    border-radius: 5px;
+    padding: 5px;
+    
+}
+.input{
+    font-size: medium;
+    border-radius: 5px;
+    
+}
+.label{
+    font-size: medium;
+    
+    
+}
+
+/* Define the tooltip style */
+.tooltip {
+position: relative;
+}
+
+.tooltip:hover::after {
+display: block;
+transition-delay:0.01s !important;
+}
+
+#addselect{
+width: auto;
+height: 30px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: flex-end;
+}
+/*==========================================================================*/
+/* POPUP */
+
+.popup {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+display: none;
+justify-content: center;
+align-items: center;
+background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Popup content */
+.popup-content {
+color: black;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+background-color: white;
+padding: 20px;
+border-radius: 5px;
+width: 400px;
+max-width: 90%;
+}
+
+
+/* Show popup when it is open */
+.popup.show {
+display: flex;
+}
+
+/* Close button */
+.close {
+position: absolute;
+top: 10px;
+right: 10px;
+font-size: 20px;
+font-weight: bold;
+cursor: pointer;
+}
+
+/* Hover effect for close button */
+.close:hover {
+color: red;
+}
+
+.topbar{
+cursor:pointer;
+position:absolute;
+top:0;
+right:0;
+padding: 5px;
+}
+
+/*==========================================================================*/
+/*List of scene for popup add gateway*/
+
+#searchInput {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+ul {
+list-style-type: none;
+padding: 0;
+}
+
+li {
+padding: 10px;
+background-color: #eee;
+margin-bottom: 5px;
+border-radius: 4px;
+cursor: pointer;
+}
+
+li:hover {
+background-color: #ccc;
+}
+
+#listOfScene{
+overflow: auto;
+max-height: 250px;
+}
+/*==========================================================================*/

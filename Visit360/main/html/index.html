@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Edition mode Visit360</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+        <link rel='stylesheet' href='../css/EditionMode.css'>
+</head>
+
+<body>
+    <div id="child1" class="child1">
+        <div id="button">
+		    <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="toggleMode()">&#128065</button>
+        </div>
+        <div id="header">
+	        <h1>Edit Visit360</h1>
+        </div>
+        <div id="button">
+            <button style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;" onclick="gotomap()">&#9997</button>
+        </div>
+	</div>
+    <div id="child2" class="child2">
+        <div id="selection" class="column">
+            <div id="addselect">
+                <button id="addPano" class="button">&#43 Add Panorama</button>
+            </div>
+            <div class="scroller">
+                <div id="image-list">
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240"
+                            height="100" onclick="selectImage('amphi_005')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240"
+                            height="100" onclick="selectImage('amphi_007')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240"
+                            height="100" onclick="selectImage('couloir_1')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240"
+                            height="100" onclick="selectImage('couloir_2')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240"
+                            height="100" onclick="selectImage('couloir_3')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240"
+                            height="100" onclick="selectImage('couloir_4')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240"
+                            height="100" onclick="selectImage('couloir_5')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240"
+                            height="100" onclick="selectImage('couloir_6')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100"
+                            onclick="selectImage('Hall')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"
+                            height="100" onclick="selectImage('salle_009')">
+                    </div>
+
+                    <div class="tooltip">
+                        <img src="../../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100"
+                        onclick="selectImage('salle_013')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/entree_domus.jpg" title="" alt="entree_domus" width="240"
+                        height="100" onclick="selectImage('entree_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/chambre_domus.jpg" title="" alt="chambre_domus" width="240"
+                        height="100" onclick="selectImage('chambre_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/salle_chaise_domus.jpg" title="" alt="salle_chaise_domus"
+                        width="240" height="100" onclick="selectImage('salle_chaise_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/salle_de_bain_domus.jpg" title="" alt="salle_de_bain_domus"
+                        width="240" height="100" onclick="selectImage('salle_de_bain_domus')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/acceuil_fablab.jpg" title="" alt="acceuil_fablab" width="240"
+                        height="100" onclick="selectImage('acceuil_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/box_1_fablab.jpg" title="" alt="box_1_fablab" width="240"
+                        height="100" onclick="selectImage('box_1_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/box_2_fablab.jpg" title="" alt="box_2_fablab" width="240"
+                        height="100" onclick="selectImage('box_2_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/box_3_fablab.jpg" title="" alt="box_3_fablab" width="240"
+                        height="100" onclick="selectImage('box_3_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/entree_fablab.jpg" title="" alt="entree_fablab" width="240"
+                        height="100" onclick="selectImage('entree_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/open_space_fablab.jpg" title="" alt="open_space_fablab"
+                        width="240" height="100" onclick="selectImage('open_space_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/salle_decoupeuse_laser_fablab.jpg" title=""
+                        alt="salle_decoupeuse_laser_fablab" width="240" height="100"
+                        onclick="selectImage('salle_decoupeuse_laser_fablab')">
+                </div>
+
+                <div class="tooltip">
+                    <img src="../../content/panorama/salle_imprimante_3D_fablab.jpg" title=""
+                        alt="salle_imprimante_3D_fablab" width="240" height="100"
+                        onclick="selectImage('salle_imprimante_3D_fablab')">
+
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div id="viewer" class="column">
+                <div id="panorama"></div>       
+            </div>
+
+            <div id="toolbar"class="column">
+                <div id="buttons">
+                    <button id="information" class="button">&#9432 Add Information</button>
+                    <button id="gateway" class="button">&#129145 Add Gateway</button>
+                    <button id="deleteHotspot" class="button">&#10060 Delete Hotspot</button>
+                    <button id="ExportScene" class="button">&#129124 &#128194 Export Visit</button>
+                    <button id="importVisit" class="button">&#129126 &#128194 Import Visit</button>
+                    <button id="clearVisit" class="button">Clear Visit</button>
+                </div>
+            </div>
+            <div id="popups">
+
+                <div id="panoInfo" class="popup">
+                    <div class="popup-content">
+                        <div class="topbar">
+                            <span class="closePano">&#10060</span>
+                        </div>
+                        <label for="name" class="label">Scene ID :</label>
+                        <input type="text" id="endScenePano" name="endScenePano" class="input" required>
+                        <button id="submitButtonPano" class="button">Submit</button>
+                    </div>
+                </div>
+    
+                <div id="gatewayInfo" class="popup">
+                    <div class="popup-content">
+                        <div class="topbar">
+                            <span class="closeGatewayInfo">&#10060</span>
+                        </div>
+                        <label for="name" class="label">Next Scene ID :</label>
+                        <input type="text" id="endSceneId" name="endSceneId" class="input" required>
+                        <label for="name" class="label">Gateway Text :</label>
+                        <input type="text" id="gatewayText" name="gatewayText" class="input" required>
+                        <button id="submitButton" class="button">Submit</button>
+                        <input type="text" id="search-input" placeholder="Search...">
+                        <div id="divListOfScene">
+                            <br>
+                            <div>List of scenes</div>
+                            <ul id="listOfScene"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="hotspotInfoDesc" class="popup">
+                    <div class="popup-content">
+                        <div class="topbar">
+                            <span class="closeInfoDesc">&#10060</span>
+                        </div>
+                          
+                        <label for="name" class="label">Description :</label>
+                        <input type="text" id="infoText" name="infoText" class="input" required>
+                        <button id="submitButtonInfo" class="button">Submit</button>
+                    </div>
+                </div>
+                <div id="importVisitDesc" class="popup">
+                    <div class="popup-content">
+                        <div class="topbar">
+                            <span class="closeImportInfo">&#10060</span>
+                        </div>
+                        <div>Choose the visit to import:</div>
+                        <br>
+                        <button id="ButtonImportPolytech" class="button">Polytech</button>
+                        <br>
+                        <button id="ButtonImportFablab" class="button">Fablab</button>
+                        <br>
+                        <button id="ButtonImportDomus" class="button">Domus</button>
+                    </div>
+                </div>
+    
+    
+    
+            </div>
+        
+        </div>
+
+        <script src="../js/EditionMode.js"></script>
+    
+</body>
+
+</html>
