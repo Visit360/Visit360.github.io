@@ -262,6 +262,7 @@ if (myOldImagesDiv) {
 
 //Select one image
 let selectedImage = null;
+let availabilityColor = null;
 function selectImage(imageUrl) {
     if (selectedImage) {
         // Remove the selected class from the previously selected image
@@ -269,17 +270,25 @@ function selectImage(imageUrl) {
     }
     // Set the selected image to the clicked image
     selectedImage = event.target;
+    var selectedForDefault = selectedImage.parentNode.querySelector("circle");
+    var selectedColor = window.getComputedStyle(selectedForDefault).getPropertyValue("background-color");
+    //console.log(selectedColor);
+    availabilityColor = selectedColor;
     // Add the selected class to the clicked image
     selectedImage.classList.add("selected");
 }
 
 
+
 //=======================================================================================================
 //Button add panorama
+
 
 const AddPanoButton = document.getElementById("addPano");
 var popup_Panorma_info = document.getElementById("panoInfo");
 const sameNameDiv = document.getElementById("sameName");
+const noPanorama = document.getElementById("noPanorama");
+const alreadyAdded = document.getElementById("alreadyAdded");
 
 // Get the close button
 var closePano = popup_Panorma_info.getElementsByClassName("closePano")[0];
@@ -288,6 +297,9 @@ AddPanoButton.onclick = function () {
     if (selectedImage == null) { // if no panorama is selected
         console.log("No panorama selected");
     } else {
+        sameNameDiv.style.display = 'none';
+        alreadyAdded.style.display = 'none';
+        noPanorama.style.display = 'none';
         popup_Panorma_info.classList.add("show");
     }
 }
@@ -307,22 +319,25 @@ const subButton = document.getElementById("submitButtonPano");
 //Add the scene with the panorama selected
 subButton.addEventListener("click", function () {
     if (selectedImage == null) { // if no panorama is selected
-        console.log("No panorama selected");
+        //console.log("No panorama selected");
+        noPanorama.style.display = 'block';
+    } else if (availabilityColor === "rgb(80, 200, 120)") {
+        //console.log("Aready added");
+        alreadyAdded.style.display = 'block';
     } else {
         var SceneInfo = {}
 
               //items = child of listOfScene
         for (var i = 0; i < items.length; i++) {
             if (items[i].innerHTML === IdsceneField.value){
-                console.log("c'est le même nom");
+                //console.log("c'est le même nom");
                 sameNameDiv.style.display = 'block';
                 return;
             }
           }
-        
-        
         sameNameDiv.style.display = 'none';
-        console.log("c'est ok");
+        alreadyAdded.style.display = 'none';
+        noPanorama.style.display = 'none';
         SceneInfo["title"] = IdsceneField.value;
         SceneInfo["panorama"] = selectedImage.src;
         pan.addScene(SceneInfo.title, SceneInfo);
