@@ -44,6 +44,7 @@ window.addEventListener('beforeunload', function (event) {
                 partialConfig_visit["default"] = configuration_visit.default;
             }
             partialConfig_visit["scenes"] = configuration_visit.scenes;
+            partialConfig_visit["autoLoad"] = true;
             var textConfig = JSON.stringify(partialConfig_visit);
             localStorage.setItem('config_visit', textConfig);
         }
