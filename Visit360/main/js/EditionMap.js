@@ -40,17 +40,6 @@ function selectImage(imageUrl) {
     selectedImage.classList.add("selected");
 }
 
-/* //-----------------------------------------------------------------------------------------
-//Code to export the div called miniMap to the file mapExtraction.html
-//-----------------------------------------------------------------------------------------
-const exportDiv = document.getElementById("export-div")
-exportDiv.addEventListener("click", function() {
-const miniMap = document.getElementById("miniMap").cloneNode(true);
-const targetWindow = window.open("./mapExtraction.html", "_blank");
-targetWindow.addEventListener("load", function() {
-    targetWindow.document.getElementById("miniMap").appendChild(miniMap);
-});
-}); */
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 //MINIMAP CODE 

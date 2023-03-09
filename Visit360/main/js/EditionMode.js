@@ -1,15 +1,15 @@
 var initialConfig =
 {
     "default": {
-        "firstScene": "polytech",
+        "firstScene": "welcome",
         "sceneFadeDuration": 2000,
         "hotSpotDebug": true
     },
 
     "scenes": {
-        "polytech": {
-            "title": "polytech",
-            "panorama": "../../content/panorama/Hall.jpg",
+        "welcome": {
+            "title": "welcome",
+            "panorama": "../../content/panorama/default.jpg",
         },
     },
 
@@ -37,7 +37,7 @@ window.addEventListener('beforeunload', function (event) {
         if (pan) {
             var configuration_visit = pan.getConfig();
             var partialConfig_visit = {}
-            partialConfig_visit["default"] = configuration_visit.default;
+            partialConfig_visit["default"] = JSON.parse(localStorage.getItem("defaultScene"));
             partialConfig_visit["scenes"] = configuration_visit.scenes;
             var textConfig = JSON.stringify(partialConfig_visit);
             localStorage.setItem('config_visit', textConfig);
@@ -260,6 +260,8 @@ if (myOldImagesDiv) {
     imageList.innerHTML = myOldImagesDiv;
 }
 
+//Button of Set panorama as default 
+const setToDefault = document.getElementById("setToDefault");
 //Select one image
 let selectedImage = null;
 function selectImage(imageUrl) {
@@ -271,8 +273,30 @@ function selectImage(imageUrl) {
     selectedImage = event.target;
     // Add the selected class to the clicked image
     selectedImage.classList.add("selected");
+
+    //Check whether i have to show the button "Set Default" or not
+    var selectedForDefault = selectedImage.parentNode.querySelector("circle");
+    if(selectedForDefault){
+        var selectedColor = window.getComputedStyle(selectedForDefault).getPropertyValue("background-color")
+        if (selectedColor == "rgb(80, 200, 120)"){//If color of circle is green
+            setToDefault.style.display = "block"
+        }
+        else {
+            setToDefault.style.display = "none"
+        }
+    }
 }
 
+//=======================================================================================================
+//Button Set scene to Default
+setToDefault.addEventListener("click", function(){
+    var defaultScene = {}
+    defaultScene["firstScene"] = selectedImage.getAttribute('title');
+    defaultScene["sceneFadeDuration"] = 2000;
+    defaultScene["hotSpotDebug"] = true;
+    localStorage.setItem("defaultScene", JSON.stringify(defaultScene))
+    setToDefault.style.display = "none"
+})
 
 //=======================================================================================================
 //Button add panorama
@@ -331,6 +355,7 @@ subButton.addEventListener("click", function () {
         //Set the image that we added to the visit in the first position of the list
         selectedImage.parentNode.parentNode.insertBefore(selectedImage.parentNode, selectedImage.parentNode.parentNode.firstChild);
         popup_Panorma_info.classList.remove("show");
+
     }
 })
 
