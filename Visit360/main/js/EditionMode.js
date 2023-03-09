@@ -279,6 +279,7 @@ function selectImage(imageUrl) {
 
 const AddPanoButton = document.getElementById("addPano");
 var popup_Panorma_info = document.getElementById("panoInfo");
+const sameNameDiv = document.getElementById("sameName");
 
 // Get the close button
 var closePano = popup_Panorma_info.getElementsByClassName("closePano")[0];
@@ -300,7 +301,6 @@ const IdsceneField = document.getElementById("endScenePano");
 const subButton = document.getElementById("submitButtonPano");
 
 
-
 //=================
 
 
@@ -310,6 +310,19 @@ subButton.addEventListener("click", function () {
         console.log("No panorama selected");
     } else {
         var SceneInfo = {}
+
+              //items = child of listOfScene
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].innerHTML === IdsceneField.value){
+                console.log("c'est le même nom");
+                sameNameDiv.style.display = 'block';
+                return;
+            }
+          }
+        
+        
+        sameNameDiv.style.display = 'none';
+        console.log("c'est ok");
         SceneInfo["title"] = IdsceneField.value;
         SceneInfo["panorama"] = selectedImage.src;
         pan.addScene(SceneInfo.title, SceneInfo);
