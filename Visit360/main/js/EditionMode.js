@@ -37,7 +37,12 @@ window.addEventListener('beforeunload', function (event) {
         if (pan) {
             var configuration_visit = pan.getConfig();
             var partialConfig_visit = {}
-            partialConfig_visit["default"] = JSON.parse(localStorage.getItem("defaultScene"));
+            if(localStorage.getItem("defaultScene")){
+                partialConfig_visit["default"] = JSON.parse(localStorage.getItem("defaultScene"));
+            }
+            else{
+                partialConfig_visit["default"] = configuration_visit.default;
+            }
             partialConfig_visit["scenes"] = configuration_visit.scenes;
             var textConfig = JSON.stringify(partialConfig_visit);
             localStorage.setItem('config_visit', textConfig);
