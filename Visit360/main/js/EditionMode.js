@@ -16,42 +16,11 @@ var initialConfig =
     "autoLoad": true
 }
 
-/*
-             var hotspotInformation = {
-                "pitch": 0,
-                "yaw": 100,
-                "type": "info",
-                "text": "This is nature"
-            }
-    
-    
-            var scene_Polytech = { 
-                "title": "Polytech",
-                "panorama": "../content/panorama/Hall.jpg",
-                "hotSpots": [
-                    {
-                        "pitch": -10,
-                        "yaw": -50,
-                        "type": "info",
-                        "text": "Ceci est le Hall de Polytech"
-                    },
-                    {
-                        "pitch": 0,
-                        "yaw": -100,
-                        "type": "scene",
-                        "text": "Nature",
-                        "sceneId": "nature",
-                    }
-                ]
-            }
-            */
-
 //I check if there is a config_visit element in the localStorage, if yes I set that configuration,
 //Else, I create a new configuration
 if (!localStorage.getItem('alreadyOpened')) {
     var pan = pannellum.viewer('panorama', initialConfig);
-    localStorage.setItem('config_visit', JSON.stringify(initialConfig))
-    console.log("hello motherfucker")
+    localStorage.setItem('config_visit', JSON.stringify(initialConfig));
     localStorage.setItem("alreadyOpened", true);
     //localStorage.removeItem('empty')
 }
