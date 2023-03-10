@@ -477,7 +477,11 @@ function importVisit(jsonFilePath){
     //Check if there is a MiniMap made for this visit
     if(jsonData.miniMapDiv){
         localStorage.setItem("miniMapDiv", jsonData.miniMapDiv)
+        console.log("hi")
     } 
+    else{
+        localStorage.removeItem("miniMapDiv")
+    }
     var visit_to_import = null;
     popUpImport.classList.remove("show");
 }
