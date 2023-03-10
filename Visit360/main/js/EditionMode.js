@@ -441,9 +441,15 @@ const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
 const ButtonImportFablab = document.getElementById('ButtonImportFablab');
 const ButtonImportDomus = document.getElementById('ButtonImportDomus');
 
+var polytechJson = '../../content/visit/visit_polytech.json';
+var fablabJson = '../../content/visit/visit_Fablab.json';
+var domusJson = '../../content/visit/visit_domus.json';
 
-ButtonImportPolytech.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_polytech.json';
+ButtonImportPolytech.addEventListener("click", function(){ importVisit(polytechJson) })
+ButtonImportFablab.addEventListener("click", function(){ importVisit(fablabJson) })
+ButtonImportDomus.addEventListener("click", function(){ importVisit(domusJson) })
+
+function importVisit(jsonFilePath){
     // Read the JSON file and parse its contents
     const request = new XMLHttpRequest();
     request.open('GET', jsonFilePath, false);
@@ -468,50 +474,14 @@ ButtonImportPolytech.addEventListener("click", function () {
             }
         }
     }
+    //Check if there is a MiniMap made for this visit
     if(jsonData.miniMapDiv){
         localStorage.setItem("miniMapDiv", jsonData.miniMapDiv)
     } 
     var visit_to_import = null;
     popUpImport.classList.remove("show");
-});
+}
 
-ButtonImportFablab.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_Fablab.json';
-    // Read the JSON file and parse its contents
-    const request = new XMLHttpRequest();
-    request.open('GET', jsonFilePath, false);
-    request.send(null);
-    const jsonData = JSON.parse(request.responseText);
-    //console.log(jsonString);
-    //===========================================================
-    //Destroy the previous visit
-    pan.destroy();
-    //Load the new one
-    pan = pannellum.viewer('panorama', jsonData);
-    var visit_to_import = null;
-    popUpImport.classList.remove("show");
-
-});
-
-ButtonImportDomus.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_domus.json';
-    // Read the JSON file and parse its contents
-    const request = new XMLHttpRequest();
-    request.open('GET', jsonFilePath, false);
-    request.send(null);
-    const jsonData = JSON.parse(request.responseText);
-    //console.log(jsonString);
-    //===========================================================
-
-    //Destroy the previous visit
-    pan.destroy();
-    //Load the new one
-    //pan = pannellum.viewer('panorama', jsonString)
-    pan = pannellum.viewer('panorama', jsonData);
-    var visit_to_import = null;
-    popUpImport.classList.remove("show");
-
-});
 //=======================================================================================================
 //Button clear visit
 
