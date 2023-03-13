@@ -3,7 +3,6 @@ var initialConfig =
     "default": {
         "firstScene": "welcome",
         "sceneFadeDuration": 2000,
-        "hotSpotDebug": true
     },
 
     "scenes": {
@@ -130,7 +129,7 @@ if (myOldSceneDiv) {
 //Search bar ===============================================
 const items = listOfScene.getElementsByTagName('li');
 Array.from(items).forEach((item) => {
-    const itemName = item.textContent.toLowerCase();
+    const itemName = item.textContent;
     item.addEventListener('click', () => {
         sceneIdField.value = itemName;
     })
@@ -138,10 +137,10 @@ Array.from(items).forEach((item) => {
 
 const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', () => {
-    const searchText = searchInput.value.toLowerCase();
+    const searchText = searchInput.value;
     const items = listOfScene.getElementsByTagName('li');
     Array.from(items).forEach((item) => {
-        const itemName = item.textContent.toLowerCase();
+        const itemName = item.textContent;
         item.addEventListener('click', () => {
             sceneIdField.value = itemName;
         });
@@ -229,12 +228,13 @@ function myFunctionInformation(event, handlerArgs) {
 }
 function myFunctionGateway(event, handlerArgs) {
     currentScene = pan.getScene();
-    if (deletable) {
+    if (deletable == true) {
         this.sceneId = currentScene;
         pan.removeHotSpot(this.id);
         pan.loadScene(currentScene);
         deleteHotspotButton.style.backgroundColor = "";
         deletable = false;
+        console.log("Hotspot deleted")
     }
 }
 
@@ -304,7 +304,6 @@ setToDefault.addEventListener("click", function(){
     var defaultScene = {}
     defaultScene["firstScene"] = selectedImage.getAttribute('title');
     defaultScene["sceneFadeDuration"] = 2000;
-    defaultScene["hotSpotDebug"] = true;
     localStorage.setItem("defaultScene", JSON.stringify(defaultScene))
     setToDefault.style.display = "none"
 })
@@ -404,7 +403,11 @@ ExportButton.addEventListener("click", function () {
     var partialConfig = {}
     partialConfig["default"] = config.default;
     partialConfig["scenes"] = config.scenes;
+    partialConfig["miniMapDiv"] = localStorage.getItem("miniMapDiv")
+    console.log(partialConfig)
     var jsonFile = JSON.stringify(partialConfig);
+    //var jsonFile = JSON.stringify(config)
+    //console.log(JSON.parse(jsonFile))
     // Create a Blob object from the JSON string
     const blob = new Blob([jsonFile], { type: "application/json" });
     // Create a URL for the Blob object
@@ -438,62 +441,51 @@ const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
 const ButtonImportFablab = document.getElementById('ButtonImportFablab');
 const ButtonImportDomus = document.getElementById('ButtonImportDomus');
 
+var polytechJson = '../../content/visit/visit_polytech.json';
+var fablabJson = '../../content/visit/visit_Fablab.json';
+var domusJson = '../../content/visit/visit_domus.json';
 
-ButtonImportPolytech.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_polytech.json';
+ButtonImportPolytech.addEventListener("click", function(){ importVisit(polytechJson) })
+ButtonImportFablab.addEventListener("click", function(){ importVisit(fablabJson) })
+ButtonImportDomus.addEventListener("click", function(){ importVisit(domusJson) })
+
+function importVisit(jsonFilePath){
     // Read the JSON file and parse its contents
     const request = new XMLHttpRequest();
     request.open('GET', jsonFilePath, false);
     request.send(null);
     const jsonData = JSON.parse(request.responseText);
-    //console.log(jsonString);
-    //===========================================================
+    //===============================================================
     //Destroy the previous visit
     pan.destroy();
     //Load the new one
-    pan = pannellum.viewer('panorama', jsonData);
+     const scenesJSON = { default: jsonData['default'], scenes: jsonData.scenes };
+    console.log(scenesJSON)
+    pan = pannellum.viewer('panorama',scenesJSON);
+    // When we load the Imported configuration, we set an onClick function to each hotspot in the scene 
+    if(pan.getConfig()["hotSpots"]){
+        for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
+            var hotspot = pan.getConfig()["hotSpots"][i];
+            if(hotspot["type"]==="scene"){
+                hotspot["clickHandlerFunc"] = myFunctionGateway;
+            }
+            else if(hotspot["type"]==="info"){  
+                hotspot["clickHandlerFunc"] = myFunctionInformation;
+            }
+        }
+    }
+    //Check if there is a MiniMap made for this visit
+    if(jsonData.miniMapDiv){
+        localStorage.setItem("miniMapDiv", jsonData.miniMapDiv)
+        console.log("hi")
+    } 
+    else{
+        localStorage.removeItem("miniMapDiv")
+    }
     var visit_to_import = null;
     popUpImport.classList.remove("show");
+}
 
-});
-
-ButtonImportFablab.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_Fablab.json';
-    // Read the JSON file and parse its contents
-    const request = new XMLHttpRequest();
-    request.open('GET', jsonFilePath, false);
-    request.send(null);
-    const jsonData = JSON.parse(request.responseText);
-    //console.log(jsonString);
-    //===========================================================
-    //Destroy the previous visit
-    pan.destroy();
-    //Load the new one
-    pan = pannellum.viewer('panorama', jsonData);
-    var visit_to_import = null;
-    popUpImport.classList.remove("show");
-
-});
-
-ButtonImportDomus.addEventListener("click", function () {
-    var jsonFilePath = '../../content/visit/visit_domus.json';
-    // Read the JSON file and parse its contents
-    const request = new XMLHttpRequest();
-    request.open('GET', jsonFilePath, false);
-    request.send(null);
-    const jsonData = JSON.parse(request.responseText);
-    //console.log(jsonString);
-    //===========================================================
-
-    //Destroy the previous visit
-    pan.destroy();
-    //Load the new one
-    //pan = pannellum.viewer('panorama', jsonString)
-    pan = pannellum.viewer('panorama', jsonData);
-    var visit_to_import = null;
-    popUpImport.classList.remove("show");
-
-});
 //=======================================================================================================
 //Button clear visit
 
