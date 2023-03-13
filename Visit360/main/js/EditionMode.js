@@ -15,8 +15,8 @@ var initialConfig =
     "autoLoad": true
 }
 
-//I check if there is a config_visit element in the localStorage, if yes I set that configuration,
-//Else, I create a new configuration
+//Check if there is a config_visit element in the localStorage, if yes, set that configuration,
+//Else, create a new configuration
 if (!localStorage.getItem('alreadyOpened')) {
     var pan = pannellum.viewer('panorama', initialConfig);
     localStorage.setItem('config_visit', JSON.stringify(initialConfig));
@@ -30,7 +30,7 @@ else {
 }
 
 window.addEventListener('beforeunload', function (event) {
-    //I check if there isn't localStorage.getItem('goToZero') because i don't want to execute the code
+    //Check if there isn't localStorage.getItem('goToZero') because i don't want to execute the code
     //when i click the button clear Visit
     if (!localStorage.getItem('goToZero')) {
         if (pan) {
@@ -56,7 +56,7 @@ window.addEventListener('beforeunload', function (event) {
         }
 
         if (listOfScene.childElementCount > 0) {
-            // Store the content of the scene div in localStorage
+            // Store the content of the list of scene in localStorage
             const SceneDiv = listOfScene.outerHTML;
             localStorage.setItem('sceneDiv', SceneDiv);
         }
@@ -79,6 +79,7 @@ panoramaView.addEventListener("click", function (event) {
 
 //===============================================================================
 //Button add information
+//This button add hotspot of information at the selected place in the panorama 
 
 const informationButton = document.getElementById("information");
 const popUp_Info = document.getElementById("hotspotInfoDesc");
@@ -112,48 +113,46 @@ submitButtonInfo.addEventListener("click", function () {
 
 //===============================================================================
 //Button add gateway
+//This button add hotspot gateway at the selected place in the panorama 
 
 const gatewayButton = document.getElementById("gateway");
 const popUp_Gateway = document.getElementById("gatewayInfo");
 var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[0];
 
-//////
-//List popUpAddGateway=================
-const listOfScene = document.getElementById('listOfScene');
+    //List of scenes already existing in the visit
+    const listOfScene = document.getElementById('listOfScene');
+    const myOldSceneDiv = localStorage.getItem('sceneDiv');
+    if (myOldSceneDiv) {
+        listOfScene.innerHTML = myOldSceneDiv;
+    }
 
-const myOldSceneDiv = localStorage.getItem('sceneDiv');
-if (myOldSceneDiv) {
-    listOfScene.innerHTML = myOldSceneDiv;
-}
 
-//Search bar ===============================================
-const items = listOfScene.getElementsByTagName('li');
-Array.from(items).forEach((item) => {
-    const itemName = item.textContent;
-    item.addEventListener('click', () => {
-        sceneIdField.value = itemName;
-    })
-});
-
-const searchInput = document.getElementById('search-input');
-searchInput.addEventListener('input', () => {
-    const searchText = searchInput.value;
+    //Search bar ===============================================
     const items = listOfScene.getElementsByTagName('li');
     Array.from(items).forEach((item) => {
         const itemName = item.textContent;
         item.addEventListener('click', () => {
             sceneIdField.value = itemName;
-        });
-        if (itemName.includes(searchText)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
+        })
     });
-});
 
-
-//==============================================================
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+        const searchText = searchInput.value;
+        const items = listOfScene.getElementsByTagName('li');
+        Array.from(items).forEach((item) => {
+            const itemName = item.textContent;
+            item.addEventListener('click', () => {
+                sceneIdField.value = itemName;
+            });
+            if (itemName.includes(searchText)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+    //==============================================================
 
 
 gatewayButton.addEventListener("click", function () {
@@ -200,10 +199,9 @@ submitButton.addEventListener("click", function () {
     popUp_Gateway.classList.remove("show");
 })
 
-
-
 //========================================================================================
 //Button delete
+//This button delete the selected hotspot
 
 var deletable = false;
 
@@ -239,7 +237,8 @@ function myFunctionGateway(event, handlerArgs) {
 }
 
 //=======================================================================================================
-//ADD a small circle on each image
+//ADD a small bar on the left of each image
+//This will help the user to know if a scene is already added in a visit or not
 //=======================================================================================================
 
 const imageList = document.getElementById("image-list")
@@ -261,6 +260,7 @@ for (let i = 0; i < images.length; i++) {
 }
 
 //=======================================================================================================
+
 const myOldImagesDiv = localStorage.getItem('imagesDiv');
 if (myOldImagesDiv) {
     imageList.innerHTML = myOldImagesDiv;
@@ -268,6 +268,8 @@ if (myOldImagesDiv) {
 
 //Button of Set panorama as default 
 const setToDefault = document.getElementById("setToDefault");
+
+
 //Select one image
 let selectedImage = null;
 let availabilityColor = null;
@@ -311,6 +313,7 @@ setToDefault.addEventListener("click", function(){
 
 //=======================================================================================================
 //Button add panorama
+//This button add the selected panorama to the visit
 
 
 const AddPanoButton = document.getElementById("addPano");
@@ -342,9 +345,6 @@ const IdsceneField = document.getElementById("endScenePano");
 const subButton = document.getElementById("submitButtonPano");
 
 
-//=================
-
-
 //Add the scene with the panorama selected
 subButton.addEventListener("click", function () {
     if (selectedImage == null) { // if no panorama is selected
@@ -370,7 +370,8 @@ subButton.addEventListener("click", function () {
         SceneInfo["title"] = IdsceneField.value;
         SceneInfo["panorama"] = selectedImage.src;
         pan.addScene(SceneInfo.title, SceneInfo);
-        //List popUpAddGateway=================
+
+        //Add an element to the list of scene=================
         const itemName = IdsceneField.value;
         const newItem = document.createElement('li');
         newItem.textContent = IdsceneField.value;
@@ -394,7 +395,7 @@ subButton.addEventListener("click", function () {
 
 //=======================================================================================================
 //Button export
-//Export the Visit into a JSON file 
+//This button export the Visit into a JSON file 
 const ExportButton = document.getElementById("ExportScene");
 
 ExportButton.addEventListener("click", function () {
@@ -406,8 +407,6 @@ ExportButton.addEventListener("click", function () {
     partialConfig["miniMapDiv"] = localStorage.getItem("miniMapDiv")
     console.log(partialConfig)
     var jsonFile = JSON.stringify(partialConfig);
-    //var jsonFile = JSON.stringify(config)
-    //console.log(JSON.parse(jsonFile))
     // Create a Blob object from the JSON string
     const blob = new Blob([jsonFile], { type: "application/json" });
     // Create a URL for the Blob object
@@ -423,6 +422,7 @@ ExportButton.addEventListener("click", function () {
 
 //=======================================================================================================
 //Button import visit
+//This button import a visit (which is a JSON file already imported in the gitHub repository)
 const ImportButton = document.getElementById("importVisit");
 const popUpImport = document.getElementById("importVisitDesc");
 var closeImportInfo = popUpImport.getElementsByClassName("closeImportInfo")[0];
@@ -488,6 +488,7 @@ function importVisit(jsonFilePath){
 
 //=======================================================================================================
 //Button clear visit
+//This button allow the user to start over there visit 
 
 const ClearVisit = document.getElementById("clearVisit");
 
@@ -499,7 +500,7 @@ ClearVisit.addEventListener("click", function () {
     localStorage.removeItem("goToZero")
 })
 
-
+//=======================================================================================================
 //Button to switch to view mode
 function toggleMode() {
     window.location = "../html/ViewMode.html";
