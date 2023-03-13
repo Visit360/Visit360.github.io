@@ -9,7 +9,7 @@ var initialConfig =
     "scenes": {
         "welcome": {
             "title": "welcome",
-            "panorama": "../../content/panorama/default.jpg",
+            "panorama": "../../content/panorama/logo.jpg",
         },
     },
 
