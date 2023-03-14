@@ -1,3 +1,4 @@
+//Button to switch to Edition mode
 function toggleMode() {
     window.location = "../html/index.html";
 }
@@ -5,12 +6,12 @@ function toggleMode() {
 //============================================================================
 
 //Load the edition_mode visit 
-const confing_edition_mode = localStorage.getItem('config_visit');
-var importedConfig = JSON.parse(confing_edition_mode);
+const config_edition_mode = localStorage.getItem('config_visit');
+var importedConfig = JSON.parse(config_edition_mode);
 var pan = pannellum.viewer('panorama', importedConfig);
 
 
-// When we load the EditionMode configuration, we set a getway function to each getway in the scene 
+// When we load the EditionMode configuration, we set a gateway function to each gateway in the scene
 if(pan.getConfig()["hotSpots"]){
     for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
         var hotspot = pan.getConfig()["hotSpots"][i];
@@ -38,19 +39,20 @@ const consoleElement = document.getElementById("console");
 const consoleContent = document.getElementById("console-content");
 const clearHistory = document.getElementById("clear-history");
 
-
+//This function is called whenever a gateway hotspot or a link in the history is clicked
+//It adds the current scene to history
 function myFunctionGateway(event, handlerArgs) {
     visitHistory.push(pan.getScene());
     historyHtml += "<a href='#' onclick='handleHistoryClick(\"" + pan.getScene() + "\")'> Visit " + pan.getScene() + "</a><br>";
     consoleContent.innerHTML = historyHtml;
 }
+
+// Code to execute when a link of the history is clicked -> Load the corresponding scene
 function handleHistoryClick(handlerArgs) {
-    // Code to execute when the link is clicked
-    console.log("Link clicked!");
-    console.log(handlerArgs)
     pan.loadScene(handlerArgs)
 }
 
+//Button to show & hide history
 toggleButton.addEventListener("click", function () {
     if (consoleElement.style.display === "none") {
         consoleElement.style.display = "block";
@@ -61,14 +63,17 @@ toggleButton.addEventListener("click", function () {
     }
 });
 
+//Button to clear the history 
 clearHistory.addEventListener("click", function () {
     visitHistory = [];
     historyHtml = "";
     consoleContent.innerHTML = "";
 })
-        //MiniMap's Circles Behavior in View Mode
-        var lastSelectedCircle;
 
+//MiniMap's Circles Behavior in View Mode
+var lastSelectedCircle;
+
+//Function that allows navigation through scenes using the miniMAp points
 function circleClickHandler(circle) {
     if (lastSelectedCircle) {
         lastSelectedCircle.style.backgroundColor = "red";
@@ -80,7 +85,9 @@ function circleClickHandler(circle) {
     myFunctionGateway()
     }
 
+//Add a listener to every circle of the miniMap
 const circlesDiv = document.getElementById("circles")
+
 function setCirclesListener(){
     var circles = circlesDiv.querySelectorAll("circle");
     if(circles){
@@ -91,4 +98,5 @@ function setCirclesListener(){
         }
     };
 }
+
 setCirclesListener();

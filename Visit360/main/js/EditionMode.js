@@ -338,7 +338,7 @@ const AddPanoButton = document.getElementById("addPano");
 var popup_Panorma_info = document.getElementById("panoInfo");
 /*These elements are called to manage exceptions : if the user tries to give the same name to two scenes,
   If the user tries to add a scene that has already been added or If he tries add a scene without selecting the
-  correspondant image from the list*/
+  corresponding image from the list*/
 const sameNameDiv = document.getElementById("sameName");
 const noPanorama = document.getElementById("noPanorama");
 const alreadyAdded = document.getElementById("alreadyAdded");

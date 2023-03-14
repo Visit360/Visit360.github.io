@@ -50,7 +50,7 @@ function selectImage(imageUrl) {
 //-------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------
 
-//If the correspondant miniMap has already been created, then get it from local Storage 
+//If the corresponding miniMap has already been created, then get it from local Storage 
 const miniMap = document.getElementById("miniMap");
 const myVariableMiniMap = localStorage.getItem('miniMapDiv');
 if (myVariableMiniMap) {
@@ -103,7 +103,7 @@ var lastCreatedCircle = null
 //Listener on the button Add scene to the mini Map
 addSceneOnMApButton.addEventListener("click", function(e, arg){
     if(lastCreatedCircle){
-        //Associate the last created circle to the correspondant scene
+        //Associate the last created circle to the corresponding scene
         lastCreatedCircle.setAttribute("name", sceneAssociated.value)
     }
     searchInput.value=""
