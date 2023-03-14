@@ -462,15 +462,18 @@ closeImportInfo.onclick = function () {
 const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
 const ButtonImportFablab = document.getElementById('ButtonImportFablab');
 const ButtonImportDomus = document.getElementById('ButtonImportDomus');
+const ButtonImportCasemate = document.getElementById('ButtonImportCasemate');
 
 //Json files of the demo visits
 var polytechJson = '../../content/visit/visit_polytech.json';
 var fablabJson = '../../content/visit/visit_Fablab.json';
 var domusJson = '../../content/visit/visit_domus.json';
+var casemateJson = '../../content/visit/visit_casemate.json';
 
 ButtonImportPolytech.addEventListener("click", function(){ importVisit(polytechJson) })
 ButtonImportFablab.addEventListener("click", function(){ importVisit(fablabJson) })
 ButtonImportDomus.addEventListener("click", function(){ importVisit(domusJson) })
+ButtonImportCasemate.addEventListener("click", function(){ importVisit(casemateJson) })
 
 function importVisit(jsonFilePath){
     // Read the JSON file and parse its contents
