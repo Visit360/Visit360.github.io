@@ -64,7 +64,8 @@ const sceneAssociated = document.getElementById("sceneAssociated");
 //Button to submit the name of the scene associated
 const addSceneOnMApButton = document.getElementById("add-scene-map")
 
-//List of names of the scenes that have been added in the Edition Mode
+//List of names of the scenes that have been added in the Edition Mode 
+//These are the scenes suggested to the use when associating a scene to a point in the map
 const listOfScene = document.getElementById("listOfScene")
 const myOldSceneDiv = localStorage.getItem('sceneDiv');
 if (myOldSceneDiv) {
@@ -73,17 +74,17 @@ if (myOldSceneDiv) {
 
 const items = listOfScene.getElementsByTagName('li');
 Array.from(items).forEach((item) => {
-    const itemName = item.textContent.toLowerCase();
+    const itemName = item.textContent;
     item.addEventListener('click', () => {
         sceneAssociated.value = itemName;
     })});
 
 const searchInput = document.getElementById('search-input');
 searchInput.addEventListener('input', () => {
-    const searchText = searchInput.value.toLowerCase();
+    const searchText = searchInput.value;
     const items = listOfScene.getElementsByTagName('li');
     Array.from(items).forEach((item) => {
-        const itemName = item.textContent.toLowerCase();
+        const itemName = item.textContent;
         item.addEventListener('click', () => {
             sceneAssociated.value = itemName;
             console.log(sceneAssociated.value)
