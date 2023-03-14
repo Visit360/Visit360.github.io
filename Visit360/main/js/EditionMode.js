@@ -1,3 +1,4 @@
+//The basic initial configuration of visits
 var initialConfig =
 {
     "default": {
@@ -15,13 +16,13 @@ var initialConfig =
     "autoLoad": true
 }
 
-//Check if there is a config_visit element in the localStorage, if yes, set that configuration,
-//Else, create a new configuration
+/*Check if there is a config_visit element (an available configuration of the visit)  in the localStorage,
+if yes, set that configuration,
+Else, create a new configuration*/
 if (!localStorage.getItem('alreadyOpened')) {
     var pan = pannellum.viewer('panorama', initialConfig);
     localStorage.setItem('config_visit', JSON.stringify(initialConfig));
     localStorage.setItem("alreadyOpened", true);
-    //localStorage.removeItem('empty')
 }
 else {
     console.log(localStorage.getItem('config_visit'))
@@ -29,13 +30,17 @@ else {
     var pan = pannellum.viewer('panorama', importedConfig_view)
 }
 
+//Set a listener to the window before unload
+//The function is called whenever leaving the page EditionMode and whenever refreshing the page
 window.addEventListener('beforeunload', function (event) {
-    //Check if there isn't localStorage.getItem('goToZero') because i don't want to execute the code
-    //when i click the button clear Visit
+    //Check if there isn't localStorage.getItem('goToZero') because the code shouldn't be run when 
+    //the button "Clear Visit" is clicked
     if (!localStorage.getItem('goToZero')) {
+        //Save the current visit's configuration before leaving the page or refreshing
         if (pan) {
             var configuration_visit = pan.getConfig();
             var partialConfig_visit = {}
+            //Check whether the user chose a default scene for the visit or not
             if(localStorage.getItem("defaultScene")){
                 partialConfig_visit["default"] = JSON.parse(localStorage.getItem("defaultScene"));
             }
@@ -78,13 +83,14 @@ panoramaView.addEventListener("click", function (event) {
 
 
 //===============================================================================
-//Button add information
-//This button add hotspot of information at the selected place in the panorama 
+//Button "Add information"
+//This button adds a hotspot of information at the selected place in the panorama 
 
 const informationButton = document.getElementById("information");
 const popUp_Info = document.getElementById("hotspotInfoDesc");
 var closeInfoDesc = popUp_Info.getElementsByClassName("closeInfoDesc")[0];
 
+//Show a pop up to when adding an information hotspot to type its description
 informationButton.onclick = function () {
     popUp_Info.classList.add("show");
 }
@@ -94,10 +100,12 @@ closeInfoDesc.onclick = function () {
     popUp_Info.classList.remove("show");
 }
 
+//The description text
 const infoText = document.getElementById("infoText");
 
 const submitButtonInfo = document.getElementById("submitButtonInfo");
 
+//Create a new information hotspot
 submitButtonInfo.addEventListener("click", function () {
     var hotspotInformation = {}
     hotspotInformation["id"] = hotspotID += 1;
@@ -112,14 +120,16 @@ submitButtonInfo.addEventListener("click", function () {
 })
 
 //===============================================================================
-//Button add gateway
-//This button add hotspot gateway at the selected place in the panorama 
+//Button "Add gateway"
+//This button adds a hotspot gateway at the selected place in the panorama 
 
 const gatewayButton = document.getElementById("gateway");
 const popUp_Gateway = document.getElementById("gatewayInfo");
 var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[0];
 
-    //List of scenes already existing in the visit
+    /*List of scenes already existing in the visit
+    This list is used to remind the user of the scenes that were added to the visit so that he easily chooses
+    the scene to associate to the gateway hotspot*/
     const listOfScene = document.getElementById('listOfScene');
     const myOldSceneDiv = localStorage.getItem('sceneDiv');
     if (myOldSceneDiv) {
@@ -154,11 +164,12 @@ var closeGatewayInfo = popUp_Gateway.getElementsByClassName("closeGatewayInfo")[
     });
     //==============================================================
 
-
+//Show a pop up to when adding a gateway hotspot to select the next scene and add a description
 gatewayButton.addEventListener("click", function () {
     popUp_Gateway.classList.add("show");
 })
 
+// When the user clicks on the close button, hide the popup
 closeGatewayInfo.onclick = function () {
     searchInput.value = "";
     sceneIdField.value = "";
@@ -178,6 +189,7 @@ const submitButton = document.getElementById("submitButton");
 /*Note : hotspotID is common to both gateway hotpots and information hotspots in order to delete them easily
 by calling the function removeHotspot */
 var hotspotID = 0;
+//Create a new gateway hotspot
 submitButton.addEventListener("click", function () {
     var hotspotGateway = {}
     hotspotGateway["id"] = hotspotID += 1;
@@ -201,11 +213,12 @@ submitButton.addEventListener("click", function () {
 
 //========================================================================================
 //Button delete
-//This button delete the selected hotspot
+//This button deletes the selected hotspot
 
 var deletable = false;
 
 const deleteHotspotButton = document.getElementById("deleteHotspot");
+//When the button is clicked (color is light red), the next selected hotspot will be deleted
 deleteHotspotButton.addEventListener("click", function () {
     if (deletable == false) {
         deletable = true;
@@ -217,6 +230,8 @@ deleteHotspotButton.addEventListener("click", function () {
     }
 })
 
+//Function that's called when clicking on an information hotspot
+//This function is used to remove the clicked hotspot from the visit when it's deletable
 function myFunctionInformation(event, handlerArgs) {
     if (deletable == true) {
         pan.removeHotSpot(this.id)
@@ -224,6 +239,9 @@ function myFunctionInformation(event, handlerArgs) {
         deletable = false;
     }
 }
+
+//Function that's called when clicking on a gateway hotspot
+//This function is used to remove the clicked hotspot from the visit when it's deletable
 function myFunctionGateway(event, handlerArgs) {
     currentScene = pan.getScene();
     if (deletable == true) {
@@ -245,34 +263,35 @@ const imageList = document.getElementById("image-list")
 // Get all the img elements on the imageList
 const images = imageList.getElementsByTagName('img');
 
-// Loop through each image and add a circle to its top left corner
-for (let i = 0; i < images.length; i++) {
-    const img = images[i];
-    const circle = document.createElement("circle");
-    circle.style.width = '10px';
-    circle.style.height = '80px';
-    circle.style.borderRadius = '5px';
-    circle.style.backgroundColor = 'red';
-    circle.style.position = 'absolute';
-    circle.style.top = '50%';
-    circle.style.transform = 'translate(+10%, -50%)';
-    img.parentNode.insertBefore(circle, img);
-}
 
-//=======================================================================================================
-
+//If the list of images is already set in localStorage, then get it
 const myOldImagesDiv = localStorage.getItem('imagesDiv');
 if (myOldImagesDiv) {
     imageList.innerHTML = myOldImagesDiv;
+}
+else{
+    // Loop through each image and add a bar to its top left corner
+    for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+        const circle = document.createElement("circle");
+        circle.style.width = '10px';
+        circle.style.height = '80px';
+        circle.style.borderRadius = '5px';
+        circle.style.backgroundColor = 'red';
+        circle.style.position = 'absolute';
+        circle.style.top = '50%';
+        circle.style.transform = 'translate(+10%, -50%)';
+        img.parentNode.insertBefore(circle, img);
+    }
 }
 
 //Button of Set panorama as default 
 const setToDefault = document.getElementById("setToDefault");
 
-
 //Select one image
 let selectedImage = null;
 let availabilityColor = null;
+
 function selectImage(imageUrl) {
     if (selectedImage) {
         // Remove the selected class from the previously selected image
@@ -282,12 +301,12 @@ function selectImage(imageUrl) {
     selectedImage = event.target;
     var selectedForDefault = selectedImage.parentNode.querySelector("circle");
     var selectedColor = window.getComputedStyle(selectedForDefault).getPropertyValue("background-color");
-    //console.log(selectedColor);
     availabilityColor = selectedColor;
     // Add the selected class to the clicked image
     selectedImage.classList.add("selected");
 
-    //Check whether i have to show the button "Set Default" or not
+    /*selectedColor will be used to show or hide the button set to default
+    Only scenes added to the visit can be set as default*/
     var selectedForDefault = selectedImage.parentNode.querySelector("circle");
     if(selectedForDefault){
         var selectedColor = window.getComputedStyle(selectedForDefault).getPropertyValue("background-color")
@@ -313,11 +332,13 @@ setToDefault.addEventListener("click", function(){
 
 //=======================================================================================================
 //Button add panorama
-//This button add the selected panorama to the visit
-
+//This button adds the selected panorama to the visit
 
 const AddPanoButton = document.getElementById("addPano");
 var popup_Panorma_info = document.getElementById("panoInfo");
+/*These elements are called to manage exceptions : if the user tries to give the same name to two scenes,
+  If the user tries to add a scene that has already been added or If he tries add a scene without selecting the
+  correspondant image from the list*/
 const sameNameDiv = document.getElementById("sameName");
 const noPanorama = document.getElementById("noPanorama");
 const alreadyAdded = document.getElementById("alreadyAdded");
@@ -327,7 +348,8 @@ var closePano = popup_Panorma_info.getElementsByClassName("closePano")[0];
 
 AddPanoButton.onclick = function () {
     if (selectedImage == null) { // if no panorama is selected
-        console.log("No panorama selected");
+        popup_Panorma_info.classList.add("show");
+        noPanorama.style.display = 'block';
     } else {
         sameNameDiv.style.display = 'none';
         alreadyAdded.style.display = 'none';
@@ -348,18 +370,18 @@ const subButton = document.getElementById("submitButtonPano");
 //Add the scene with the panorama selected
 subButton.addEventListener("click", function () {
     if (selectedImage == null) { // if no panorama is selected
-        //console.log("No panorama selected");
+        //No panorama selected
         noPanorama.style.display = 'block';
     } else if (availabilityColor === "rgb(80, 200, 120)") {
-        //console.log("Aready added");
+        //scene already added");
         alreadyAdded.style.display = 'block';
     } else {
         var SceneInfo = {}
 
-              //items = child of listOfScene
+        //items = child of listOfScene
+        //Check if there is a scene that has the same name
         for (var i = 0; i < items.length; i++) {
             if (items[i].innerHTML === IdsceneField.value){
-                //console.log("c'est le même nom");
                 sameNameDiv.style.display = 'block';
                 return;
             }
@@ -431,7 +453,7 @@ ImportButton.addEventListener("click", function () {
     popUpImport.classList.add("show");
 })
 
-
+//Close the import pop-up
 closeImportInfo.onclick = function () {
     popUpImport.classList.remove("show");
 }
@@ -441,6 +463,7 @@ const ButtonImportPolytech = document.getElementById('ButtonImportPolytech');
 const ButtonImportFablab = document.getElementById('ButtonImportFablab');
 const ButtonImportDomus = document.getElementById('ButtonImportDomus');
 
+//Json files of the demo visits
 var polytechJson = '../../content/visit/visit_polytech.json';
 var fablabJson = '../../content/visit/visit_Fablab.json';
 var domusJson = '../../content/visit/visit_domus.json';
@@ -462,7 +485,7 @@ function importVisit(jsonFilePath){
      const scenesJSON = { default: jsonData['default'], scenes: jsonData.scenes };
     console.log(scenesJSON)
     pan = pannellum.viewer('panorama',scenesJSON);
-    // When we load the Imported configuration, we set an onClick function to each hotspot in the scene 
+    // When we load the Imported configuration, we set an onClick listener function to each hotspot in the scene
     if(pan.getConfig()["hotSpots"]){
         for (let i = 0; i < pan.getConfig()["hotSpots"].length; i++){
             var hotspot = pan.getConfig()["hotSpots"][i];
@@ -477,21 +500,21 @@ function importVisit(jsonFilePath){
     //Check if there is a MiniMap made for this visit
     if(jsonData.miniMapDiv){
         localStorage.setItem("miniMapDiv", jsonData.miniMapDiv)
-        console.log("hi")
     } 
     else{
         localStorage.removeItem("miniMapDiv")
     }
-    var visit_to_import = null;
     popUpImport.classList.remove("show");
 }
 
 //=======================================================================================================
 //Button clear visit
-//This button allow the user to start over there visit 
+//This button allow the user to start over their visit 
 
 const ClearVisit = document.getElementById("clearVisit");
 
+/*The boolean "goToZero" is used to make a difference between a window reload called when the button Clear Visit
+  is clicked and a normal reload that's called when leaving the page or refreshing it */
 ClearVisit.addEventListener("click", function () {
     pan.destroy();
     localStorage.clear();
