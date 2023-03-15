@@ -120,11 +120,11 @@ display: inline-block;
 #results{
 display: flex;
 flex-direction: column;
-
 }
+
 #listOfScene{
 overflow: auto;
-max-height: 100px;
+max-height: 75px;
 }
 
 #add-scene-map{
