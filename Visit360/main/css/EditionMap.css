@@ -35,8 +35,10 @@ flex-flow: column;
 #miniMap {
 width: 100%;
 position: relative;
+max-height: 75%;
 border: 1px solid rgb(0, 255, 221);
 }
+
 
 .row {
 display: flex;
@@ -108,6 +110,7 @@ margin-bottom: 5px;
 border-radius: 4px;
 cursor: pointer;
 width: 450px;
+height : 15px
 }
 
 li:hover {
@@ -120,8 +123,8 @@ display: inline-block;
 #results{
 display: flex;
 flex-direction: column;
-}
 
+}
 #listOfScene{
 overflow: auto;
 max-height: 75px;
