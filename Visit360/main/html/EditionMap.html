@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Edition MiniMap</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <link rel='stylesheet' href='../css/EditionMap.css'>
+</head>
+<body>
+
+    <body>
+        <div class="child1">
+            <div id="header">
+                <h1>Edit Minimap Visit360</h1>
+            </div>
+                <button id="switch" onclick="toggleMode()">&#128393</button>
+        </div>
+    <div class="row">
+        <div class="column">
+            <div class="scroller">
+                <div id="image-list">
+    
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/amphi_005.jpg" title="" alt="amphi_005" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/amphi_007.jpg" title="" alt="amphi_007" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_1.jpg" title="" alt="couloir_1" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_2.jpg" title="" alt="couloir_2" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_3.jpg" title="" alt="couloir_3" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_4.jpg" title="" alt="couloir_4" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_5.jpg" title="" alt="couloir_5" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/couloir_6.jpg" title="" alt="couloir_6" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/Hall.jpg" title="" alt="Hall" width="240" height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/salle_009.jpg" title="" alt="salle_009" width="240"  height="100">
+                    </div>
+    
+                    <div class="tooltip">
+                        <img src="../../content/panorama/salle_013.jpg" title="" alt="salle_013" width="240" height="100">
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+ 
+        <div id="overview">
+            <div id="miniMap">
+                <img src="../../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%" height="100%">
+            </div>
+            <div id="selectimg">
+    <!--             <button id="mode-button">Go to View Mode</button>-->
+                <div id="add-scene-form" style="display: none;">
+                    <div id="input">
+                    <label class="label" for="name">Scene To associate :</label>
+                    <input type="text" id="sceneAssociated" name="sceneAssociated" required>
+                    <input type="text" id="search-input" placeholder="Search...">
+                    <button class="button" id="add-scene-map">Add scene to the map</button>
+                    </div>
+                    <div id="results">
+                    <ul id="listOfScene"></ul>
+                    </div>
+                </div>
+                <!-- <button class="button" id="export-div">Export Div</button> -->
+                
+            </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/EditionMap.js"></script>
+            
+</body>
+</html>

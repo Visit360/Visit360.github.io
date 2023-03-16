@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Mode</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <link rel='stylesheet' href='../css/ViewMode.css'>
+</head>
+
+<body>
+    <div id="parent" class="parent">
+        <div id="child1" class="child1">
+            <div id="button">
+                <button
+                    style="width:75px;height:75px;font-size:50px;background-color: rgb(0, 255, 221);border: none;border-radius: 5px;"
+                    onclick="toggleMode()">&#128393</button>
+            </div>
+            <div id="header">
+                <h1>View Visit360</h1>
+            </div>
+        </div>
+
+        <div id="child2" class="child2">
+            <div id="panorama"></div>
+            <div id="overlay">
+                <div id="miniMap">
+                    <div id="circles">
+                        <img id="imgID" src="../../content/plans/polytech-rdc.jpg" alt="Plan de masse" width="100%"
+                            height="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="History">
+            <button id="console-toggle" class="histbutton">Show History</button>
+            <div id="console" style="display: none;">
+                <button id="clear-history" class="histbutton">&#215 Clear History</button>
+                <div id="console-content"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../js/ViewMode.js"></script>
+</body>
+
+</html>
